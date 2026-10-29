@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Pesquisa e Oportunidades</title>
+  <link rel="stylesheet" href="css/oportunidades.css">
+</head>
+<body>
+
+  <body>
+
+  <div class="page-container">
+    
+    <!-- BARRA DE PESQUISA SUPERIOR -->
+    <div class="search-bar">
+      <input 
+        type="text" 
+        class="search-input" 
+        placeholder="Buscar por palavra-chave, campanha ou instituição..."
+      >
+      <button class="search-button">Buscar</button>
+      <select class="sort-select">
+        <option value="">Ordenar &#9662;</option>
+        <option value="recentes">Mais recentes</option>
+        <option value="vagas">Disponibilidade</option>
+      </select>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL (SIDEBAR + RESULTADOS) -->
+    <div class="main-layout">
+
+      <!-- PAINEL DE FILTROS (ESQUERDA) -->
+      <aside class="sidebar">
+        <h2 class="sidebar-title">Filtros</h2>
+
+        <!-- Grupo: Área -->
+        <div class="filter-group">
+          <h3 class="filter-heading">Área</h3>
+          <label><input type="checkbox"> Educação</label>
+          <label><input type="checkbox"> Saúde</label>
+          <label><input type="checkbox"> Meio ambiente</label>
+          <label><input type="checkbox"> Animais</label>
+          <label><input type="checkbox"> Assistência social</label>
+        </div>
+
+        <!-- Grupo: Local -->
+        <div class="filter-group">
+          <h3 class="filter-heading">Local</h3>
+          <div class="select-box">[ Cidade / Estado ]</div>
+          <label><input type="checkbox"> Remoto</label>
+        </div>
+
+        <!-- Grupo: Disponibilidade -->
+        <div class="filter-group">
+          <h3 class="filter-heading">Disponibilidade</h3>
+          <label><input type="checkbox"> Dias úteis</label>
+          <label><input type="checkbox"> Fins de semana</label>
+          <div class="inline-options">
+            <label><input type="checkbox"> Manhã</label>
+            <label><input type="checkbox"> Tarde</label>
+            <label><input type="checkbox"> Noite</label>
+          </div>
+        </div>
+
+        <!-- Grupo: Situação -->
+        <div class="filter-group">
+          <h3 class="filter-heading">Situação</h3>
+          <label><input type="checkbox"> Vagas abertas</label>
+        </div>
+
+        <!-- Botões do Filtro -->
+        <div class="filter-actions">
+          <span>[ Limpar ]</span>
+          <span>[ Aplicar ]</span>
+        </div>
+      </aside>
+
+      <!-- RESULTADOS DA PESQUISA (DIREITA) -->
+      <main class="content-area">
+        <p class="results-count">48 oportunidades encontradas</p>
+
+        <!-- CARTÃO 1 -->
+        <article class="opportunity-card">
+          <div class="card-header">
+            <h3 class="card-title">Aulas de reforço escolar</h3>
+            <span class="meta-tag">[ Educação ]</span>
+            <span class="meta-tag">[ Vagas abertas ]</span>
+          </div>
+          <p class="card-info">Instituto Aprender · São Paulo, SP · Sábados, 9h às 12h</p>
+          <p class="card-description">Apoie crianças do ensino fundamental em matemática e português.</p>
+          <div class="card-footer">
+            <div class="vagas-wrapper">
+              <span class="vagas-text">12/20 vagas</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 60%;"></div>
+              </div>
+            </div>
+            <a href="#" class="card-action">[ Ver detalhes ]</a>
+          </div>
+        </article>
+
+        <!-- CARTÃO 2 -->
+        <article class="opportunity-card">
+          <div class="card-header">
+            <h3 class="card-title">Mutirão de limpeza da praia</h3>
+            <span class="meta-tag">[ Meio ambiente ]</span>
+            <span class="meta-tag">[ Vagas abertas ]</span>
+          </div>
+          <p class="card-info">ONG Mar Limpo · Santos, SP · Domingo, 8h</p>
+          <p class="card-description">Coleta de resíduos e conscientização de banhistas.</p>
+          <div class="card-footer">
+            <div class="vagas-wrapper">
+              <span class="vagas-text">34/50 vagas</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 68%;"></div>
+              </div>
+            </div>
+            <a href="#" class="card-action">[ Ver detalhes ]</a>
+          </div>
+        </article>
+
+        <!-- CARTÃO 3 -->
+        <article class="opportunity-card">
+          <div class="card-header">
+            <h3 class="card-title">Triagem de doações</h3>
+            <span class="meta-tag">[ Assistência social ]</span>
+            <span class="meta-tag">[ Lotada ]</span>
+          </div>
+          <p class="card-info">Casa Solidária · Campinas, SP · Dias úteis, tarde</p>
+          <p class="card-description">Organização e separação de roupas e alimentos.</p>
+          <div class="card-footer">
+            <div class="vagas-wrapper">
+              <span class="vagas-text">15/15 vagas</span>
+              <div class="progress-bar">
+                <div class="progress-fill full" style="width: 100%;"></div>
+              </div>
+            </div>
+            <a href="#" class="card-action">[ Entrar na lista de espera ]</a>
+          </div>
+        </article>
+
+        <!-- PAGINAÇÃO -->
+        <nav class="pagination">
+          <a href="#" class="page-link">&lsaquo; Anterior</a>
+          <a href="#" class="page-num">1</a>
+          <a href="#" class="page-num">2</a>
+          <a href="#" class="page-num">3</a>
+          <a href="#" class="page-num">4</a>
+          <span class="dots">...</span>
+          <a href="#" class="page-num">10</a>
+          <a href="#" class="page-link">Próxima &rsaquo;</a>
+        </nav>
+
+      </main>
+
+    </div>
+  </div>
+
+</body>
+</html>
