@@ -1,120 +1,18 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página de Pesquisa e Oportunidades</title>
-  <link rel="stylesheet" href="css/oportunidades.css">
-</head>
-<body>
-
-  <body>
-
-  <div class="page-container">
-    
-    <!-- BARRA DE PESQUISA SUPERIOR -->
-    <div class="search-bar">
-      <input 
-        type="text" 
-        class="search-input" 
-        placeholder="Buscar por palavra-chave, campanha ou instituição..."
-      >
-      <button class="search-button">Buscar</button>
-      <select class="sort-select">
-        <option value="">Ordenar &#9662;</option>
-        <option value="recentes">Mais recentes</option>
-        <option value="vagas">Disponibilidade</option>
-      </select>
-    </div>
-
-    <!-- CONTEÚDO PRINCIPAL (SIDEBAR + RESULTADOS) -->
-    <div class="main-layout">
-
-      <!-- PAINEL DE FILTROS (ESQUERDA) -->
-      <aside class="sidebar">
-        <h2 class="sidebar-title">Filtros</h2>
-
-        <!-- Grupo: Área -->
-        <div class="filter-group">
-          <h3 class="filter-heading">Área</h3>
-          <label><input type="checkbox"> Educação</label>
-          <label><input type="checkbox"> Saúde</label>
-          <label><input type="checkbox"> Meio ambiente</label>
-          <label><input type="checkbox"> Animais</label>
-          <label><input type="checkbox"> Assistência social</label>
-        </div>
-
-        <!-- Grupo: Local -->
-        <div class="filter-group">
-          <h3 class="filter-heading">Local</h3>
-          <div class="select-box">[ Cidade / Estado ]</div>
-          <label><input type="checkbox"> Remoto</label>
-        </div>
-
-        <!-- Grupo: Disponibilidade -->
-        <div class="filter-group">
-          <h3 class="filter-heading">Disponibilidade</h3>
-          <label><input type="checkbox"> Dias úteis</label>
-          <label><input type="checkbox"> Fins de semana</label>
-          <div class="inline-options">
-            <label><input type="checkbox"> Manhã</label>
-            <label><input type="checkbox"> Tarde</label>
-            <label><input type="checkbox"> Noite</label>
-          </div>
-        </div>
-
-        <!-- Grupo: Situação -->
-        <div class="filter-group">
-          <h3 class="filter-heading">Situação</h3>
-          <label><input type="checkbox"> Vagas abertas</label>
-        </div>
-
-        <!-- Botões do Filtro -->
-        <div class="filter-actions">
-          <span>[ Limpar ]</span>
-          <span>[ Aplicar ]</span>
-        </div>
-      </aside>
-
-      <!-- RESULTADOS DA PESQUISA (DIREITA) -->
-      <main class="content-area">
-        <p class="results-count">48 oportunidades encontradas</p>
-
-        <!-- CARTÃO 1 -->
-        <article class="opportunity-card">
-          <div class="card-header">
-            <h3 class="card-title">Aulas de reforço escolar</h3>
-            <span class="meta-tag">[ Educação ]</span>
-            <span class="meta-tag">[ Vagas abertas ]</span>
-          </div>
-          <p class="card-info">Instituto Aprender · São Paulo, SP · Sábados, 9h às 12h</p>
-          <p class="card-description">Apoie crianças do ensino fundamental em matemática e português.</p>
-          <div class="card-footer">
-            <div class="vagas-wrapper">
-              <span class="vagas-text">12/20 vagas</span>
-            </div>
-            <a href="#" class="card-action">[ Ver detalhes ]</a>
-          </div>
-        </article>
-
-        
-
-        <!-- PAGINAÇÃO -->
-        <nav class="pagination">
-          <a href="#" class="page-link">&lsaquo; Anterior</a>
-          <a href="#" class="page-num">1</a>
-          <a href="#" class="page-num">2</a>
-          <a href="#" class="page-num">3</a>
-          <a href="#" class="page-num">4</a>
-          <span class="dots">...</span>
-          <a href="#" class="page-num">10</a>
-          <a href="#" class="page-link">Próxima &rsaquo;</a>
-        </nav>
-
-      </main>
-
-    </div>
-  </div>
-
-</body>
-</html>
+<?php
+$areaInicial = htmlspecialchars($_GET['area'] ?? '', ENT_QUOTES, 'UTF-8');
+$localInicial = htmlspecialchars($_GET['local'] ?? '', ENT_QUOTES, 'UTF-8');
+$dataInicial = htmlspecialchars($_GET['data'] ?? '', ENT_QUOTES, 'UTF-8');
+?>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Oportunidades | VolunteerConnect</title><link rel="stylesheet" href="assets/css/oportunidades.css"><script src="assets/js/app.js" defer></script></head><body>
+<header class="site-header"><a class="brand" href="index.php"><img class="brand-logo" src="assets/img/logo-volunteerconnect.png" alt=""><span>Volunteer<span>Connect</span></span></a><button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button><nav class="main-nav"><a href="index.php">Início</a><a class="active" href="oportunidades.php">Oportunidades</a><a href="login.php">Painel</a><a href="index.php#como-funciona">Como funciona</a></nav><div class="header-actions"><a class="login-link" href="login.php">Entrar</a><a class="button button-small" href="cadastro.php">Cadastre-se</a></div></header>
+<main class="page-shell"><div class="page-heading"><div><span class="eyebrow">ENCONTRE SEU LUGAR</span><h1>Oportunidades de voluntariado</h1><p>Tem muita gente fazendo a diferença. Escolha onde você quer somar.</p></div><div class="heading-decoration">✳</div></div>
+<form class="search-bar" id="op-search" action="oportunidades.php" method="get"><label class="search-input"><span>⌕</span><input id="search-text" name="q" type="search" placeholder="Busque por título, projeto ou palavra-chave"></label><button class="button" type="submit">Buscar <span>→</span></button><button class="clear-button" type="reset" id="clear-filters">Limpar filtros</button></form>
+<div class="results-layout"><aside class="filters-panel"><div class="filter-title"><h2>Filtros</h2><span>+</span></div><div class="filter-group"><label for="filter-area">Área de atuação</label><select id="filter-area"><option value="">Todas as áreas</option><option>Educação</option><option>Meio ambiente</option><option>Assistência social</option><option>Saúde</option></select></div><div class="filter-group"><label for="filter-location">Localização</label><input id="filter-location" type="text" placeholder="Ex.: Santo André" value="<?= $localInicial ?>"></div><div class="filter-group"><label>Disponibilidade</label><label class="check-option"><input type="checkbox" value="Durante a semana" name="availability"> Durante a semana</label><label class="check-option"><input type="checkbox" value="Fim de semana" name="availability"> Fim de semana</label><label class="check-option"><input type="checkbox" value="Online" name="availability"> Online</label></div><div class="filter-group"><label for="filter-format">Formato</label><select id="filter-format"><option value="">Todos</option><option>Presencial</option><option>Online</option><option>Híbrido</option></select></div><button class="clear-text" id="reset-side" type="button">Limpar tudo</button></aside>
+<section class="results-content"><div class="results-top"><p><strong id="result-count">3</strong> oportunidades encontradas</p><label>Ordenar por <select id="sort-results"><option value="relevant">Mais relevantes</option><option value="title">Nome A–Z</option></select></label></div>
+<div class="results-list" id="results-list">
+<article class="result-card" data-area="Educação" data-city="São Paulo" data-availability="Durante a semana" data-format="Presencial" data-title="Aulas de reforço escolar"><a class="result-image" href="detalhes.php?id=1"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80" alt="Estudante fazendo atividade escolar"></a><div class="result-info"><div class="result-tags"><span class="tag tag-blue">Educação</span><span class="result-mode">Presencial</span></div><h2><a href="detalhes.php?id=1">Aulas de reforço escolar</a></h2><p>Ajude crianças do ensino fundamental com leitura, matemática e atividades escolares.</p><div class="result-details"><span>⌖ São Paulo, SP</span><span>◷ Durante a semana</span><span>2h por semana</span></div><div class="result-foot"><span>Instituto Caminhos</span><a href="detalhes.php?id=1">Ver oportunidade ↗</a></div></div></article>
+<article class="result-card" data-area="Meio ambiente" data-city="São Bernardo do Campo" data-availability="Fim de semana" data-format="Presencial" data-title="Mutirão de cuidado com a praça"><a class="result-image" href="detalhes.php?id=2"><img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=600&q=80" alt="Natureza e árvores"></a><div class="result-info"><div class="result-tags"><span class="tag tag-green">Meio ambiente</span><span class="result-mode">Presencial</span></div><h2><a href="detalhes.php?id=2">Mutirão de cuidado com a praça</a></h2><p>Um encontro para plantar mudas, recolher resíduos e deixar o espaço mais acolhedor.</p><div class="result-details"><span>⌖ São Bernardo do Campo, SP</span><span>◷ Fim de semana</span><span>Sábados, 8h</span></div><div class="result-foot"><span>Rede Verde do ABC</span><a href="detalhes.php?id=2">Ver oportunidade ↗</a></div></div></article>
+<article class="result-card" data-area="Assistência social" data-city="Santo André" data-availability="Fim de semana" data-format="Presencial" data-title="Preparação de cestas básicas"><a class="result-image" href="detalhes.php?id=3"><img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=600&q=80" alt="Voluntários separando doações"></a><div class="result-info"><div class="result-tags"><span class="tag tag-orange">Assistência social</span><span class="result-mode">Presencial</span></div><h2><a href="detalhes.php?id=3">Preparação de cestas básicas</a></h2><p>Colabore na separação de alimentos e na montagem de kits para famílias da região.</p><div class="result-details"><span>⌖ Santo André, SP</span><span>◷ Fim de semana</span><span>Domingos, 9h</span></div><div class="result-foot"><span>Casa Solidária</span><a href="detalhes.php?id=3">Ver oportunidade ↗</a></div></div></article>
+</div><div class="empty-state" id="empty-state" hidden><span>⌕</span><h3>Nenhuma oportunidade encontrada</h3><p>Tente mudar os filtros ou buscar por outro termo.</p><button class="button button-outline" id="empty-reset" type="button">Limpar filtros</button></div>
+<div class="pagination"><button disabled aria-label="Página anterior">←</button><button class="current" aria-current="page">1</button><button disabled>2</button><button disabled>3</button><button disabled aria-label="Próxima página">→</button></div>
+</section></div></main><footer class="site-footer"><a class="brand brand-footer" href="index.php"><img class="brand-logo" src="assets/img/logo-volunteerconnect.png" alt=""><span>Volunteer<span>Connect</span></span></a><p>Conectando pessoas a causas que importam.</p><span>© 2026 VolunteerConnect</span></footer></body></html>
