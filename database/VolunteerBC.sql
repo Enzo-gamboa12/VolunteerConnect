@@ -1,3 +1,4 @@
+
 CREATE DATABASE IF NOT EXISTS volunteerconnect;
 USE volunteerconnect;
 
@@ -5,7 +6,7 @@ USE volunteerconnect;
 CREATE TABLE instituicoes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
-	area ENUM(
+    area ENUM(
         'meio ambiente',
         'educacao',
         'assistencia social',
@@ -13,7 +14,7 @@ CREATE TABLE instituicoes (
         'protecao animal',
         'cultura e esportes'
     ) NOT NULL,
-	endereco VARCHAR(200) NOT NULL,
+    endereco VARCHAR(200) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     disponibilidade ENUM(
         'manha',
@@ -22,7 +23,7 @@ CREATE TABLE instituicoes (
         'fim de semana',
         'qualquer horario'
     ) NOT NULL,
-	senha VARCHAR(255) NULL
+    senha VARCHAR(255) NULL
 );
 
 
@@ -32,7 +33,7 @@ CREATE TABLE voluntarios (
     endereco VARCHAR(200) NOT NULL,
     cpf VARCHAR(100),
     email VARCHAR(150) NOT NULL UNIQUE,
-	area_atuacao ENUM(
+    area_atuacao ENUM(
         'meio ambiente',
         'educacao',
         'assistencia social',
@@ -40,14 +41,14 @@ CREATE TABLE voluntarios (
         'protecao animal',
         'cultura e esportes'
     ) NOT NULL,
-	disponibilidade ENUM(
+    disponibilidade ENUM(
         'manha',
         'tarde',
         'noite',
         'fim de semana',
         'qualquer horario'
     ) NOT NULL,
-	senha VARCHAR(255) NULL
+    senha VARCHAR(255) NULL
 );
 
 
@@ -56,22 +57,23 @@ CREATE TABLE campanhas (
     id_instituicao INT NOT NULL,
     nome VARCHAR(100) NOT NULL,
     descricao TEXT,
-	endereco VARCHAR(200) NOT NULL,
+    imagem VARCHAR(255) NULL,
+    endereco VARCHAR(200) NOT NULL,
     horario TIME NOT NULL,
-	disponibilidade ENUM(
+    disponibilidade ENUM(
         'manha',
         'tarde',
         'noite',
         'fim de semana',
         'qualquer horario'
     ) NOT NULL,
-	status ENUM(
+    status ENUM(
         'planejada',
         'ativa',
         'encerrada',
         'cancelada'
     ) NOT NULL,
-	vagas INT NOT NULL,
+    vagas INT NOT NULL,
     vagasTotais INT NOT NULL,
 
     FOREIGN KEY (id_instituicao)
@@ -84,13 +86,13 @@ CREATE TABLE inscricoes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     id_campanha INT NOT NULL,
     id_voluntario INT NOT NULL,
-	status ENUM(
+    status ENUM(
         'aguardando',
         'andamento',
         'finalizado',
         'cancelado'
     ) NOT NULL,
-	horas INT DEFAULT 0,
+    horas INT DEFAULT 0,
 
     FOREIGN KEY (id_campanha)
     REFERENCES campanhas(id)
@@ -107,6 +109,7 @@ CREATE TABLE inscricoes (
 INSERT INTO instituicoes
 (id, nome, area, endereco, email, disponibilidade, senha)
 VALUES
+
 (1, 'Instituto Saber Comunitário', 'educacao',
 'Rua das Flores, 123 - Centro, São Paulo - SP',
 'contato@sabercomunitario.org', 'manha', NULL),
@@ -131,6 +134,7 @@ VALUES
 INSERT INTO voluntarios
 (id, nome, endereco, email, cpf, area_atuacao, disponibilidade, senha)
 VALUES
+
 (1, 'Ana Clara Silva',
 'Rua Augusta, 500 - Consolação, São Paulo - SP',
 'ana.silva@email.com', '548.652.525-58',
@@ -168,37 +172,43 @@ VALUES
 
 
 INSERT INTO campanhas
-(id, id_instituicao, nome, descricao, endereco,
+(id, id_instituicao, nome, descricao, imagem, endereco,
 horario, disponibilidade, status, vagas, vagasTotais)
 VALUES
 
 (1, 1, 'Reforço Escolar de Matemática',
 'Aulas de apoio para crianças do 5º ao 9º ano da rede pública.',
+'uploads/campanhas/reforco.jpg',
 'Rua das Flores, 123 - Centro, São Paulo - SP',
 '08:00:00', 'manha', 'ativa', 10, 20),
 
 (2, 2, 'Lógica de Programação para Jovens',
 'Oficina introdutória de lógica e algoritmos para adolescentes.',
+'uploads/campanhas/programacao.jpg',
 'Av. Paulista, 1000, Cj 502 - Bela Vista, São Paulo - SP',
 '14:00:00', 'tarde', 'ativa', 5, 10),
 
 (3, 3, 'Mutirão da Saúde Comunitária',
 'Atendimento preventivo, aferição de pressão e exames básicos de glicemia.',
+'uploads/campanhas/saude.jpg',
 'Rua Doutor Arnaldo, 450 - Pacaembu, São Paulo - SP',
 '09:00:00', 'manha', 'ativa', 8, 10),
 
 (4, 4, 'Biblioteca Comunitária e Leitura',
 'Organização do acervo de livros e mediação de leitura infantil.',
+'uploads/campanhas/leitura.jpg',
 'Rua das Oliveiras, 88 - Heliópolis, São Paulo - SP',
 '10:00:00', 'fim de semana', 'planejada', 6, 8),
 
 (5, 5, 'Informática Básica para Idosos',
 'Curso prático para ensinar idosos a utilizarem smartphones e computadores.',
+'uploads/campanhas/informatica.jpg',
 'Rua Vergueiro, 2030 - Vila Mariana, São Paulo - SP',
 '15:00:00', 'tarde', 'encerrada', 4, 6),
 
 (6, 3, 'Campanha de Doação de Sangue',
 'Apoio logístico e triagem na campanha de conscientização sobre doação.',
+'uploads/campanhas/doacao.jpg',
 'Rua Doutor Arnaldo, 450 - Pacaembu, São Paulo - SP',
 '08:00:00', 'manha', 'cancelada', 12, 20);
 
@@ -206,6 +216,7 @@ VALUES
 INSERT INTO inscricoes
 (id, id_campanha, id_voluntario, status, horas)
 VALUES
+
 (1, 1, 1, 'andamento', 12),
 (2, 1, 5, 'andamento', 8),
 (3, 2, 2, 'andamento', 15),
@@ -226,6 +237,7 @@ SELECT
     v.endereco
 FROM voluntarios v;
 
+
 CREATE OR REPLACE VIEW campanhas_por_instituicao AS
 SELECT
     i.id AS id_instituicao,
@@ -234,6 +246,7 @@ SELECT
     c.id AS id_campanha,
     c.nome AS nome_campanha,
     c.descricao,
+    c.imagem,
     c.status,
     c.vagas,
     c.endereco,
@@ -242,6 +255,7 @@ SELECT
 FROM instituicoes i
 INNER JOIN campanhas c
 ON i.id = c.id_instituicao;
+
 
 CREATE OR REPLACE VIEW inscricoes_por_voluntario AS
 SELECT
@@ -259,11 +273,13 @@ ON v.id = ins.id_voluntario
 INNER JOIN campanhas c
 ON ins.id_campanha = c.id;
 
+
 CREATE OR REPLACE VIEW voluntarios_por_campanha AS
 SELECT
     c.id AS id_campanha,
     c.nome AS nome_campanha,
     c.status AS status_campanha,
+    c.imagem,
     i.nome AS nome_instituicao,
     v.id AS id_voluntario,
     v.nome AS nome_voluntario,
@@ -283,11 +299,17 @@ ON ins.id_voluntario = v.id;
 
 
 SELECT * FROM instituicoes;
+
 SELECT * FROM voluntarios;
+
 SELECT * FROM campanhas;
+
 SELECT * FROM inscricoes;
 
 SELECT * FROM enderecos_por_voluntario;
+
 SELECT * FROM campanhas_por_instituicao;
+
 SELECT * FROM inscricoes_por_voluntario;
+
 SELECT * FROM voluntarios_por_campanha;
