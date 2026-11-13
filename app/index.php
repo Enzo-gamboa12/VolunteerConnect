@@ -1,4 +1,4 @@
-<?php
+"<?php
 $pageTitle = 'Encontre uma causa';
 ?>
 <!DOCTYPE html>
@@ -8,7 +8,6 @@ $pageTitle = 'Encontre uma causa';
   <meta name="description" content="Encontre oportunidades de voluntariado e participe de mudanças positivas perto de você.">
   <title>VolunteerConnect | Encontre uma causa</title>
   <link rel="stylesheet" href="assets/css/index.css">
-  <script src="assets/js/app.js" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -49,4 +48,5 @@ $pageTitle = 'Encontre uma causa';
   <section class="impact-strip"><div><strong>+120</strong><span>oportunidades cadastradas</span></div><div><strong>35</strong><span>instituições parceiras</span></div><div><strong>+800</strong><span>pessoas voluntárias</span></div><div class="impact-cta"><span>Tem um projeto?</span><a href="cadastro.php#nova-campanha">Cadastre sua instituição ↗</a></div></section>
 </main>
 <footer class="site-footer"><a class="brand brand-footer" href="index.php"><img class="brand-logo" src="assets/img/logo-volunteerconnect.png" alt=""><span>Volunteer<span>Connect</span></span></a><p>Conectando pessoas a causas que importam.</p><span>© 2026 VolunteerConnect</span></footer>
-</body></html>
+</body>   ccccc
+</html>
