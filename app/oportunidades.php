@@ -45,7 +45,6 @@ $inscricoes   = readAll($pdo, "inscricoes");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oportunidades — VolunteerConnect</title>
     <link rel="stylesheet" href="css/oportunidades.css">
-    <script src="app.js" defer></script>
 </head>
 
 <body>
@@ -79,7 +78,7 @@ $inscricoes   = readAll($pdo, "inscricoes");
             
             <div class="listing-layout">
                 <aside class="filter-panel">
-                    <form id="filters" method="GET" action="filtrarCampanha.php">
+                    <form id="filters" method="GET" action="oportunidades.php">
                         <input type="hidden" name="filtrar" value="1">
                         <h2>Filtros</h2>
 
