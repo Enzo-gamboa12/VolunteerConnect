@@ -1,10 +1,18 @@
+<?php
+
+require_once __DIR__ . "/init.php";
+
+$proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', ['aguardando']);
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu painel | VolunteerConnect</title>
+    <title>Painel do Voluntario - VolunteerConnect</title>
     <link rel="stylesheet" href="css/painel-voluntario.css">
 </head>
 
@@ -31,7 +39,6 @@
             <div class="bloco-perfil">
                 <span class="avatar-perfil">MA</span>
                 <strong>Maria Alves</strong>
-                <small>Voluntária desde 2025</small>
             </div>
 
             <span class="rotulo-lateral">MENU PRINCIPAL</span>
@@ -121,33 +128,29 @@
                 <div class="grade-proximos">
                     <?php if (empty($proximas_participacoes)): ?>
                         <div class="cartao-vazio">
-                            <p>Você não tem nenhuma ação agendada no momento.</p>
+                            <p>Você não tem nenhuma ação agendada no momento.</p><br>
                             <a class="botao-principal" href="oportunidades.php">Encontrar oportunidades ↗</a>
                         </div>
                     <?php else: ?>
-                        <?php foreach ($proximas_participacoes as $item): ?>
+                        <?php foreach ($proximas_participacoes as $p): ?>
                             <article class="cartao-proximo">
                                 <div class="topo-proximo">
-                                    <span class="categoria-tag"><?= htmlspecialchars($item['categoria']) ?></span>
-                                    <?php if ($item['status'] === 'confirmada'): ?>
-                                        <span class="status status-ativo">Confirmado</span>
-                                    <?php else: ?>
-                                        <span class="status status-pendente">Em análise</span>
-                                    <?php endif; ?>
+                                    <span class="categoria-tag"><?= $p['categoria'] ?></span>
+                                        <span class="status status-pendente">A confirmar</span>
                                 </div>
 
-                                <h3><?= htmlspecialchars($item['titulo']) ?></h3>
-                                <small class="nome-instituicao"><?= htmlspecialchars($item['instituicao']) ?></small>
+                                <h3><?= $p['nome_campanha'] ?></h3>
+                                <small class="nome-instituicao"><?= $p['instituicao'] ?></small>
 
                                 <div class="detalhes-proximo">
-                                    <time datetime="<?= $item['data_inicio'] ?>">
-                                        📅 <?= date('d/m/Y', strtotime($item['data_inicio'])) ?>
+                                    <time datetime="<?= $P['data_inicio'] ?>">
+                                         <?= date('d/m/Y', strtotime($p['data_inicio'])) ?>
                                     </time>
-                                    <span>⏱️ <?= $item['horas_estimadas'] ?>h estimadas</span>
+                                    <span>⏱<?= $p['horas_estimadas'] ?>h estimadas</span>
                                 </div>
 
                                 <footer class="rodape-proximo">
-                                    <a class="link-texto" href="detalhes.php?id=<?= $item['campanha_id'] ?>">Ver detalhes ↗</a>
+                                    <a class="link-texto" href="detalhes.php?id=<?= $p['campanha_id'] ?>">Ver detalhes ↗</a>
                                 </footer>
                             </article>
                         <?php endforeach; ?>

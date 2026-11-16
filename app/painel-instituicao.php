@@ -1,10 +1,18 @@
+<?php
+
+require_once __DIR__ . '/init.php';
+
+$proximas_participacoes = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'planejada']);
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel da Instituição | VolunteerConnect</title>
+    <title>Painel da Instituição - VolunteerConnect</title>
     <link rel="stylesheet" href="css/painel-instituicao.css">
 </head>
 
