@@ -2,7 +2,7 @@
 
 require_once __DIR__ . "/init.php";
 
-$proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', ['aguardando']);
+$proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'aguardando']);
 
 ?>
 

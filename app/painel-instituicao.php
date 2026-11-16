@@ -3,6 +3,7 @@
 require_once __DIR__ . '/init.php';
 
 $proximas_participacoes = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'planejada']);
+$instituicao = readAll($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']]);
 
 ?>
 
@@ -31,7 +32,7 @@ $proximas_participacoes = readAll($pdo, 'campanhas_por_instituicao',  'id_instit
 
         <div class="menu-usuario">
             <span class="avatar-usuario">IC</span>
-            <span>Instituto Caminhos</span>
+            <span><?php $instituicao['nome'] ?></span>
         </div>
     </header>
 
