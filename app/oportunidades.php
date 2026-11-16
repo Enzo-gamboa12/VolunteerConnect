@@ -23,9 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['filtrar'])) {
     $sort     = $_GET['sort'] ?? 'featured';
 }
 
+
 //Filtra pelo título da campanha direto no banco de dados
 if ($busca !== '') {
     $campanhas = readAll($pdo, "campanhas", "nome LIKE ?", ["%{$busca}%"]);
+}elseif(!empty($areas)) {
+    // Filtra pelo campo 'area' da instituição
+    $campanhas = readAll($pdo, "campanhas", "id_instituicao IN (SELECT id FROM instituicoes WHERE area IN (" . implode(',', array_fill(0, count($areas), '?')) . "))", $areas);
 } else {
     $campanhas = readAll($pdo, "campanhas");
 }
