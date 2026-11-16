@@ -1,7 +1,11 @@
 <?php
 
 
+<<<<<<< HEAD
 require_once __DIR__ . "/crud.php";
+=======
+require_once __DIR__ . "/init.php";
+>>>>>>> feature/oportunidades
 
 $mensagem_sucesso = "";
 $mensagem_erro = "";
@@ -88,7 +92,11 @@ if ($area === 'tecnologia') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Título dinâmico com o nome da campanha trazida do banco -->
     <title><?php echo htmlspecialchars($campanha['nome']); ?> — VolunteerConnect</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="css/detalhes-oportunidade.css">
+=======
+    <link rel="stylesheet" href="css/detalhes-oportunidades.css">
+>>>>>>> feature/oportunidades
     <script src="app.js" defer></script>
 </head>
 
