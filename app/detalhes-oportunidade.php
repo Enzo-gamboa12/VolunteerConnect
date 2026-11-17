@@ -1,11 +1,7 @@
 <?php
 
 
-<<<<<<< HEAD
-require_once __DIR__ . "/crud.php";
-=======
 require_once __DIR__ . "/init.php";
->>>>>>> feature/oportunidades
 
 $mensagem_sucesso = "";
 $mensagem_erro = "";
@@ -92,11 +88,7 @@ if ($area === 'tecnologia') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Título dinâmico com o nome da campanha trazida do banco -->
     <title><?php echo htmlspecialchars($campanha['nome']); ?> — VolunteerConnect</title>
-<<<<<<< HEAD
-    <link rel="stylesheet" href="css/detalhes-oportunidade.css">
-=======
     <link rel="stylesheet" href="css/detalhes-oportunidades.css">
->>>>>>> feature/oportunidades
     <script src="app.js" defer></script>
 </head>
 
@@ -128,7 +120,7 @@ if ($area === 'tecnologia') {
             <div class="breadcrumb">
                 <a href="index.php">Início</a> &nbsp;›&nbsp; 
                 <a href="oportunidades.php">Oportunidades</a> &nbsp;›&nbsp; 
-                <?php echo htmlspecialchars($campanha['nome']); ?>
+                <?php echo ($campanha['nome']); ?>
             </div>
 
             <div class="detail-layout">
@@ -137,24 +129,24 @@ if ($area === 'tecnologia') {
                     <!-- Hero / Destaque do topo -->
                     <section class="detail-hero">
                         <span class="pill">
-                            <?php echo $icone; ?> <?php echo htmlspecialchars($rotulo_area); ?> · Status: <?php echo htmlspecialchars(ucfirst($campanha['status'])); ?>
+                            <?php echo $icone; ?> <?php echo ($rotulo_area); ?> · Status: <?php echo ($campanha['status']); ?>
                         </span>
                         
-                        <h1><?php echo htmlspecialchars($campanha['nome']); ?></h1>
+                        <h1><?php echo ($campanha['nome']); ?></h1>
                         
-                        <p><?php echo htmlspecialchars($campanha['descricao']); ?></p>
+                        <p><?php echo ($campanha['descricao']); ?></p>
                         
                         <div class="detail-meta">
-                            <span>🏢 <?php echo htmlspecialchars($instituicao['nome']); ?></span>
-                            <span>📍 <?php echo htmlspecialchars($instituicao['endereco']); ?></span>
+                            <span>🏢 <?php echo ($instituicao['nome']); ?></span>
+                            <span>📍 <?php echo ($instituicao['endereco']); ?></span>
                         </div>
                     </section>
 
                     <!-- Bloco Sobre a ação -->
                     <section class="content-card">
                         <h2>Sobre esta ação</h2>
-                        <p><?php echo htmlspecialchars($campanha['descricao']); ?></p>
-                        <p>Esta oportunidade é gerenciada pela instituição <strong><?php echo htmlspecialchars($instituicao['nome']); ?></strong>. Os voluntários selecionados receberão suporte e orientações antes do início dos trabalhos.</p>
+                        <p><?php echo ($campanha['descricao']); ?></p>
+                        <p>Esta oportunidade é gerenciada pela instituição <strong><?php echo ($instituicao['nome']); ?></strong>. Os voluntários selecionados receberão suporte e orientações antes do início dos trabalhos.</p>
                     </section>
 
                     <!-- Bloco Atividades recomendadas -->
