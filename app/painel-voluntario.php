@@ -30,10 +30,12 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
             <a href="index.php#como-funciona">Como funciona</a>
         </nav>
 
-        <div class="menu-usuario">
-            <span class="avatar-usuario">MA</span>
-            <span><?= $voluntario['nome']; ?></span>
-        </div>
+        <a href="painel-voluntario.php">
+            <div class="menu-usuario">
+                <span class="avatar-usuario">MA</span>
+                <span><?= $voluntario['nome']; ?></span>
+            </div>
+        </a>
     </header>
 
     <main>
@@ -166,7 +168,6 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
                         <span class="chapeu-titulo">SUA TRAJETÓRIA</span>
                         <h2>Histórico de Participações</h2>
                     </div>
-                    <a class="link-texto" href="#historico">Ver histórico completo ↗</a>
                 </header>
 
                 <div class="container-tabela">
@@ -196,6 +197,7 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
                             </tr>
                         </tbody>
                     </table>
+                    <a class="link-texto" href="#historico">Ver histórico completo ↗</a>
                     <?php endforeach;
                     endif; ?>
                 </div>

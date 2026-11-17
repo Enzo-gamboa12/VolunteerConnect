@@ -425,6 +425,14 @@ main {
   box-shadow: var(--sombra-card);
 }
 
+.secao-proximos {
+  background-color: var(--cor-card-bg);
+  border: 1px solid var(--cor-borda);
+  border-radius: 16px;
+  padding: 1.6rem;
+  box-shadow: var(--sombra-card);
+}
+
 .cabecalho-secao {
   display: flex;
   justify-content: space-between;

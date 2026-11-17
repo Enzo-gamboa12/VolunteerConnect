@@ -20,17 +20,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Entrar | VolunteerConnect</title>
-  <link rel="stylesheet" href="assets/css/login.css">
-  <script src="assets/js/app.js" defer></script>
+  <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-<header class="login-header">
-  <a class="brand" href="index.php" aria-label="VolunteerConnect, página inicial">
-    <img class="brand-logo" src="assets/img/logo-volunteerconnect.png" alt="">
-    <span>Volunteer<span>Connect</span></span>
-  </a>
-  <a class="back-link" href="index.php">Voltar ao início <span>↗</span></a>
-</header>
+  <header class="cabecalho">
+        <a class="link-logo" href="index.php">
+            <img class="logo" src="imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
+            <span>Volunteer<span>Connect</span></span>
+        </a>
+
+        <nav class="menu">
+            <a href="inicio.php">Início</a>
+            <a href="sobre.php">Sobre Nós</a>
+            <a href="index.php#como-funciona">Como funciona</a>
+        </nav>
+  </header>
 <main class="login-page">
   <section class="login-card">
     <div class="login-symbol">♡</div>

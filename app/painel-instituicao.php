@@ -32,10 +32,12 @@ $instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']
             <a href="index.php#como-funciona">Como funciona</a>
         </nav>
 
-        <div class="menu-usuario">
-            <span class="avatar-usuario">IC</span>
-            <span><?= $instituicao['nome'] ?></span>
-        </div>
+        <a href="painel-instituicao.php">
+            <div class="menu-usuario">
+                <span class="avatar-usuario">MA</span>
+                <span><?= $voluntario['nome']; ?></span>
+            </div>
+        </a>
     </header>
 
     <main class="painel-principal">

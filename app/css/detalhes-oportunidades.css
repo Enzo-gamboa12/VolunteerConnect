@@ -1,0 +1,578 @@
+
+:root {
+  --ink: #20242d;
+  --muted: #747b86;
+  --line: #e6e8ec;
+  --blue: #2F6578;
+  --blue-dark: #234B5C;
+  --bg: #F8F6F1;
+  --coral: #D97858;
+  --gold: #D5A044;
+  --sage: #6C9275;
+  --lavender: #8878A7;
+  --mint: #E6F0EB;
+  --peach: #F9ECE5;
+  --butter: #F7F0DD;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #F8F1E8 0, #FCFAF6 280px);
+  color: var(--ink);
+  font: 13px 'DM Sans', Arial, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+
+.container {
+  max-width: 1190px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ========================================================================
+   Cabeçalho
+   ======================================================================== */
+.site-header {
+  height: 76px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+
+.header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 800 17px 'Manrope', sans-serif;
+  letter-spacing: -.7px;
+  white-space: nowrap;
+}
+
+.brand img {
+  display: block;
+  width: 43px;
+  height: 43px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.brand em {
+  font-style: normal;
+  color: var(--blue);
+}
+
+.main-nav {
+  display: flex;
+  gap: 28px;
+  margin: 0 auto;
+  color: #68707b;
+  font-size: 13px;
+}
+
+.main-nav a {
+  padding: 27px 0;
+  border-bottom: 2px solid transparent;
+  transition: color .18s ease, border-color .18s ease;
+}
+
+.main-nav a:hover,
+.main-nav a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+  border-color: var(--blue);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+/* ========================================================================
+   Botões
+   ======================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+}
+
+.btn-primary {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--blue-dark);
+  border-color: var(--blue-dark);
+}
+
+.btn-primary:disabled {
+  background: #c7ced6;
+  border-color: #c7ced6;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+.btn-light {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-light:hover {
+  background: #f3f5f8;
+  color: var(--blue);
+}
+
+.btn-small {
+  padding: 9px 14px;
+  font-size: 11px;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ========================================================================
+   Conteúdo Principal e Breadcrumb
+   ======================================================================== */
+main {
+  flex: 1;
+  padding: 28px 0 72px;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 22px;
+  font-size: 11px;
+  color: #8b929d;
+}
+
+.breadcrumb a {
+  color: var(--muted);
+  font-weight: 500;
+  transition: color .15s ease;
+}
+
+.breadcrumb a:hover {
+  color: var(--blue);
+}
+
+/* ========================================================================
+   Grade da Página: Detalhes (esquerda) + Inscrição/ONG (direita)
+   ======================================================================== */
+.detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 26px;
+  align-items: start;
+}
+
+.detail-main {
+  display: grid;
+  gap: 20px;
+}
+
+/* Destaque superior (Hero da oportunidade) */
+.detail-hero {
+  padding: 28px 30px;
+  background: linear-gradient(135deg, #FDF8F2 0%, #F5EDE2 100%);
+  border: 1px solid #eadfd2;
+  border-radius: 6px;
+  box-shadow: 0 7px 25px #1c274008;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: var(--mint);
+  color: #477458;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .3px;
+}
+
+.detail-hero h1 {
+  font: 800 31px/1.16 'Manrope', sans-serif;
+  letter-spacing: -1.1px;
+  margin: 14px 0 12px;
+  color: var(--ink);
+}
+
+.detail-hero > p {
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: #4f5763;
+}
+
+.detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  padding: 12px 15px;
+  background: #fff;
+  border: 1px solid #ebe4db;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Cards de conteúdo */
+.content-card {
+  padding: 24px 28px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 7px 25px #1c274008;
+}
+
+.content-card h2 {
+  font: 800 18px/1.25 'Manrope', sans-serif;
+  letter-spacing: -.4px;
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+
+.content-card h3 {
+  font: 800 15px/1.3 'Manrope', sans-serif;
+  letter-spacing: -.3px;
+  margin: 0 0 10px;
+  color: var(--ink);
+}
+
+.content-card p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #505865;
+}
+
+.content-card p:last-child {
+  margin-bottom: 0;
+}
+
+.content-card ul {
+  margin: 0;
+  display: grid;
+  gap: 9px;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.content-card li::marker {
+  color: var(--sage);
+}
+
+.muted {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ========================================================================
+   Barra Lateral (Formulário de Inscrição + Instituição)
+   ======================================================================== */
+.detail-side {
+  display: grid;
+  gap: 18px;
+  position: sticky;
+  top: 22px;
+}
+
+.detail-side > .content-card {
+  padding: 22px 24px;
+}
+
+/* Card principal de inscrição com destaque terracota */
+.detail-side > .content-card:first-child {
+  border-top: 4px solid var(--coral);
+  box-shadow: 0 10px 28px #1e29400d;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--coral);
+}
+
+.price-free {
+  display: inline-block;
+  margin: 4px 0 8px !important;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--mint);
+  color: #477458 !important;
+  font: 800 11px 'Manrope', sans-serif !important;
+}
+
+/* Barra de progresso das vagas */
+.progress-track {
+  height: 8px;
+  background: #edf0f4;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(90deg, var(--sage), var(--blue));
+  transition: width .3s ease;
+}
+
+/* Formulário de inscrição */
+.form-field {
+  display: grid;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #4f5662;
+}
+
+.form-field input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #dfe3e9;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 12px;
+  outline: none;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.form-field input:focus {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 3px #D978581A;
+}
+
+.checkbox-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 2px 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.checkbox-line input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin: 2px 0 0;
+  flex: 0 0 15px;
+  accent-color: var(--blue);
+  cursor: pointer;
+}
+
+/* Card da Instituição */
+.institution-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.institution-logo {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 50%;
+  background: #F2EDF7;
+  color: #756392;
+  font: 800 13px 'Manrope', sans-serif;
+}
+
+.institution-head strong {
+  display: block;
+  font: 700 13px 'Manrope', sans-serif;
+  color: var(--ink);
+}
+
+.institution-head p {
+  margin: 3px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.text-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--blue);
+  transition: color .15s ease;
+}
+
+.text-link:hover {
+  color: var(--blue-dark);
+  text-decoration: underline;
+}
+
+/* ========================================================================
+   Rodapé
+   ======================================================================== */
+.site-footer {
+  background: #fff;
+  border-top: 1px solid var(--line);
+  color: #8b919a;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px 0;
+  font-size: 11px;
+}
+
+.footer-bottom a {
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.footer-bottom a:hover {
+  text-decoration: underline;
+}
+
+/* ========================================================================
+   Responsividade
+   ======================================================================== */
+@media (max-width: 960px) {
+  .header-inner {
+    gap: 18px;
+  }
+
+  .main-nav {
+    gap: 16px;
+  }
+
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-side {
+    position: static;
+  }
+}
+
+@media (max-width: 680px) {
+  .site-header {
+    height: 67px;
+  }
+
+  .header-inner {
+    justify-content: space-between;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 37px;
+    height: 37px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #fff;
+    color: var(--ink);
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 67px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    flex-direction: column;
+    gap: 0;
+    padding: 10px 24px 16px;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .main-nav.is-open {
+    display: flex;
+  }
+
+  .main-nav a {
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f1f3;
+  }
+
+  .header-actions .btn-light {
+    display: none;
+  }
+
+  main {
+    padding: 20px 0 48px;
+  }
+
+  .detail-hero {
+    padding: 22px 20px;
+  }
+
+  .detail-hero h1 {
+    font-size: 25px;
+  }
+
+  .content-card {
+    padding: 20px 18px;
+  }
+}
