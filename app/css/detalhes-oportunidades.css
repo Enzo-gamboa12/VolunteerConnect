@@ -43,9 +43,7 @@ a {
   padding: 0 24px;
 }
 
-/* ========================================================================
-   Cabeçalho
-   ======================================================================== */
+/* Cabeçalho */
 .site-header {
   height: 76px;
   background: #fff;
@@ -112,9 +110,7 @@ a {
   display: none;
 }
 
-/* ========================================================================
-   Botões
-   ======================================================================== */
+/* Botões*/
 .btn {
   display: inline-flex;
   align-items: center;
@@ -166,9 +162,7 @@ a {
   width: 100%;
 }
 
-/* ========================================================================
-   Conteúdo Principal e Breadcrumb
-   ======================================================================== */
+/* Conteúdo Principal e Breadcrumb */
 main {
   flex: 1;
   padding: 28px 0 72px;
@@ -194,9 +188,7 @@ main {
   color: var(--blue);
 }
 
-/* ========================================================================
-   Grade da Página: Detalhes (esquerda) + Inscrição/ONG (direita)
-   ======================================================================== */
+/* Grade da Página: Detalhes (esquerda) + Inscrição/ONG (direita) */
 .detail-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
@@ -309,9 +301,7 @@ main {
   line-height: 1.6;
 }
 
-/* ========================================================================
-   Barra Lateral (Formulário de Inscrição + Instituição)
-   ======================================================================== */
+/* Barra Lateral (Formulário de Inscrição + Instituição) */
 .detail-side {
   display: grid;
   gap: 18px;
@@ -460,9 +450,7 @@ main {
   text-decoration: underline;
 }
 
-/* ========================================================================
-   Rodapé
-   ======================================================================== */
+/* Rodapé */
 .site-footer {
   background: #fff;
   border-top: 1px solid var(--line);
@@ -488,9 +476,7 @@ main {
   text-decoration: underline;
 }
 
-/* ========================================================================
-   Responsividade
-   ======================================================================== */
+/* Responsividade */
 @media (max-width: 960px) {
   .header-inner {
     gap: 18px;

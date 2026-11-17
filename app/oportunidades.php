@@ -4,16 +4,7 @@ require_once __DIR__ . "/init.php";
 
 $busca    = '';
 $areas    = [];
-$openOnly = true;
-
-// Verifica se o formulário de filtro foi enviado via GET
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['filtrar'])) {
-    $busca    = trim($_GET['buscaFiltro'] ?? '');
-    $areas    = isset($_GET['area']) && is_array($_GET['area']) ? $_GET['area'] : [];
-    
-    $openOnly = isset($_GET['open']);
-    $sort     = $_GET['sort'] ?? 'featured';
-}
+$openOnly = false;
 
 // Captura os dados enviados pelo formulário via GET
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['filtrar'])) {
@@ -23,19 +14,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['filtrar'])) {
     $sort     = $_GET['sort'] ?? 'featured';
 }
 
-
-//Filtra pelo título da campanha direto no banco de dados
+// 1.Filtra pelo título da campanha direto no banco de dados
 if ($busca !== '') {
     $campanhas = readAll($pdo, "campanhas", "nome LIKE ?", ["%{$busca}%"]);
-}elseif(!empty($areas)) {
-    // Filtra pelo campo 'area' da instituição
-    $campanhas = readAll($pdo, "campanhas", "id_instituicao IN (SELECT id FROM instituicoes WHERE area IN (" . implode(',', array_fill(0, count($areas), '?')) . "))", $areas);
 } else {
     $campanhas = readAll($pdo, "campanhas");
 }
 
 $instituicoes = readAll($pdo, "instituicoes");
 $inscricoes   = readAll($pdo, "inscricoes");
+
+//  Aplica os filtros de Área e Status (Vagas Abertas) via PHP
+if (!empty($areas) || $openOnly) {
+    $campanhasFiltradas = [];
+    
+    foreach ($campanhas as $c) {
+        $manter = true;
+
+        // Verifica o filtro de "Apenas vagas abertas"
+        if ($openOnly && $c['status'] !== 'ativa') {
+            $manter = false;
+        }
+
+        // Verifica o filtro de Área de atuação
+        if ($manter && !empty($areas)) {
+            $areaDaCampanha = '';
+            
+            // Procura a área da instituição vinculada a esta campanha
+            foreach ($instituicoes as $inst) {
+                if ($inst['id'] == $c['id_instituicao']) {
+                    $areaDaCampanha = mb_strtolower($inst['area']);
+                    break;
+                }
+            }
+            
+            // Se a área desta instituição não estiver entre as áreas selecionadas no filtro, remove
+            if (!in_array($areaDaCampanha, $areas)) {
+                $manter = false;
+            }
+        }
+
+        // Se passou em todos os filtros, adiciona à lista final
+        if ($manter) {
+            $campanhasFiltradas[] = $c;
+        }
+    }
+    
+    // Atualiza a lista principal de campanhas com os resultados filtrados
+    $campanhas = $campanhasFiltradas;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -45,6 +72,7 @@ $inscricoes   = readAll($pdo, "inscricoes");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oportunidades — VolunteerConnect</title>
     <link rel="stylesheet" href="css/oportunidades.css">
+    <script src="app.js" defer></script>
 </head>
 
 <body>
@@ -76,9 +104,8 @@ $inscricoes   = readAll($pdo, "inscricoes");
                 <p>Explore projetos, conheça instituições e escolha uma ação que combine com seus interesses e sua rotina.</p>
             </div>
             
-            <div class="listing-layout">
                 <aside class="filter-panel">
-                    <form id="filters" method="GET" action="oportunidades.php">
+                    <form id="filters" method="GET" action="oportunidades.php">   
                         <input type="hidden" name="filtrar" value="1">
                         <h2>Filtros</h2>
 

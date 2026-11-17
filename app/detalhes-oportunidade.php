@@ -181,7 +181,7 @@ if ($area === 'tecnologia') {
                     </section>
                 </div>
 
-                <!--  4. BARRA LATERAL (FORMULÁRIO DE INSCRIÇÃO E CARD DA ONGS)-->
+                <!--  BARRA LATERAL (FORMULÁRIO DE INSCRIÇÃO E CARD DA ONGS)-->
                 <aside class="detail-side">
                     <!-- Form Card / Inscrição -->
                     <section class="content-card">
