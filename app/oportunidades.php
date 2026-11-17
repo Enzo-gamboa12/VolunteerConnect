@@ -1,5 +1,5 @@
 <?php
-<<<<<<< HEAD
+
 // Inclui a inicialização (sessão, conexão $pdo e funções CRUD)
 require_once __DIR__ . "/init.php";
 
