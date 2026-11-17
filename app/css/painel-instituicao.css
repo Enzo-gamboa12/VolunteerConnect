@@ -309,7 +309,7 @@ a {
 /* ==========================================================================
    Secções (Campanhas & Participantes)
    ========================================================================== */
-.secao-campanhas, 
+.campanhas-ativas, .campanhas-finalizadas,
 .secao-participantes {
   background-color: var(--cor-card-bg);
   border: 1px solid var(--cor-borda);

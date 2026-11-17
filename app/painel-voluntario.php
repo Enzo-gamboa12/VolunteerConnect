@@ -3,6 +3,8 @@
 require_once __DIR__ . "/init.php";
 
 $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'aguardando']);
+$voluntario = read($pdo, 'voluntarios', 'id = ?', [$_SESSION['id_voluntario']]);
+$historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'finalizado']);
 
 ?>
 
@@ -30,7 +32,7 @@ $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volunt
 
         <div class="menu-usuario">
             <span class="avatar-usuario">MA</span>
-            <span>Maria Alves</span>
+            <span><?= $voluntario['nome']; ?></span>
         </div>
     </header>
 
@@ -38,7 +40,7 @@ $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volunt
         <aside class="menu-lateral">
             <div class="bloco-perfil">
                 <span class="avatar-perfil">MA</span>
-                <strong>Maria Alves</strong>
+                <strong><?= $voluntario['nome']; ?></strong>
             </div>
 
             <span class="rotulo-lateral">MENU PRINCIPAL</span>
@@ -59,7 +61,7 @@ $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volunt
         <div class="conteudo-painel">
             <header class="topo-boas-vindas">
                 <div>
-                    <h1>Olá, Maria!</h1>
+                    <h1>Olá, <?= $voluntario['nome'] ?>!</h1>
                     <p>Boas-vindas ao seu painel.</p>
                 </div>
                 <a class="botao-principal" href="oportunidades.php">Encontrar oportunidades ↗</a>
@@ -162,12 +164,15 @@ $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volunt
                 <header class="cabecalho-secao">
                     <div>
                         <span class="chapeu-titulo">SUA TRAJETÓRIA</span>
-                        <h2>Histórico de participações</h2>
+                        <h2>Histórico de Participações</h2>
                     </div>
                     <a class="link-texto" href="#historico">Ver histórico completo ↗</a>
                 </header>
 
                 <div class="container-tabela">
+                    <?php if (empty($historico_participacoes)): ?>
+                            <p>Você ainda não concluiu nenhuma campanha.</p><br>
+                    <?php else: ?>
                     <table>
                         <thead>
                             <tr>
@@ -180,32 +185,19 @@ $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volunt
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($historico_participacoes as $h): ?>
                             <tr>
-                                <td><strong>Aulas de reforço escolar</strong></td>
-                                <td>Instituto Caminhos</td>
-                                <td><time datetime="2026-11-06">06/11/2026</time></td>
-                                <td>2h</td>
+                                <td><strong><?= $h['nome_campanha'] ?></strong></td>
+                                <td><?= $h['nome_instituicao'] ?></td>
+                                <td><time datetime="<?= $h['data'] ?>"><?= $h['data'] ?></time></td>
+                                <td><?= $h['horas'] ?></td>
                                 <td><span class="status status-concluido">Concluída</span></td>
-                                <td><a class="link-texto" href="#historico">Visualizar ↗</a></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Campanha do agasalho</strong></td>
-                                <td>Casa Solidária</td>
-                                <td><time datetime="2026-10-25">25/10/2026</time></td>
-                                <td>4h</td>
-                                <td><span class="status status-concluido">Concluída</span></td>
-                                <td><a class="link-texto" href="#historico">Visualizar ↗</a></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Mutirão no parque</strong></td>
-                                <td>Rede Verde do ABC</td>
-                                <td><time datetime="2026-10-11">11/10/2026</time></td>
-                                <td>3h</td>
-                                <td><span class="status status-pendente">Em validação</span></td>
-                                <td>—</td>
+                                <td><a class="link-texto" href="#historico">Visualizar</a></td>
                             </tr>
                         </tbody>
                     </table>
+                    <?php endforeach;
+                    endif; ?>
                 </div>
             </section>
         </div>

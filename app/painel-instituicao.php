@@ -3,7 +3,9 @@
 require_once __DIR__ . '/init.php';
 
 $proximas_participacoes = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'planejada']);
-$instituicao = readAll($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']]);
+$campanhas_ativas = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], ['ativa']]);
+$campanhas_finalizadas = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], ['encerrada']]);
+$instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']]);
 
 ?>
 
@@ -32,7 +34,7 @@ $instituicao = readAll($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituica
 
         <div class="menu-usuario">
             <span class="avatar-usuario">IC</span>
-            <span><?php $instituicao['nome'] ?></span>
+            <span><?= $instituicao['nome'] ?></span>
         </div>
     </header>
 
@@ -40,7 +42,7 @@ $instituicao = readAll($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituica
         <aside class="menu-lateral">
             <div class="bloco-perfil">
                 <span class="avatar-perfil">IC</span>
-                <strong>Instituto Caminhos</strong>
+                <strong><?= $instituicao['nome'] ?></strong>
             </div>
 
             <span class="rotulo-lateral">GESTÃO</span>
@@ -61,7 +63,7 @@ $instituicao = readAll($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituica
         <div class="conteudo-painel">
             <header class="topo-boas-vindas">
                 <div>
-                    <h1>Olá, Instituto Caminhos!</h1>
+                    <h1>Olá, <?= $instituicao['nome'] ?>!</h1>
                     <p>Boas-vindas ao seu painel.</p>
                 </div>
                 <a class="botao-principal" href="cadastro.php#nova-campanha">+ Nova campanha</a>
@@ -82,58 +84,83 @@ $instituicao = readAll($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituica
                 </article>
             </section>
 
-            <section class="secao-campanhas" id="campanhas">
+            <section class="campanhas-ativas" id="campanhas-ativas">
                 <header class="cabecalho-secao">
                     <div>
-                        <h2>Minhas Campanhas</h2>
+                        <h2>Campanhas Ativas</h2>
                     </div>
                 </header>
 
                 <div class="container-tabela">
-                    <table>
+                    <?php if (empty($campanhas_ativas)): ?>
+                        <p>Não há nenhuma campanha ativa no momento.</p><br>
+                        <a class='botao-principal' href='cadastro.php#nova-campanha'>+ Nova campanha</a>
+                    <?php else: ?>
+                        <table>
                         <thead>
-                            <tr>
-                                <th>Campanha</th>
-                                <th>Período</th>
-                                <th>Vagas</th>
-                                <th>Situação</th>
-                                <th>Ações</th>
-                            </tr>
+                        <tr>
+                        <th>Campanha</th>
+                        <th>Período</th>
+                        <th>Vagas</th>
+                        <th>Situação</th>
+                        <th>Ações</th>
+                        </tr>
                         </thead>
                         <tbody>
+
+                        <?php foreach ($campanhas_ativas as $c): ?>
                             <tr>
-                                <td>
-                                    <strong>Aulas de reforço escolar</strong>
-                                    <small>Educação</small>
-                                </td>
-                                <td>01/11 a 20/12/2026</td>
-                                <td>12/20</td>
-                                <td><span class="status status-ativo">Em andamento</span></td>
-                                <td><a href="detalhes.php?id=1">Ver ↗</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>Plantio de mudas no bairro</strong>
-                                    <small>Meio ambiente</small>
-                                </td>
-                                <td>15/11/2026</td>
-                                <td>8/15</td>
-                                <td><span class="status status-ativo">Inscrições abertas</span></td>
-                                <td><a href="detalhes.php?id=2">Ver ↗</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>Oficina de leitura</strong>
-                                    <small>Educação</small>
-                                </td>
-                                <td>01/10 a 30/10/2026</td>
-                                <td>10/10</td>
-                                <td><span class="status status-encerrado">Encerrada</span></td>
-                                <td><a href="#campanhas">Relatório ↗</a></td>
+                                <td><strong><?= $c['nome_campanha']?></strong><small><?= $c['area']?></small></td>
+                                <td><?= $c['data_inicio']?> a <?= $c['data_fim']?></td>
+                                <td><?= $c['vagas_ocupadas']?>/<?= $c['vagas_totais']?></td>
+                                <td><span class='status status-ativo'>Em andamento</span></td>
+                                <td><a href="detalhes.php?id=<?= $c['id']?>">Ver mais</a></td>
                             </tr>
                         </tbody>
                     </table>
+                    <?php endforeach;
+                    endif; ?>
                 </div>
+            </section>
+
+            
+            <section class="campanhas-finalizadas" id="campanhas-finalizadas">
+                <header class="cabecalho-secao">
+                    <div>
+                        <h2>Campanhas Finalizadas</h2>
+                    </div>
+                </header>
+                
+                <div class="container-tabela">
+                        <?php if (empty($campanhas_finalizadas)): ?>
+                            <p>Nenhuma campanha foi encerrada até o momento.</p><br>
+                            <a class='botao-principal' href='cadastro.php#nova-campanha'>+ Nova campanha</a>
+                        <?php else: ?>
+                            <table>
+                            <thead>
+                            <tr>;
+                            <th>Campanha</th>;
+                            <th>Período</th>
+                            <th>Vagas</th>
+                            <th>Situação</th>
+                            <th>Ações</th>
+                            </tr>
+                            </thead>;
+                            <tbody>";
+
+                            <?php foreach ($campanhas_finalizadas as $cf): ?>
+                                <tr>;
+                                <td><strong>{$cf['nome_campanha']}</strong><small>{$cf['area']}</small></td>;
+                                <td>{$cf['data_inicio']} a {$cf['data_fim']}</td>;
+                                <td>{$cf['vagas_ocupadas']}/{$cf['vagas_totais']}</td>;
+                                <td><span class="status status-encerrado">Encerrada</span></td>;
+                                <td><a href="#campanhas">Relatório Final</a></td>
+                                </tr>;
+                            </tbody>;
+                        </table>;
+                        <?php endforeach;
+                        endif; ?>
+                    </div>
             </section>
 
             <section class="secao-participantes" id="participantes">
