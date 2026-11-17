@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . "/init.php";
+
 $erro = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
@@ -35,13 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="index.php#como-funciona">Como funciona</a>
         </nav>
   </header>
-<main class="login-page">
+  
+  <main class="login-page">
   <section class="login-card">
-    <div class="login-symbol">♡</div>
     <span class="eyebrow">BEM-VINDO DE VOLTA</span>
     <h1>Acesse seu painel</h1>
     <p class="intro">Entre para acompanhar suas atividades e oportunidades.</p>
-    <div class="demo-note"><strong>Acesso para demonstração</strong><span>Como este projeto não possui banco de dados, use qualquer e-mail válido e qualquer senha.</span></div>
     <?php if ($erro !== ''): ?>
       <p class="form-error" role="alert"><?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?></p>
     <?php endif; ?>
