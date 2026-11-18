@@ -1,0 +1,232 @@
+:root {
+  --cor-cabecalho: #113842;
+  --cor-texto-cabecalho: #e0f2f5;
+  --cor-principal: #102a30;
+  --cor-destaque: #2bb696;
+  --cor-destaque-hover: #22947a;
+  --cor-secundaria: #3fbacb;
+  --cor-texto-suave: #5e7a82;
+  --cor-card-bg: #ffffff;
+  --cor-borda: #e1ebed;
+  --sombra-card: 0 10px 30px rgba(16, 42, 48, 0.05);
+  --fonte-principal: 'DM Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --fonte-titulos: 'Manrope', 'DM Sans', system-ui, sans-serif;
+}
+
+/* Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #edf4f5;
+  color: var(--cor-principal);
+  font-family: var(--fonte-principal);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ==========================================================================
+   Cabeçalho Superior
+   ========================================================================== */
+.cabecalho {
+  background-color: var(--cor-cabecalho);
+  color: var(--cor-texto-cabecalho);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 2.5rem;
+}
+
+.link-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.link-logo .logo {
+  height: 32px;
+  width: auto;
+}
+
+.link-logo span span {
+  color: var(--cor-secundaria);
+}
+
+.menu {
+  display: flex;
+  gap: 2rem;
+}
+
+.menu a {
+  color: #d5e5e8;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.menu a:hover {
+  color: #ffffff;
+}
+
+.menu-usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.4rem 0.9rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.menu-usuario:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+
+
+
+
+/*PARTE PRINCIPAL DO SITE*/
+/* Título da Seção (mantive o seu, apenas ajustei a fonte) */
+.card-secao-categoria h1 {
+  font-size: 1.8rem;
+  padding: 12px;
+  text-align: center;
+  --fonte-titulos: 'Manrope', 'DM Sans', system-ui, sans-serif;
+}
+
+/* Grid ajustado para 4 colunas */
+.grid-produtos {
+  display: flex;
+  justify-content: center;
+  grid-template-columns: repeat(4, 1fr);
+  /* Muda de 3 para 4 colunas */
+  gap: 50px ;
+  /* Centraliza o grid na tela */
+  box-sizing: border-box;
+  /* Garante que o padding não faça o grid vazar da tela */
+  padding: 20px;
+}
+
+/* O card agora é transparente e sem padding interno */
+.card-produto {
+  background-color: transparent;
+  height: 700px;
+  width: 300px;
+  text-align: left;
+  /* Alinhamento à esquerda, como na Meta */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ajuste das imagens (foco principal do design da Meta) */
+.card-produto img {
+  aspect-ratio: 5px;
+  /* Garante que todas as fotos tenham a mesma proporção (retrato) */
+  object-fit: cover;
+  border-radius: 16px;
+  /* Cantos arredondados iguais aos da Meta */
+  border: none;
+  /* Removida a borda preta */
+  background-color: #dce0e5;
+  /* Fundo cinza (caso use fotos recortadas em PNG) */
+  margin-bottom: 12px;
+}
+
+/* Nome do Fundador */
+.card-produto h3 {
+  font-size: 1.1rem;
+  font-family: sans-serif;
+  color: #000;
+}
+
+/* Cargo do Fundador */
+.card-produto p {
+  font-size: 0.9rem;
+  color: #65676B;
+  /* Um tom de cinza para dar contraste com o nome */
+  margin: 0;
+  font-family: sans-serif;
+  line-height: 1.4;
+}
+
+/* Opção para o botão: A Meta não usa botão na imagem, 
+   então você pode escondê-lo ou deixá-lo mais discreto. 
+   Para esconder, mude display para 'none' */
+.btn-detalhes {
+  background-color: #94949488;
+  text-decoration: none;
+}
+
+
+
+
+
+
+/* FOTTER DO SITE */
+
+/* Estilo principal do rodapé */
+.rodape-simples {
+  background-color: #f9f9f9;
+  /* Fundo cinzento muito claro */
+  padding: 40px 20px;
+  border-top: 1px solid #e5e5e5;
+  margin-top: 60px;
+  /* Dá um respiro da secção anterior */
+}
+
+/* Alinhamento e estrutura interna */
+.rodape-conteudo {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Texto de direitos de autor */
+.rodape-conteudo p {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 0.9rem;
+  color: #65676B;
+}
+
+/* Lista de links */
+.rodape-links {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+}
+
+/* Estilo dos links */
+.rodape-links a {
+  text-decoration: none;
+  color: #65676B;
+  font-family: sans-serif;
+  font-size: 0.9rem;
+  transition: color 0.2s ease-in-out;
+}
+
+/* Efeito ao passar o rato (hover) */
+.rodape-links a:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+

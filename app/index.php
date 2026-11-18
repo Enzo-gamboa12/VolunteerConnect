@@ -200,4 +200,4 @@ $areas = [
 
     <footer></footer>
 </body>
-</html>
+</html> 
