@@ -1,4 +1,6 @@
 <?php
+
+// Inclui a inicialização (sessão, conexão $pdo e funções CRUD)
 require_once __DIR__ . "/init.php";
 
 $busca    = '';
@@ -181,8 +183,6 @@ if (!empty($areas) || $openOnly) {
                             $classe_capa = "cover-education"; // Padrão
                             $icone       = "📚"; // Padrão
                             $rotulo_area = ucfirst($tipo_campanha); // Mostra como está no banco (ex: "Saúde")
-
-                            
                         ?>
                             <article class="opportunity-card" 
                                     data-title="<?php echo htmlspecialchars(mb_strtolower($c['nome'])); ?>" 
