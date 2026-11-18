@@ -1,11 +1,3 @@
-<?php
-
-require_once __DIR__ . "/init.php";
-
-$id = $_SESSION[] ||
-
-?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -27,7 +19,6 @@ $id = $_SESSION[] ||
             <a href="index.php#como-funciona">Como funciona</a>
         </nav>
 
-        <?php if ($id = NULL): ?>
             <div class="cadastro-login">
                 <span class="avatar-usuario">IC</span>
                 <span>Instituto Caminhos</span>

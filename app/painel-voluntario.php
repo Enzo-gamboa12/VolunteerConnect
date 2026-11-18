@@ -2,9 +2,10 @@
 
 require_once __DIR__ . "/init.php";
 
-$proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'aguardando']);
-$voluntario = read($pdo, 'voluntarios', 'id = ?', [$_SESSION['id_voluntario']]);
-$historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'finalizado']);
+$voluntario = read($pdo, 'voluntarios', 'id = 2');
+$proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = 2 AND status = ?', ['Aguardando']);
+$participacoes_andamento = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = 2 AND status = ?', ['Andamento']);
+$historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = 2 AND status = ?', ['Finalizado']);
 
 ?>
 

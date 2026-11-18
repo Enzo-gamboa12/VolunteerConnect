@@ -164,9 +164,18 @@ a {
 }
 
 /* Formulário */
+
 .login-card form {
   display: flex;
   flex-direction: column;
+}
+
+.login-card form select {
+  color: var(--cor-principal);
+}  
+
+.login-card form input {
+  color: var(--cor-principal);
 }
 
 .login-card label {
@@ -192,7 +201,7 @@ a {
 }
 
 .login-card input::placeholder {
-  color: #94a3b8;
+  color: var(--cor-principal);
 }
 
 .login-card input:focus,

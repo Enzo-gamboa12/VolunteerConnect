@@ -139,7 +139,7 @@ VALUES
 (1, 'Ana Clara Silva',
 'Rua Augusta, 500 - Consolação, São Paulo - SP',
 'ana.silva@email.com', '548.652.525-58',
-'Educação', 'Manhã', NULL),
+'Educação', 'Manhã', '12345'),
 
 (2, 'Carlos Eduardo Souza',
 'Av. Brasil, 1200 - Jardins, São Paulo - SP',
