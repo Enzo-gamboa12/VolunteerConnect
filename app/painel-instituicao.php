@@ -3,9 +3,11 @@
 require_once __DIR__ . '/init.php';
 
 $instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']]); 	
-$proximas_participacoes = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'planejada']);
-$campanhas_ativas = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], ['ativa']]);
-$campanhas_finalizadas = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], ['encerrada']]);
+$proximas_participacoes = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'Planejada']);
+$campanhas_ativas = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'Ativa']);
+$campanhas_finalizadas = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'Encerrada']);
+$voluntarios_inscritos = array_sum(array_column($campanhas_ativas, 'vagas'));
+$horas_doadas = array_sum(array_column($campanhas_finalizadas, 'horas') + array_column($campanhas_ativas, 'horas'));
 
 ?>
 
@@ -34,8 +36,8 @@ $campanhas_finalizadas = readAll($pdo, 'campanhas_por_instituicao',  'id_institu
 
         <a href="painel-instituicao.php">
             <div class="menu-usuario">
-                <span class="avatar-usuario">MA</span>
-                <span><?= $voluntario['nome']; ?></span>
+                <span class="avatar-usuario"><?= indexIniciais($instituicao['nome']) ?></span>
+                <span><?= $instituicao['nome']; ?></span>
             </div>
         </a>
     </header>
@@ -43,7 +45,7 @@ $campanhas_finalizadas = readAll($pdo, 'campanhas_por_instituicao',  'id_institu
     <main class="painel-principal">
         <aside class="menu-lateral">
             <div class="bloco-perfil">
-                <span class="avatar-perfil">IC</span>
+                <span class="avatar-perfil"><?= indexIniciais($instituicao['nome']) ?></span>
                 <strong><?= $instituicao['nome'] ?></strong>
             </div>
 
@@ -78,11 +80,11 @@ $campanhas_finalizadas = readAll($pdo, 'campanhas_por_instituicao',  'id_institu
                 </article>
                 <article class="cartao-estatistica">
                     <small>Voluntários inscritos</small>
-                    <strong>128</strong>
+                    <strong><?= $voluntarios_inscritos ?></strong>
                 </article>
                 <article class="cartao-estatistica">
                     <small>Horas doadas</small>
-                    <strong>1.540 <small>h</small></strong>
+                    <strong><?= $horas_doadas ?> <small>h</small></strong>
                 </article>
             </section>
 

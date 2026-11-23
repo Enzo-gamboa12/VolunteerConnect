@@ -6,6 +6,7 @@ $voluntario = read($pdo, 'voluntarios', 'id = ?', [$_SESSION['id_voluntario']]);
 $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'Aguardando']);
 $participacoes_andamento = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'Andamento']);
 $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'Finalizado']);
+$horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'));
 
 ?>
 
@@ -27,13 +28,14 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
         </a>
 
         <nav class="menu">
-            <a href="oportunidades.php">Oportunidades</a>
+            <a href="inicio.php">Início</a>
+            <a href="sobre.php">Sobre Nós</a>
             <a href="index.php#como-funciona">Como funciona</a>
         </nav>
 
         <a href="painel-voluntario.php">
             <div class="menu-usuario">
-                <span class="avatar-usuario">MA</span>
+                <span class="avatar-usuario"><?= indexIniciais($voluntario['nome']) ?></span>
                 <span><?= $voluntario['nome']; ?></span>
             </div>
         </a>
@@ -42,14 +44,14 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
     <main>
         <aside class="menu-lateral">
             <div class="bloco-perfil">
-                <span class="avatar-perfil">MA</span>
+                <span class="avatar-perfil"><?= indexIniciais($voluntario['nome']) ?></span>
                 <strong><?= $voluntario['nome']; ?></strong>
             </div>
 
             <span class="rotulo-lateral">MENU PRINCIPAL</span>
             <a class="item-menu ativo" href="painel-voluntario.php">Visão Geral</a>
+            <a class="item-menu" href="#proximos">Futuras Participações</a>
             <a class="item-menu" href="#historico">Histórico</a>
-            <a class="item-menu" href="#conquistas">Conquistas</a>
 
             <span class="rotulo-lateral">CONTA</span>
             <a class="item-menu" href="cadastro.php">Meu Cadastro</a>
@@ -73,7 +75,7 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
             <section class="grade-estatisticas">
                 <article class="cartao-estatistica">
                     <small>Horas de voluntariado</small>
-                    <strong>86 <small>h</small></strong>
+                    <strong><?= $horas_voluntariado ?> <small>h</small></strong>
                 </article>
                 <article class="cartao-estatistica">
                     <small>Ações concluídas</small>
@@ -81,7 +83,7 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
                 </article>
                 <article class="cartao-estatistica">
                     <small>Certificados</small>
-                    <strong>6</strong>
+                    <strong><?= count($historico_participacoes); ?></strong>
                 </article>
                 <article class="cartao-estatistica">
                     <small>Pessoas impactadas</small>
@@ -93,13 +95,12 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
                 <section class="cartao-meta" id="conquistas">
                     <header class="topo-meta">
                         <div>
-                            <span class="chapeu-titulo">SUA META DO ANO</span>
-                            <h2>Pequenas horas, grandes mudanças.</h2>
+                            <span class="chapeu-titulo">SUA META ANUAL</span>
                         </div>
                         <span class="status status-ativo">Em andamento</span>
                     </header>
                     <div class="numero-meta">
-                        <strong>86h</strong>
+                        <strong><?= $horas_voluntariado ?>h</strong>
                         <span>de 100 horas</span>
                     </div>
                     <div class="barra-progresso">
