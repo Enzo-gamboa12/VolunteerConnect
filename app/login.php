@@ -88,10 +88,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </a>
 
         <nav class="menu">
-            <a href="inicio.php">Início</a>
+            <a href="oportunidades.php">Encontre Oportunidades</a>
             <a href="sobre.php">Sobre Nós</a>
-            <a href="index.php#como-funciona">Como funciona</a>
         </nav>
+
+        <div class="acoes-autenticacao" aria-label="Acesso à conta">
+            <a class="botao-autenticacao" href="login.php">Entrar</a>
+            <a class="botao-autenticacao botao-autenticacao-cadastro" href="cadastro.php">Cadastrar</a>
+        </div>
     </header>
 
     <main class="login-page">

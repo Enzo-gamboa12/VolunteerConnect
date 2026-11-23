@@ -243,6 +243,7 @@ SELECT
     c.descricao,
     c.status,
     c.vagas,
+    c.vagasTotais,
     c.endereco,
     c.horario,
     c.disponibilidade
@@ -329,8 +330,8 @@ SELECT * FROM inscricoes_por_voluntario;
 
 UPDATE voluntarios 
 SET senha = '12345' 
-WHERE id = 1;
+WHERE id > 0;
 
 UPDATE instituicoes 
 SET senha = '12345' 
-WHERE id = 1;
+WHERE id > 0;

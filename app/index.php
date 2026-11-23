@@ -35,23 +35,25 @@ try {
     require_once __DIR__ . '/init.php';
 
     /*
-     * O login pode definir estas duas variáveis de sessão:
-     * $_SESSION['tipo_conta'] = 'instituicao' ou 'voluntario';
-     * $_SESSION['id_conta'] = ID do registro correspondente.
-     * Enquanto o login ainda for demonstrativo, usamos a instituição de ID 1.
+     * Só existe uma conta conectada quando o login definiu os dados da sessão.
+     * Sem essas informações, a página não assume uma conta demonstrativa.
      */
-    $tipoConta = $_SESSION['tipo_usuario'] ?? 'instituicao';
-    if (!in_array($tipoConta, ['instituicao', 'voluntario'], true)) {
-        $tipoConta = 'instituicao';
+    $contaConectada = false;
+    $tipoConta = $_SESSION['tipo_conta'] ?? null;
+    $idConta = filter_var($_SESSION['id_conta'] ?? null, FILTER_VALIDATE_INT);
+
+    if (
+        in_array($tipoConta, ['instituicao', 'voluntario'], true)
+        && $idConta !== false
+        && $idConta !== null
+        && $idConta > 0
+    ) {
+        $tabelaConta = $tipoConta === 'voluntario' ? 'voluntarios' : 'instituicoes';
+
+        // READ: busca o registro da conta para mostrar o nome no cabeçalho.
+        $conta = read($pdo, $tabelaConta, 'id = ?', [$idConta]);
+        $contaConectada = is_array($conta) && !empty($conta);
     }
-
-    $idConta = filter_var($_SESSION['id_usuario'] ?? 1, FILTER_VALIDATE_INT);
-    $idConta = ($idConta !== false && $idConta > 0) ? $idUsuario : 1;
-
-    $tabelaConta = $tipoConta === 'voluntario' ? 'voluntarios' : 'instituicoes';
-
-    // READ: busca o registro da conta para mostrar o nome no cabeçalho.
-    $conta = read($pdo, $tabelaConta, 'id = ?', [$idConta]);
 
     // READ ALL: carrega as tabelas usadas nos cards e nos indicadores inferiores.
     $campanhas = readAll($pdo, 'campanhas');
@@ -72,13 +74,14 @@ try {
     error_log('Erro ao carregar os dados da página inicial: ' . $erro->getMessage());
     $erroBanco = true;
     $conta = false;
+    $contaConectada = false;
     $campanhas = [];
     $campanhasDestaque = [];
     $instituicoes = [];
     $voluntarios = [];
 }
 
-$nomeConta = $conta['nome'] ?? 'Visitante';
+$nomeConta = $contaConectada ? ($conta['nome'] ?? 'Conta') : '';
 $iniciaisConta = indexIniciais((string)$nomeConta);
 $areas = [
     'saude' => 'Saúde',
@@ -102,15 +105,21 @@ $areas = [
         </a>
 
         <nav class="menu">
-            <a href="index.php">Início</a>
+            <a href="oportunidades.php">Encontre Oportunidades</a>
             <a href="sobre.php">Sobre Nós</a>
-            <a href="index.php#como-funciona">Como funciona</a>
         </nav>
 
-        <div class="menu-usuario" title="Conta exibida a partir do banco de dados">
-            <span class="avatar-usuario"><?= indexEsc($iniciaisConta) ?></span>
-            <span><?= indexEsc($nomeConta) ?></span>
-        </div>
+        <?php if ($contaConectada): ?>
+            <div class="menu-usuario" title="Conta exibida a partir do banco de dados">
+                <span class="avatar-usuario"><?= indexEsc($iniciaisConta) ?></span>
+                <span><?= indexEsc($nomeConta) ?></span>
+            </div>
+        <?php else: ?>
+            <div class="acoes-autenticacao" aria-label="Acesso à conta">
+                <a class="botao-autenticacao" href="login.php">Entrar</a>
+                <a class="botao-autenticacao botao-autenticacao-cadastro" href="cadastro.php">Cadastrar</a>
+            </div>
+        <?php endif; ?>
     </header>
 
     <main>
@@ -142,8 +151,16 @@ $areas = [
                 <?php elseif (empty($campanhasDestaque)): ?>
                     <p class="mensagem-vazia">Ainda não há oportunidades ativas cadastradas.</p>
                 <?php else: ?>
-                    <?php foreach ($campanhasDestaque as $campanha): ?>
+                    <?php foreach ($campanhasDestaque as $indiceCard => $campanha): ?>
                         <?php
+                        // Cada oportunidade recebe uma das três imagens disponíveis, na ordem dos cards.
+                        $imagensCards = [
+                            '/imagens/card-1.png',
+                            '/imagens/card-2.png',
+                            '/imagens/card-3.jpg',
+                        ];
+                        $imagemCard = $imagensCards[$indiceCard] ?? $imagensCards[0];
+
                         // READ: localiza a instituição responsável por cada campanha.
                         $instituicaoCampanha = read(
                             $pdo,
@@ -158,7 +175,7 @@ $areas = [
                         $descricaoCampanha = trim((string)($campanha['descricao'] ?? ''));
                         ?>
                         <a href="detalhes-oportunidade.php?id=<?= (int)$campanha['id'] ?>" class="card">
-                            <img src="imagens/card-1.png" alt="Imagem ilustrativa da oportunidade">
+                            <img src="<?= indexEsc($imagemCard) ?>" alt="Imagem ilustrativa da oportunidade">
                             <div>
                                 <p class="local"><?= indexEsc($nomeInstituicao) ?> • <?= indexEsc($areaInstituicao) ?></p>
                                 <h3 class="title"><?= indexEsc($campanha['nome'] ?? 'Oportunidade sem título') ?></h3>
