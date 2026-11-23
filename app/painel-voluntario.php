@@ -85,10 +85,6 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
                     <small>Certificados</small>
                     <strong><?= count($historico_participacoes); ?></strong>
                 </article>
-                <article class="cartao-estatistica">
-                    <small>Pessoas impactadas</small>
-                    <strong>430 <small>+</small></strong>
-                </article>
             </section>
 
             <div class="colunas-destaque">
@@ -110,14 +106,6 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
                         <span>Você já completou 86% da sua meta.</span>
                         <strong>86%</strong>
                     </footer>
-                </section>
-
-                <section class="cartao-conquista">
-                    <span class="chapeu-titulo">CONQUISTA RECENTE</span>
-                    <div class="icone-conquista">✦</div>
-                    <h2>Mãos que acolhem</h2>
-                    <p>Você completou 10 ações voluntárias. Que venham as próximas!</p>
-                    <a class="link-texto" href="#historico">Ver minhas conquistas ↗</a>
                 </section>
             </div>
 

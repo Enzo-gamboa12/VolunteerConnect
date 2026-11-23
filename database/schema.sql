@@ -238,6 +238,8 @@ SELECT
     i.area,
     c.id AS id_campanha,
     c.nome AS nome_campanha,
+    c.data_inicio,
+    c.data_termino,
     c.descricao,
     c.status,
     c.vagas,
@@ -303,13 +305,32 @@ SELECT * FROM inscricoes_por_voluntario;
 SELECT * FROM voluntarios_por_campanha;
 
 ALTER TABLE campanhas 
-ADD COLUMN data_inicio DATE NULL AFTER endereco;
+ADD COLUMN data_inicio DATE NULL AFTER endereco,
+ADD COLUMN data_termino DATE NULL AFTER data_inicio;
 
-UPDATE campanhas SET data_inicio = '2026-12-01' WHERE id = 1;
-UPDATE campanhas SET data_inicio = '2026-12-05' WHERE id = 2;
-UPDATE campanhas SET data_inicio = '2026-12-10' WHERE id = 3;
+UPDATE campanhas SET data_inicio = '2026-11-30' WHERE id = 1;
+UPDATE campanhas SET data_inicio = '2026-12-01' WHERE id = 2;
+UPDATE campanhas SET data_inicio = '2026-11-26' WHERE id = 3;
 UPDATE campanhas SET data_inicio = '2027-01-15' WHERE id = 4;
 UPDATE campanhas SET data_inicio = '2026-10-10' WHERE id = 5;
 UPDATE campanhas SET data_inicio = '2026-11-20' WHERE id = 6;
 
+ALTER TABLE campanhas 
+ADD COLUMN data_termino DATE NULL AFTER data_inicio;
+
+UPDATE campanhas SET data_termino = '2026-12-14' WHERE id = 1;
+UPDATE campanhas SET data_termino = '2026-12-15' WHERE id = 2;
+UPDATE campanhas SET data_termino = '2026-12-12' WHERE id = 3;
+UPDATE campanhas SET data_termino = '2027-02-28' WHERE id = 4;
+UPDATE campanhas SET data_termino = '2026-11-05' WHERE id = 5;
+UPDATE campanhas SET data_termino = '2026-11-22' WHERE id = 6;
+
 SELECT * FROM inscricoes_por_voluntario;
+
+UPDATE voluntarios 
+SET senha = '12345' 
+WHERE id = 1;
+
+UPDATE instituicoes 
+SET senha = '12345' 
+WHERE id = 1;

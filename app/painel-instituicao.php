@@ -2,13 +2,13 @@
 
 require_once __DIR__ . '/init.php';
 
-$instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']]); 	
+$instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']]);
 $proximas_participacoes = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'Planejada']);
 $campanhas_ativas = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'Ativa']);
 $campanhas_finalizadas = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'Encerrada']);
+$participantes_recentes = readAll($pdo, 'inscricoes_por_voluntario', 'nome_instituicao = ?', [$_SESSION['nome_instituicao']]);
 $voluntarios_inscritos = array_sum(array_column($campanhas_ativas, 'vagas'));
-$horas_doadas = array_sum(array_column($campanhas_finalizadas, 'horas') + array_column($campanhas_ativas, 'horas'));
-
+$horas_doadas = array_sum(array_merge(array_column($campanhas_finalizadas, 'horas'), array_column($campanhas_ativas, 'horas')));
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +51,8 @@ $horas_doadas = array_sum(array_column($campanhas_finalizadas, 'horas') + array_
 
             <span class="rotulo-lateral">GESTÃO</span>
             <a class="item-menu ativo" href="painel-instituicao.php">Visão Geral</a>
-            <a class="item-menu" href="#campanhas">Minhas Campanhas</a>
+            <a class="item-menu" href="#campanhas-ativas">Atuais Campanhas</a>
+            <a class="item-menu" href="#campanhas-finalizadas">Campanhas Encerradas</a>
             <a class="item-menu" href="#participantes">Participantes</a>
 
             <span class="rotulo-lateral">CONTA</span>
@@ -118,7 +119,7 @@ $horas_doadas = array_sum(array_column($campanhas_finalizadas, 'horas') + array_
                                 <td><?= date('d/m/Y', strtotime($c['data_inicio'])) ?> a <?= date('d/m/Y', strtotime($c['data_termino'])) ?></td>
                                 <td><?= $c['horario']?></td>
                                 <td><?= $c['vagas']?>/<?= $c['vagasTotais']?></td>
-                                <td><a href="detalhes.php?id=<?= $c['id']?>">Ver mais</a></td>
+                                <td><a href="detalhes.php?id=<?= $c['id_campanha']?>">Ver mais</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -141,22 +142,24 @@ $horas_doadas = array_sum(array_column($campanhas_finalizadas, 'horas') + array_
                         <?php else: ?>
                             <table>
                             <thead>
-                            <tr>;
-                            <th>Campanha</th>;
+                            <tr>
+                            <th>Campanha</th>
                             <th>Período</th>
                             <th>Vagas</th>
                             <th>Situação</th>
                             <th>Ações</th>
                             </tr>
-                            </thead>;
-                            <tbody>";
+                            </thead>
+                            <tbody>"
 
                             <?php foreach ($campanhas_finalizadas as $cf): ?>
                                 <tr>;
-                                <td><strong>{$cf['nome_campanha']}</strong><small>{$cf['area']}</small></td>;
-                                <td>{$cf['data_inicio']} a {$cf['data_fim']}</td>;
-                                <td>{$cf['vagas_ocupadas']}/{$cf['vagas_totais']}</td>;
-                                <td><span class="status status-encerrado">Encerrada</span></td>;
+                                <td><strong><?= $cf['nome_campanha'] ?></strong><small><?= $cf['area'] ?></small></td>;
+                                <td><?= $cf['data_inicio'] ?> a <?= $cf['data_fim'] ?></td>;
+                                <td><?= $cf['vagas_ocupadas']?>/<?= $cf['vagas_totais'] ?></td>;
+                                <td><?php if (['status'] == 'Encerrado'): ?><span class="status status-encerrado">Encerrada</span>
+                                    <?php elseif (['status'] == 'Cancelado'): ?><span class="status status-cancelado">Cancelado</span></td>;
+                                    <?php endif ?>
                                 <td><a href="#campanhas">Relatório Final</a></td>
                                 </tr>;
                             </tbody>;
@@ -172,39 +175,23 @@ $horas_doadas = array_sum(array_column($campanhas_finalizadas, 'horas') + array_
                         <h2>Participantes Recentes</h2>
                     </div>
                 </header>
-
+                <?php if (empty($participantes_recentes)): ?>
+                            <p>Nenhum participante recente em suas campanhas.</p><br>
+                <?php else: ?>
                 <ul class="lista-participantes">
+                    <?php foreach ($participantes_recentes as $pr): ?>
                     <li class="item-participante">
-                        <span class="avatar-pessoa">MA</span>
+                        <span class="avatar-pessoa"><?= indexIniciais($pr['nome_voluntario']) ?></span>
                         <div>
-                            <strong>Maria Alves</strong>
-                            <small>Aulas de reforço escolar</small>
+                            <strong><?= $pr['nome_voluntario'] ?></strong>
+                            <small><?= $pr['nome_campanha'] ?></small>
                         </div>
                         <time datetime="2026-11-07">07/11/2026</time>
-                        <span class="status status-ativo">Confirmada</span>
-                        <button class="botao-opcoes" aria-label="Mais opções">···</button>
+                        <span class="status status-andamento"><?= $pr['status'] ?></span>
                     </li>
-                    <li class="item-participante">
-                        <span class="avatar-pessoa">JP</span>
-                        <div>
-                            <strong>João Pedro</strong>
-                            <small>Plantio de mudas no bairro</small>
-                        </div>
-                        <time datetime="2026-11-06">06/11/2026</time>
-                        <span class="status status-pendente">Aguardando</span>
-                        <button class="botao-opcoes" aria-label="Mais opções">···</button>
-                    </li>
-                    <li class="item-participante">
-                        <span class="avatar-pessoa">LC</span>
-                        <div>
-                            <strong>Luiza Costa</strong>
-                            <small>Aulas de reforço escolar</small>
-                        </div>
-                        <time datetime="2026-11-05">05/11/2026</time>
-                        <span class="status status-ativo">Confirmada</span>
-                        <button class="botao-opcoes" aria-label="Mais opções">···</button>
-                    </li>
-                </ul>
+                    <?php endforeach; ?>
+                </ul> 
+                   <?php endif ?>
             </section>
         </div>
     </main>

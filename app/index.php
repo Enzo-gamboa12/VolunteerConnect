@@ -40,13 +40,13 @@ try {
      * $_SESSION['id_conta'] = ID do registro correspondente.
      * Enquanto o login ainda for demonstrativo, usamos a instituição de ID 1.
      */
-    $tipoConta = $_SESSION['tipo_conta'] ?? 'instituicao';
+    $tipoConta = $_SESSION['tipo_usuario'] ?? 'instituicao';
     if (!in_array($tipoConta, ['instituicao', 'voluntario'], true)) {
         $tipoConta = 'instituicao';
     }
 
-    $idConta = filter_var($_SESSION['id_conta'] ?? 1, FILTER_VALIDATE_INT);
-    $idConta = ($idConta !== false && $idConta > 0) ? $idConta : 1;
+    $idConta = filter_var($_SESSION['id_usuario'] ?? 1, FILTER_VALIDATE_INT);
+    $idConta = ($idConta !== false && $idConta > 0) ? $idUsuario : 1;
 
     $tabelaConta = $tipoConta === 'voluntario' ? 'voluntarios' : 'instituicoes';
 

@@ -391,14 +391,14 @@ td small {
   font-weight: 600;
 }
 
-.status-ativo {
+.status-andamento {
   background-color: rgba(43, 182, 150, 0.12);
-  color: #1b7a65;
+  color: #b76e00;
 }
 
-.status-pendente {
+.status-cancelado {
   background-color: #fff4e5;
-  color: #b76e00;
+  color: #b70000;
 }
 
 .status-encerrado {
