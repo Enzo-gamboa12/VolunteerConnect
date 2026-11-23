@@ -1,19 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+/* ============================================================
+   ESTILO: CIVIC TECH CONTEMPORÂNEO (Filtros na Direita)
+   ============================================================ */
 
 :root {
-  --ink: #20242d;
-  --muted: #747b86;
-  --line: #e6e8ec;
-  --blue: #2F6578;
-  --blue-dark: #234B5C;
-  --bg: #F8F6F1;
-  --coral: #D97858;
-  --gold: #D5A044;
-  --sage: #6C9275;
-  --lavender: #8878A7;
-  --mint: #E6F0EB;
-  --peach: #F9ECE5;
-  --butter: #F7F0DD;
+  /* Paleta Cívica & Limpa */
+  --ink: #111827;         
+  --muted: #6b7280;       
+  --line: #e5e7eb;        
+  --bg-app: #f9fafb;      
+  --bg-card: #ffffff;     
+  
+  /* Cores de Ação */
+  --blue-civic: #1e40af;  
+  --blue-hover: #1e3a8a;  
+  --green-action: #0f766e; 
+  
+  /* Tipografia */
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
 }
 
 * {
@@ -23,93 +29,82 @@
 body {
   margin: 0;
   min-height: 100vh;
+  background-color: var(--bg-app);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #F8F1E8 0, #FCFAF6 280px);
-  color: var(--ink);
-  font: 13px 'DM Sans', Arial, sans-serif;
 }
 
 a {
-  color: inherit;
   text-decoration: none;
-}
-
-button,
-input,
-select {
-  font: inherit;
+  color: inherit;
 }
 
 .container {
-  max-width: 1190px;
-  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
+  width: 100%;
 }
 
-/* ========================================================================
-   Cabeçalho
-   ======================================================================== */
+/* ============================================================
+   CABEÇALHO E NAVEGAÇÃO
+   ============================================================ */
 .site-header {
-  height: 76px;
-  background: #fff;
+  background-color: var(--bg-card);
   border-bottom: 1px solid var(--line);
+  height: 72px;
 }
 
 .header-inner {
-  height: 100%;
   display: flex;
   align-items: center;
-  gap: 36px;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .brand {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--ink);
   display: flex;
   align-items: center;
-  gap: 10px;
-  font: 800 17px 'Manrope', sans-serif;
-  letter-spacing: -.7px;
-  white-space: nowrap;
+  gap: 12px;
 }
 
 .brand img {
-  display: block;
-  width: 43px;
-  height: 43px;
-  object-fit: contain;
-  flex: 0 0 auto;
+  height: 32px;
 }
 
 .brand em {
   font-style: normal;
-  color: var(--blue);
+  color: var(--blue-civic);
 }
 
 .main-nav {
   display: flex;
-  gap: 28px;
-  margin: 0 auto;
-  color: #68707b;
-  font-size: 13px;
+  gap: 32px;
 }
 
 .main-nav a {
-  padding: 27px 0;
-  border-bottom: 2px solid transparent;
-  transition: color .18s ease, border-color .18s ease;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color 0.2s;
 }
 
 .main-nav a:hover,
 .main-nav a[aria-current="page"] {
   color: var(--ink);
   font-weight: 600;
-  border-color: var(--blue);
 }
 
 .header-actions {
   display: flex;
-  align-items: center;
   gap: 12px;
 }
 
@@ -117,325 +112,289 @@ select {
   display: none;
 }
 
-/* ========================================================================
-   Botões
-   ======================================================================== */
+/* ============================================================
+   BOTÕES
+   ============================================================ */
 .btn {
+  font-family: var(--font-body);
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 10px 18px;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 11px 16px;
-  border-radius: 4px;
-  border: 1px solid transparent;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
 }
 
 .btn-primary {
-  background: var(--blue);
-  border-color: var(--blue);
-  color: #fff;
+  background-color: var(--blue-civic);
+  color: #ffffff;
 }
 
 .btn-primary:hover {
-  background: var(--blue-dark);
-  border-color: var(--blue-dark);
-}
-
-.btn-light {
-  background: transparent;
-  color: var(--ink);
-}
-
-.btn-light:hover {
-  background: #f3f5f8;
-  color: var(--blue);
+  background-color: var(--blue-hover);
 }
 
 .btn-outline {
-  background: #fff;
-  border-color: #d8deea;
-  color: var(--blue);
+  background-color: transparent;
+  border-color: var(--line);
+  color: var(--ink);
 }
 
 .btn-outline:hover {
-  background: #f3f5fa;
+  background-color: #f3f4f6;
+}
+
+.btn-light {
+  background-color: transparent;
+  color: var(--muted);
+}
+
+.btn-light:hover {
+  color: var(--ink);
+  background-color: #f3f4f6;
 }
 
 .btn-small {
-  padding: 9px 14px;
-  font-size: 11px;
+  padding: 8px 14px;
+  font-size: 13px;
 }
 
 .btn-block {
   width: 100%;
+  margin-bottom: 8px;
 }
 
-/* ========================================================================
-   Título da página
-   ======================================================================== */
+/* ============================================================
+   LAYOUT DA PÁGINA (FILTROS NA DIREITA)
+   ============================================================ */
 main {
   flex: 1;
-  padding: 40px 0 72px;
+  padding: 48px 0;
 }
 
 .page-heading {
-  text-align: center;
-  max-width: 620px;
-  margin: 0 auto 34px;
+  margin-bottom: 48px;
 }
 
 .eyebrow {
-  display: inline-block;
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
+  font-size: 12px;
+  font-weight: 600;
   text-transform: uppercase;
-  color: var(--sage);
+  letter-spacing: 0.05em;
+  color: var(--blue-civic);
+  display: block;
+  margin-bottom: 8px;
 }
 
 .page-heading h1 {
-  font: 800 35px/1.14 'Manrope', sans-serif;
-  letter-spacing: -1.4px;
-  margin: 10px 0 10px;
-  color: var(--ink);
+  font-family: var(--font-heading);
+  font-size: 36px;
+  font-weight: 800;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.02em;
 }
 
 .page-heading p {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.65;
   color: var(--muted);
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0;
 }
 
-/* ========================================================================
-   Layout principal: Filtros (esquerda) + Listagem (direita)
-   ======================================================================== */
-.listing-layout {
+/* GRID PRINCIPAL: Lista (Esquerda) + Filtros (Direita) */
+main .container {
   display: grid;
-  grid-template-columns: 275px minmax(0, 1fr);
-  gap: 26px;
+  grid-template-columns: 1fr 260px; /* 1fr pros cards, 260px mais fino pros filtros */
+  gap: 40px;
   align-items: start;
 }
 
-/* Painel lateral de filtros */
+/* Inversão Visual via CSS Grid: 
+   O HTML carrega os filtros primeiro, mas o CSS joga eles para a coluna 2 */
+main .container > .filter-panel {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+main .container > section {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* ============================================================
+   PAINEL DE FILTROS (DIREITA)
+   ============================================================ */
 .filter-panel {
-  position: sticky;
-  top: 22px;
-  padding: 22px 20px;
-  background: #fff;
+  background-color: var(--bg-card);
+  padding: 20px; /* Um pouco mais compacto por ser lateral */
   border: 1px solid var(--line);
-  border-top: 4px solid var(--sage);
-  border-radius: 6px;
-  box-shadow: 0 7px 25px #1c274008;
+  border-radius: 8px;
+  position: sticky;
+  top: 24px;
 }
 
 .filter-panel h2 {
-  font: 800 18px 'Manrope', sans-serif;
-  letter-spacing: -.5px;
-  margin: 0 0 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--line);
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 20px 0;
 }
 
 .filter-group {
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid #f0f1f4;
-}
-
-.filter-group:last-of-type {
-  border-bottom: 0;
-  padding-bottom: 4px;
+  margin-bottom: 20px;
 }
 
 .filter-group h3 {
-  font: 700 10px 'Manrope', sans-serif;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: .7px;
-  color: #4f5662;
-  margin: 0 0 10px;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin: 0 0 10px 0;
+  font-weight: 600;
 }
 
 .form-field input[type="search"] {
   width: 100%;
-  height: 39px;
-  padding: 0 11px;
-  border: 1px solid #dfe3e9;
-  border-radius: 4px;
-  background: #fff;
-  color: var(--ink);
-  font-size: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: var(--font-body);
+  font-size: 13px;
   outline: none;
+  transition: border-color 0.2s;
 }
 
 .form-field input[type="search"]:focus {
-  border-color: var(--sage);
-  box-shadow: 0 0 0 3px #6C92751A;
+  border-color: var(--blue-civic);
 }
 
 .filter-option {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 5px 0;
-  font-size: 12px;
-  color: #4f5662;
+  font-size: 13px;
+  color: var(--ink);
+  margin-bottom: 10px;
   cursor: pointer;
 }
 
 .filter-option input[type="checkbox"] {
-  width: 15px;
-  height: 15px;
-  margin: 0;
-  accent-color: var(--blue);
+  width: 14px;
+  height: 14px;
+  accent-color: var(--blue-civic);
   cursor: pointer;
 }
 
-/* Container dos botões Aplicar / Limpar no final do form */
-#filters > div:last-child {
-  display: grid;
-  gap: 9px;
-  margin-top: 6px;
-}
-
-/* Barra superior da listagem */
+/* ============================================================
+   LISTAGEM DE OPORTUNIDADES E CARDS (ESQUERDA)
+   ============================================================ */
 .listing-topline {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-  padding: 12px 16px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 5px;
+  margin-bottom: 24px;
 }
 
 #results-count {
-  margin: 0;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 14px;
   color: var(--muted);
+  font-weight: 500;
+  margin: 0;
 }
 
-/* ========================================================================
-   Grade e Cards de Oportunidades
-   ======================================================================== */
+/* Organização impecável dos cards ocupando o espaço extra */
 .listing-cards {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
 }
 
+/* CARDS */
 .opportunity-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 7px 25px #1c274008;
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .opportunity-card:hover {
-  transform: translateY(-3px);
-  border-color: #d2dae2;
-  box-shadow: 0 14px 32px #1c274012;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
-/* Faixa superior do card conforme a área */
 .card-cover {
-  height: 112px;
-  padding: 16px 18px;
+  padding: 20px 24px 0;
+  background: none !important;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  background: linear-gradient(135deg, #F7F0DD 0%, #FBF8EE 100%);
-  border-bottom: 1px solid var(--line);
-}
-
-.cover-education {
-  background: linear-gradient(135deg, #E6F0EB 0%, #F1F6F2 100%);
-}
-
-.cover-tech {
-  background: linear-gradient(135deg, #E4F0F1 0%, #EEF5F7 100%);
-}
-
-.cover-health {
-  background: linear-gradient(135deg, #F9ECE5 0%, #FCF4F0 100%);
+  align-items: center;
 }
 
 .cover-icon {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  background: #fff;
-  font-size: 20px;
-  box-shadow: 0 4px 12px #1c27400d;
+  display: none;
 }
 
 .pill {
-  padding: 5px 10px;
-  border-radius: 20px;
-  background: #fff;
-  color: var(--blue);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .3px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  padding: 0;
 }
 
-.cover-education .pill {
-  color: #477458;
+.pill::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
 }
 
-.cover-tech .pill {
-  color: #2F6578;
-}
+.cover-education .pill::before { background-color: #15803d; }
+.cover-tech .pill::before { background-color: #1d4ed8; }
+.cover-health .pill::before { background-color: #be123c; }
 
-.cover-health .pill {
-  color: #A85F46;
-}
-
-/* Corpo do card */
 .card-body {
-  flex: 1;
+  padding: 16px 24px 24px;
   display: flex;
   flex-direction: column;
-  padding: 20px 21px 21px;
+  flex: 1;
 }
 
 .card-body h3 {
-  font: 800 18px/1.25 'Manrope', sans-serif;
-  letter-spacing: -.4px;
-  margin: 0 0 6px;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 8px 0;
   color: var(--ink);
 }
 
 .card-org {
-  margin: 0 0 12px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--blue);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--blue-civic);
+  margin: 0 0 16px 0;
 }
 
 .card-meta {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 12px;
-  padding: 8px 10px;
-  background: #F8F6F1;
-  border-radius: 4px;
-  font-size: 11px;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
   color: var(--muted);
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: #f3f4f6;
+  border-radius: 6px;
 }
 
 .card-meta strong {
@@ -444,230 +403,142 @@ main {
 
 .muted {
   color: var(--muted);
-  line-height: 1.65;
-  margin: 0 0 16px;
+  font-size: 13px;
+  margin: 0 0 24px 0;
 }
 
-/* Barra de progresso das vagas */
 .card-progress {
   margin-top: auto;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .progress-label {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .progress-label strong {
   color: var(--ink);
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .progress-track {
-  height: 7px;
-  background: #edf0f4;
-  border-radius: 20px;
+  height: 4px;
+  background-color: var(--line);
+  border-radius: 4px;
   overflow: hidden;
 }
 
 .progress-track span {
   display: block;
   height: 100%;
-  border-radius: 20px;
-  background: linear-gradient(90deg, var(--sage), var(--blue));
+  background-color: var(--green-action);
+  border-radius: 4px;
 }
 
-/* Rodapé do card */
 .card-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  padding-top: 14px;
   border-top: 1px solid var(--line);
+  padding-top: 16px;
 }
 
 .status {
-  display: inline-block;
-  padding: 5px 9px;
-  border-radius: 3px;
-  background: #E6F0EB;
-  color: #477458;
-  font-size: 10px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #f0fdf4;
+  color: #166534;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* Estado vazio */
 .empty-state {
-  padding: 46px 24px;
   text-align: center;
-  background: #fff;
-  border: 1px dashed #d5dce4;
-  border-radius: 6px;
+  padding: 48px;
+  background-color: var(--bg-card);
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
 }
 
 .empty-state strong {
+  font-family: var(--font-heading);
+  font-size: 18px;
   display: block;
-  font: 800 16px 'Manrope', sans-serif;
-  margin-bottom: 6px;
-  color: var(--ink);
+  margin-bottom: 8px;
 }
 
-.empty-state p {
-  margin: 0;
-  font-size: 12px;
-}
-
-/* Rodapé*/
+/* ============================================================
+   RODAPÉ
+   ============================================================ */
 .site-footer {
-  background: #fff;
+  background-color: var(--bg-card);
   border-top: 1px solid var(--line);
-  color: #747b86;
+  padding: 48px 0 24px;
+  margin-top: auto;
 }
 
 .footer-top {
   display: grid;
-  grid-template-columns: 1.5fr repeat(3, 1fr);
-  gap: 28px;
-  padding: 36px 0 28px;
-}
-
-.footer-brand img {
-  width: 35px;
-  height: 35px;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 48px;
 }
 
 .footer-brand p {
-  margin: 10px 0 0;
-  max-width: 240px;
-  font-size: 11px;
-  line-height: 1.6;
   color: var(--muted);
-}
-
-.footer-col {
-  display: grid;
-  align-content: start;
-  gap: 8px;
+  margin-top: 16px;
 }
 
 .footer-col h3 {
-  font: 800 10px 'Manrope', sans-serif;
+  font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: .8px;
+  letter-spacing: 0.05em;
   color: var(--ink);
-  margin: 0 0 4px;
+  margin: 0 0 16px 0;
 }
 
 .footer-col a {
-  font-size: 11px;
+  display: block;
   color: var(--muted);
+  margin-bottom: 12px;
+  transition: color 0.2s;
 }
 
 .footer-col a:hover {
-  color: var(--blue);
+  color: var(--blue-civic);
 }
 
 .footer-bottom {
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding: 18px 0;
-  border-top: 1px solid var(--line);
-  font-size: 10px;
-  color: #8b919a;
+  color: #9ca3af;
+  font-size: 12px;
 }
 
-/*  Responsividade */
-@media (max-width: 960px) {
-  .header-inner {
-    gap: 18px;
-  }
-
-  .main-nav {
-    gap: 16px;
-  }
-
-  .listing-layout {
+/* RESPONSIVIDADE (Telas menores) */
+@media (max-width: 900px) {
+  /* Em telas menores, volta a ficar uma coluna só, com os filtros em cima */
+  main .container {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  main .container > .filter-panel {
+    grid-column: 1;
+    grid-row: 1;
+    position: static; /* Tira o sticky no mobile */
   }
 
-  .filter-panel {
-    position: static;
+  main .container > section {
+    grid-column: 1;
+    grid-row: 2;
   }
 }
-
-@media (max-width: 680px) {
-  .site-header {
-    height: 67px;
-  }
-
-  .header-inner {
-    justify-content: space-between;
-  }
-
-  .menu-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 37px;
-    height: 37px;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    background: #fff;
-    color: var(--ink);
-    font-size: 18px;
-    cursor: pointer;
-    margin-left: auto;
-  }
-
-  .main-nav {
-    display: none;
-    position: absolute;
-    top: 67px;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    flex-direction: column;
-    gap: 0;
-    padding: 10px 24px 16px;
-    background: #fff;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .main-nav.is-open {
-    display: flex;
-  }
-
-  .main-nav a {
-    padding: 12px 0;
-    border-bottom: 1px solid #f0f1f3;
-  }
-
-  .header-actions .btn-light {
-    display: none;
-  }
-
-  main {
-    padding: 28px 0 48px;
-  }
-
-  .page-heading h1 {
-    font-size: 28px;
-  }
-
-  .listing-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-top {
-    grid-template-columns: 1fr 1fr;
-  }
-} 
