@@ -255,6 +255,8 @@ SELECT
     v.email,
     c.id AS id_campanha,
     c.nome AS nome_campanha,
+    c.data_inicio,
+    i.nome AS nome_instituicao,
     ins.id AS id_inscricao,
     ins.status,
     ins.horas
@@ -262,7 +264,10 @@ FROM voluntarios v
 INNER JOIN inscricoes ins
 ON v.id = ins.id_voluntario
 INNER JOIN campanhas c
-ON ins.id_campanha = c.id;
+ON ins.id_campanha = c.id
+INNER JOIN instituicoes i
+ON c.id_instituicao = i.id;
+
 
 CREATE OR REPLACE VIEW voluntarios_por_campanha AS
 SELECT
@@ -296,3 +301,15 @@ SELECT * FROM enderecos_por_voluntario;
 SELECT * FROM campanhas_por_instituicao;
 SELECT * FROM inscricoes_por_voluntario;
 SELECT * FROM voluntarios_por_campanha;
+
+ALTER TABLE campanhas 
+ADD COLUMN data_inicio DATE NULL AFTER endereco;
+
+UPDATE campanhas SET data_inicio = '2026-12-01' WHERE id = 1;
+UPDATE campanhas SET data_inicio = '2026-12-05' WHERE id = 2;
+UPDATE campanhas SET data_inicio = '2026-12-10' WHERE id = 3;
+UPDATE campanhas SET data_inicio = '2027-01-15' WHERE id = 4;
+UPDATE campanhas SET data_inicio = '2026-10-10' WHERE id = 5;
+UPDATE campanhas SET data_inicio = '2026-11-20' WHERE id = 6;
+
+SELECT * FROM inscricoes_por_voluntario;

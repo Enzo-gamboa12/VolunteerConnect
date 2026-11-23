@@ -24,7 +24,15 @@ html {
 }
 
 body {
-  background: var(--cor-fundo);
+  background-image: 
+        linear-gradient(rgba(13, 59, 63, 0.82), rgba(13, 59, 63, 0.82)),
+        url('../imagens/voluntarios-login.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    min-height: 100vh;
   color: var(--cor-texto-cabecalho);
   font-family: var(--fonte-principal);
   line-height: 1.5;
@@ -119,36 +127,6 @@ a {
   font-weight: 700;
   color: var(--text-main);
   letter-spacing: -0.025em;
-}
-
-.intro {
-  margin: 0 0 22px;
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-/* Aviso de demonstração */
-.demo-note {
-  background-color: var(--bg-mint-soft);
-  border: 1px solid var(--border-mint);
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  font-size: 0.85rem;
-  line-height: 1.45;
-}
-
-.demo-note strong {
-  color: var(--color-teal-dark);
-  font-weight: 700;
-}
-
-.demo-note span {
-  color: #27645d;
 }
 
 /* Mensagem de erro */

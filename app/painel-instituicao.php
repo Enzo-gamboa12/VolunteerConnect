@@ -2,10 +2,10 @@
 
 require_once __DIR__ . '/init.php';
 
+$instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']]); 	
 $proximas_participacoes = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'planejada']);
 $campanhas_ativas = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], ['ativa']]);
 $campanhas_finalizadas = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], ['encerrada']]);
-$instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']]);
 
 ?>
 
@@ -54,7 +54,7 @@ $instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']
 
             <span class="rotulo-lateral">CONTA</span>
             <a class="item-menu" href="cadastro.php">Dados da Instituição</a>
-            <a class="item-menu" href="index.php">Sair</a>
+            <a class="item-menu" href="logout.php">Sair</a>
 
             <div class="caixa-ajuda">
                 <p>Precisa de ajuda?</p>
@@ -74,7 +74,7 @@ $instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']
             <section class="grade-estatisticas">
                 <article class="cartao-estatistica">
                     <small>Campanhas ativas</small>
-                    <strong>5</strong>
+                    <strong><?= count($campanhas_ativas) ?></strong>
                 </article>
                 <article class="cartao-estatistica">
                     <small>Voluntários inscritos</small>
@@ -102,9 +102,9 @@ $instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']
                         <thead>
                         <tr>
                         <th>Campanha</th>
-                        <th>Período</th>
+                        <th>Data</th>
+                        <th>Horário</th>
                         <th>Vagas</th>
-                        <th>Situação</th>
                         <th>Ações</th>
                         </tr>
                         </thead>
@@ -113,9 +113,9 @@ $instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']
                         <?php foreach ($campanhas_ativas as $c): ?>
                             <tr>
                                 <td><strong><?= $c['nome_campanha']?></strong><small><?= $c['area']?></small></td>
-                                <td><?= $c['data_inicio']?> a <?= $c['data_fim']?></td>
-                                <td><?= $c['vagas_ocupadas']?>/<?= $c['vagas_totais']?></td>
-                                <td><span class='status status-ativo'>Em andamento</span></td>
+                                <td><?= date('d/m/Y', strtotime($c['data_inicio'])) ?> a <?= date('d/m/Y', strtotime($c['data_termino'])) ?></td>
+                                <td><?= $c['horario']?></td>
+                                <td><?= $c['vagas']?>/<?= $c['vagasTotais']?></td>
                                 <td><a href="detalhes.php?id=<?= $c['id']?>">Ver mais</a></td>
                             </tr>
                         </tbody>
@@ -136,7 +136,6 @@ $instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']
                 <div class="container-tabela">
                         <?php if (empty($campanhas_finalizadas)): ?>
                             <p>Nenhuma campanha foi encerrada até o momento.</p><br>
-                            <a class='botao-principal' href='cadastro.php#nova-campanha'>+ Nova campanha</a>
                         <?php else: ?>
                             <table>
                             <thead>

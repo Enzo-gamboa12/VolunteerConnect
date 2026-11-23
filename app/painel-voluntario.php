@@ -2,10 +2,10 @@
 
 require_once __DIR__ . "/init.php";
 
-$voluntario = read($pdo, 'voluntarios', 'id = 2');
-$proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = 2 AND status = ?', ['Aguardando']);
-$participacoes_andamento = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = 2 AND status = ?', ['Andamento']);
-$historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = 2 AND status = ?', ['Finalizado']);
+$voluntario = read($pdo, 'voluntarios', 'id = ?', [$_SESSION['id_voluntario']]);
+$proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'Aguardando']);
+$participacoes_andamento = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'Andamento']);
+$historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'Finalizado']);
 
 ?>
 
@@ -53,7 +53,7 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
 
             <span class="rotulo-lateral">CONTA</span>
             <a class="item-menu" href="cadastro.php">Meu Cadastro</a>
-            <a class="item-menu" href="index.php">Sair</a>
+            <a class="item-menu" href="logout.php">Sair</a>
 
             <div class="caixa-ajuda">
                 <p>Precisa de ajuda?</p>
@@ -77,7 +77,7 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
                 </article>
                 <article class="cartao-estatistica">
                     <small>Ações concluídas</small>
-                    <strong>14</strong>
+                    <strong><?= count($historico_participacoes); ?></strong>
                 </article>
                 <article class="cartao-estatistica">
                     <small>Certificados</small>
@@ -145,13 +145,19 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
                                 </div>
 
                                 <h3><?= $p['nome_campanha'] ?></h3>
-                                <small class="nome-instituicao"><?= $p['instituicao'] ?></small>
+                                <small class="nome-instituicao"><?= $p['nome_instituicao'] ?></small>
 
                                 <div class="detalhes-proximo">
-                                    <time datetime="<?= $P['data_inicio'] ?>">
+                                    <time datetime="<?= $p['data_inicio'] ?>">
                                          <?= date('d/m/Y', strtotime($p['data_inicio'])) ?>
                                     </time>
-                                    <span>⏱<?= $p['horas_estimadas'] ?>h estimadas</span>
+                                    <span>⏱ 
+                                        <?php if ($p['horas_trabalhadas'] <= 0): ?>
+                                            Carga horária ainda não definida.
+                                        <?php else: ?>
+                                            <?= $p['horas_trabalhadas'] ?>h estimadas
+                                        <?php endif; ?>
+                                    </span>
                                 </div>
 
                                 <footer class="rodape-proximo">
@@ -191,7 +197,7 @@ $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volun
                             <tr>
                                 <td><strong><?= $h['nome_campanha'] ?></strong></td>
                                 <td><?= $h['nome_instituicao'] ?></td>
-                                <td><time datetime="<?= $h['data'] ?>"><?= $h['data'] ?></time></td>
+                                <td><?= date('d/m/Y', strtotime($p['data_inicio'])) ?></time></td>
                                 <td><?= $h['horas'] ?></td>
                                 <td><span class="status status-concluido">Concluída</span></td>
                                 <td><a class="link-texto" href="#historico">Visualizar</a></td>
