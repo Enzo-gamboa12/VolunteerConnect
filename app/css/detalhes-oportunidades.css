@@ -325,12 +325,14 @@ margin: 8px 0 16px 0 !important;
 display: flex;
 flex-direction: column;
 gap: 6px;
+padding-right: 20px;
 }
 
 .form-field label {
 font-size: 13px;
 font-weight: 600;
 color: var(--ink);
+
 }
 
 .form-field input {

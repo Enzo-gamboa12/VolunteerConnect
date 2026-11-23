@@ -1,5 +1,5 @@
 <?php
-<<<<<<< HEAD
+
 // Inclui a inicialização (sessão, conexão $pdo e funções CRUD)
 require_once __DIR__ . "/init.php";
 
@@ -7,7 +7,6 @@ $busca    = '';
 $areas    = [];
 $openOnly = false;
 
-// Captura os dados enviados pelo formulário via GET
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['filtrar'])) {
     $busca    = trim($_GET['buscaFiltro'] ?? '');
     $areas    = isset($_GET['area']) && is_array($_GET['area']) ? $_GET['area'] : [];
@@ -15,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['filtrar'])) {
     $sort     = $_GET['sort'] ?? 'featured';
 }
 
-// Filtra pelo título da campanha direto no banco de dados
 if ($busca !== '') {
     $campanhas = readAll($pdo, "campanhas", "nome LIKE ?", ["%{$busca}%"]);
 } else {
@@ -25,54 +23,39 @@ if ($busca !== '') {
 $instituicoes = readAll($pdo, "instituicoes");
 $inscricoes   = readAll($pdo, "inscricoes");
 
-//  Aplica os filtros de Área e Status (Vagas Abertas) via PHP
 if (!empty($areas) || $openOnly) {
     $campanhasFiltradas = [];
     
     foreach ($campanhas as $c) {
         $manter = true;
 
-        // Verifica o filtro de "Apenas vagas abertas"
         if ($openOnly && $c['status'] !== 'ativa') {
             $manter = false;
         }
 
-        // Verifica o filtro de Área de atuação
         if ($manter && !empty($areas)) {
-            $areaDaCampanha = '';
+            // LÊ O NOVO VALOR: Usa o 'tipo' da campanha vindo do banco
+            $tipoDaCampanha = isset($c['tipo']) ? mb_strtolower($c['tipo']) : '';
             
-            // Procura a área da instituição vinculada a esta campanha
-            foreach ($instituicoes as $inst) {
-                if ($inst['id'] == $c['id_instituicao']) {
-                    $areaDaCampanha = mb_strtolower($inst['area']);
-                    break;
-                }
-            }
+            // Remove acentos (saúde -> saude, educação -> educacao) para o filtro funcionar
+            $tipoNormalizado = str_replace(
+                ['á', 'é', 'í', 'ó', 'ú', 'ç', 'ã', 'õ', 'â', 'ê', 'ô'], 
+                ['a', 'e', 'i', 'o', 'u', 'c', 'a', 'o', 'a', 'e', 'o'], 
+                $tipoDaCampanha
+            );
             
-            // Se a área desta instituição não estiver entre as áreas selecionadas no filtro, remove
-            if (!in_array($areaDaCampanha, $areas)) {
+            if (!in_array($tipoNormalizado, $areas)) {
                 $manter = false;
             }
         }
 
-        // Se passou em todos os filtros, adiciona à lista final
         if ($manter) {
             $campanhasFiltradas[] = $c;
         }
     }
     
-    // Atualiza a lista principal de campanhas com os resultados filtrados
     $campanhas = $campanhasFiltradas;
 }
-=======
-// Inclui o arquivo CRUD para ter acesso ao $pdo e à função readAll()
-require_once __DIR__ . "/init.php";
-
-// Busca os dados das tabelas do banco VolunteerConnect
-$campanhas = readAll($pdo, "campanhas");
-$instituicoes = readAll($pdo, "instituicoes");
-$inscricoes = readAll($pdo, "inscricoes");
->>>>>>> f16b03a967b51448efa32266f4f251cd2c5ab5cc
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -107,301 +90,152 @@ $inscricoes = readAll($pdo, "inscricoes");
     </header>
 
     <main>
-        <section class="container">
+        <div class="container">
             <div class="page-heading">
-                <span class="eyebrow">Encontre sua causa</span>
+                <span class="eyebrow">Encontre a sua causa</span>
                 <h1>Oportunidades de voluntariado</h1>
-                <p>Explore projetos, conheça instituições e escolha uma ação que combine com seus interesses e sua rotina.</p>
+                <p>Explore projetos, conheça instituições e escolha uma ação que combine com os seus interesses e rotina.</p>
             </div>
             
-                <aside class="filter-panel">
-<<<<<<< HEAD
-                    <form id="filters" method="GET" action="oportunidades.php">   
-                        <input type="hidden" name="filtrar" value="1">
-                        <h2>Filtros</h2>
+            <aside class="filter-panel">
+                <form id="filters" method="GET" action="oportunidades.php">   
+                    <input type="hidden" name="filtrar" value="1">
+                    <h2>Filtros</h2>
 
-                        <div class="filter-group">
-                            <h3>Buscar oportunidade</h3>
-                            <div class="form-field">
-                                <input 
-                                    id="buscaFiltro" 
-                                    name="buscaFiltro" 
-                                    type="search" 
-                                    placeholder="Nome da campanha ou instituição"
-                                >
-                            </div>
+                    <div class="filter-group">
+                        <h3>Pesquisar oportunidade</h3>
+                        <div class="form-field">
+                            <input 
+                                id="buscaFiltro" 
+                                name="buscaFiltro" 
+                                type="search" 
+                                placeholder="Nome da campanha ou instituição"
+                                value="<?php echo htmlspecialchars($busca); ?>"
+                            >
                         </div>
-
-                        <div class="filter-group">
-                            <h3>Área de atuação</h3>
-                            <label class="filter-option">
-                                <input type="checkbox" name="area[]" value="educacao"> Educação
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="area[]" value="tecnologia"> Tecnologia
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="area[]" value="saude"> Saúde
-                            </label>
-                        </div>
-
-                        <div class="filter-group">
-                            <label class="filter-option">
-                                <input id="filter-open" name="open" value="1" type="checkbox" <?php echo $openOnly ? 'checked' : ''; ?>> Apenas vagas abertas
-                            </label>
-                        </div>
-
-                        <div>
-                            <button class="btn btn-primary btn-block" type="submit">Aplicar filtros</button>
-                            <a class="btn btn-outline btn-block" href="oportunidades.php">Limpar filtros</a>
-=======
-                    <form id="opportunity-filters">
-                        <h2>Filtros</h2>
-                        <div class="filter-group">
-                            <h3>Buscar oportunidade</h3>
-                            <div class="form-field">
-                                <input id="keyword" type="search" placeholder="Nome da campanha ou instituição">
-                            </div>
-                        </div>
-                        <div class="filter-group">
-                            <h3>Área de atuação</h3>
-                            <label class="filter-option"><input type="checkbox" name="area" value="educacao"> Educação</label>
-                            <label class="filter-option"><input type="checkbox" name="area" value="tecnologia"> Tecnologia</label>
-                            <label class="filter-option"><input type="checkbox" name="area" value="saude"> Saúde</label>
-                        </div>
-                        <div class="filter-group">
-                            <h3>Localização</h3>
-                            <div class="form-field">
-                                <input id="filter-location" type="text" placeholder="Cidade ou estado">
-                            </div>
-                        </div>
-                        <div class="filter-group">
-                            <label class="filter-option">
-                                <input id="filter-open" type="checkbox" checked> Apenas vagas abertas
-                            </label>
-                        </div>
-                        <div style="display:grid;gap:9px">
-                            <button class="btn btn-primary btn-block" type="submit">Aplicar filtros</button>
-                            <button class="btn btn-outline btn-block" id="clear-filters" type="button">Limpar filtros</button>
->>>>>>> f16b03a967b51448efa32266f4f251cd2c5ab5cc
-                        </div>
-                    </form>
-                </aside>
-
-                <section>
-                    <div class="listing-topline">
-                        <p id="results-count" aria-live="polite">Exibindo <?php echo count($campanhas); ?> oportunidades</p>
-<<<<<<< HEAD
-                        
                     </div>
-                    <?php $vagas_preenchidas = 0; ?>
 
-                    <?php if (!empty($campanhas)) { ?>
-                        <div class="listing-cards" id="opportunity-results">
-                            <?php 
-                            foreach ($campanhas as $c) {
-                              
-                                $inst_nome     = "Instituição não informada";
-                                $inst_area     = "Geral";
-                                $inst_endereco = "Localização não cadastrada";
-
-                                // 1. Localiza a instituição correspondente
-                                foreach ($instituicoes as $i) {
-                                    if ($i['id'] == $c['id_instituicao']) {
-                                        $inst_nome     = $i['nome'];
-                                        $inst_area     = $i['area'];
-                                        $inst_endereco = $i['endereco'];
-                                        break;
-                                    }
-                                }
-
-                                // 2. Contagem real das inscrições ativas para a campanha atual
-                                $vagas_preenchidas = 0;
-                                foreach ($inscricoes as $ins) {
-                                    if ($ins['id_campanha'] == $c['id'] && $ins['status'] !== 'cancelado') {
-                                        $vagas_preenchidas++;
-                                    }
-                                }
-
-                                // 3. Obtenção do total de vagas e cálculo da percentagem
-                                $vagas_totais = (int) $c['vagasTotais'];
-                                $porcentagem  = $vagas_totais > 0 ? min(100, round(($vagas_preenchidas / $vagas_totais) * 100)) : 0;
-
-                                // 4. Definição do estilo e ícone conforme a área
-                                $classe_capa = "cover-education";
-                                $icone       = "📚";
-                                $rotulo_area = ucfirst($inst_area);
-
-                                if ($inst_area === 'tecnologia') {
-                                    $classe_capa = "cover-tech";
-                                    $icone       = "💻";
-                                    $rotulo_area = "Tecnologia";
-                                } elseif ($inst_area === 'saude') {
-                                    $classe_capa = "cover-health";
-                                    $icone       = "🩸";
-                                    $rotulo_area = "Saúde";
-                                }   
-                            ?>
-                                <article class="opportunity-card" 
-                                        data-title="<?php echo htmlspecialchars(mb_strtolower($c['nome'])); ?>" 
-                                        data-category="<?php echo htmlspecialchars(mb_strtolower($inst_area)); ?>" 
-                                        data-location="<?php echo htmlspecialchars(mb_strtolower($inst_endereco)); ?>" 
-                                        data-status="<?php echo htmlspecialchars($c['status']); ?>">
-                                    
-                                    <div class="card-cover <?php echo $classe_capa; ?>">
-                                        <div class="cover-icon"><?php echo $icone; ?></div>
-                                        <span class="pill"><?php echo htmlspecialchars($rotulo_area); ?></span>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <h3><?php echo htmlspecialchars($c['nome']); ?></h3>
-                                        <p class="card-org"><?php echo htmlspecialchars($inst_nome); ?> · <?php echo htmlspecialchars($inst_endereco); ?></p>
-                                        
-                                        <div class="card-meta">
-                                            <span>📍 Presencial</span>
-                                            <span>Status: <strong><?php echo htmlspecialchars(ucfirst($c['status'])); ?></strong></span>
-                                        </div>
-
-                                        <p class="muted" style="font-size:.82rem">
-                                            <?php echo htmlspecialchars($c['descricao']); ?>
-                                        </p>
-
-                                        <div class="card-progress">
-                                            <div class="progress-label">
-                                                <span><?php echo $vagas_preenchidas; ?> de <?php echo $vagas_totais; ?> vagas preenchidas</span>
-                                                <strong><?php echo $porcentagem; ?>%</strong>
-                                            </div>
-                                            <div class="progress-track">
-                                                <span style="width: <?php echo $porcentagem; ?>%;"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="card-actions">
-                                            <span class="status">
-                                                <?php echo ($c['status'] === 'ativa') ? 'Vagas abertas' : ucfirst($c['status']); ?>
-                                            </span>
-                                            <a class="btn btn-primary btn-small" href="detalhes-oportunidade.php?id=<?php echo $c['id']; ?>">Ver detalhes</a>
-                                        </div>
-                                    </div>
-                                </article>
-                            <?php } ?>
-                        </div>
-                    <?php } else { ?>
-                        <div class="empty-state" id="empty-state" style="<?php echo empty($campanhas) ? 'display:block;' : ''; ?>">
-                            <strong>Nenhuma oportunidade encontrada</strong>
-                            <p class="muted">Tente alterar os filtros ou buscar por outro termo.</p>
-                        </div>
-                    <?php } ?>
-=======
-                        <label class="muted" style="font-size:.8rem">
-                            Ordenar por 
-                            <select id="sort-order">
-                                <option value="featured">Destaque</option>
-                                <option value="title">Nome (A–Z)</option>
-                            </select>
+                    <div class="filter-group">
+                        <h3>Área de atuação</h3>
+                        <label class="filter-option">
+                            <input type="checkbox" name="area[]" value="educacao" <?php echo in_array('educacao', $areas) ? 'checked' : ''; ?>> Educação
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="area[]" value="tecnologia" <?php echo in_array('tecnologia', $areas) ? 'checked' : ''; ?>> Tecnologia
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="area[]" value="saude" <?php echo in_array('saude', $areas) ? 'checked' : ''; ?>> Saúde
                         </label>
                     </div>
-                    <?php $vagas_preenchidas = 0; ?>
 
-                    <?php if (!empty($campanhas)){ ?>
-                        <div class="listing-cards" id="opportunity-results">
-                            <?php 
-    foreach ($campanhas as $c) {
-        // 1. Localiza a instituição correspondente
-        $inst_nome = "Instituição não informada";
-        $inst_area = "Geral";
-        $inst_endereco = "Localização não cadastrada";
+                    <div class="filter-group">
+                        <label class="filter-option">
+                            <input id="filter-open" name="open" value="1" type="checkbox" <?php echo $openOnly ? 'checked' : ''; ?>> Apenas vagas abertas
+                        </label>
+                    </div>
 
-        foreach ($instituicoes as $i) {
-            if ($i['id'] == $c['id_instituicao']) {
-                $inst_nome = $i['nome'];
-                $inst_area = $i['area'];
-                $inst_endereco = $i['endereco'];
-                break;
-            }
-        }
+                    <div>
+                        <button class="btn btn-primary btn-block" type="submit">Aplicar filtros</button>
+                        <a class="btn btn-outline btn-block" href="oportunidades.php">Limpar filtros</a>
+                    </div>
+                </form>
+            </aside>
 
-        // 2. Contagem real das inscrições ativas para a campanha atual
-        $vagas_preenchidas = 0;
-        foreach ($inscricoes as $ins) {
-            if ($ins['id_campanha'] == $c['id'] && $ins['status'] !== 'cancelado') {
-                $vagas_preenchidas++;
-            }
-        }
-
-        // 3. Obtenção do total de vagas e cálculo da percentagem
-        $vagas_totais = (int) $c['vagasTotais'];
-        $porcentagem = $vagas_totais > 0 ? min(100, round(($vagas_preenchidas / $vagas_totais) * 100)) : 0;
-
-        // 4. Definição do estilo e ícone conforme a área
-        $classe_capa = "cover-education";
-        $icone = "📚";
-        $rotulo_area = ucfirst($inst_area);
-
-        if ($inst_area === 'tecnologia') {
-            $classe_capa = "cover-tech";
-            $icone = "💻";
-            $rotulo_area = "Tecnologia";
-        } elseif ($inst_area === 'saude') {
-            $classe_capa = "cover-health";
-            $icone = "🩸";
-            $rotulo_area = "Saúde";
-        }   
-    ?>
-        <article class="opportunity-card" 
-                data-title="<?php echo htmlspecialchars(mb_strtolower($c['nome'])); ?>" 
-                data-category="<?php echo htmlspecialchars(mb_strtolower($inst_area)); ?>" 
-                data-location="<?php echo htmlspecialchars(mb_strtolower($inst_endereco)); ?>" 
-                data-status="<?php echo htmlspecialchars($c['status']); ?>">
-            
-            <div class="card-cover <?php echo $classe_capa; ?>">
-                <div class="cover-icon"><?php echo $icone; ?></div>
-                <span class="pill"><?php echo htmlspecialchars($rotulo_area); ?></span>
-            </div>
-
-            <div class="card-body">
-                <h3><?php echo htmlspecialchars($c['nome']); ?></h3>
-                <p class="card-org"><?php echo htmlspecialchars($inst_nome); ?> · <?php echo htmlspecialchars($inst_endereco); ?></p>
+            <section>
+                <div class="listing-topline">
+                    <p id="results-count" aria-live="polite">A exibir <?php echo count($campanhas); ?> oportunidades</p>
+                </div>
                 
-                <div class="card-meta">
-                    <span>📍 Presencial</span>
-                    <span>Status: <strong><?php echo htmlspecialchars(ucfirst($c['status'])); ?></strong></span>
-                </div>
+                <?php if (!empty($campanhas)) { ?>
+                    <div class="listing-cards" id="opportunity-results">
+                        <?php 
+                        foreach ($campanhas as $c) {
+                            $inst_nome     = "Instituição não informada";
+                            $inst_endereco = "Localização não cadastrada";
 
-                <p class="muted" style="font-size:.82rem">
-                    <?php echo htmlspecialchars($c['descricao']); ?>
-                </p>
+                            foreach ($instituicoes as $i) {
+                                if ($i['id'] == $c['id_instituicao']) {
+                                    $inst_nome     = $i['nome'];
+                                    $inst_endereco = $i['endereco'];
+                                    break;
+                                }
+                            }
 
-                <div class="card-progress">
-                    <div class="progress-label">
-                        <span><?php echo $vagas_preenchidas; ?> de <?php echo $vagas_totais; ?> vagas preenchidas</span>
-                        <strong><?php echo $porcentagem; ?>%</strong>
-                    </div>
-                    <div class="progress-track">
-                        <span style="width: <?php echo $porcentagem; ?>%;"></span>
-                    </div>
-                </div>
+                            $vagas_preenchidas = 0;
+                            foreach ($inscricoes as $ins) {
+                                if ($ins['id_campanha'] == $c['id'] && $ins['status'] !== 'cancelado') {
+                                    $vagas_preenchidas++;
+                                }
+                            }
 
-                <div class="card-actions">
-                    <span class="status">
-                        <?php echo ($c['status'] === 'ativa') ? 'Vagas abertas' : ucfirst($c['status']); ?>
-                    </span>
-                    <a class="btn btn-primary btn-small" href="detalhes-oportunidade.php?id=<?php echo $c['id']; ?>">Ver detalhes</a>
-                </div>
-            </div>
-        </article>
-    <?php } ?>
-                        </div>
-                    <?php }else { ?>
-                                <div class="empty-state" id="empty-state" style="<?php echo empty($campanhas) ? 'display:block;' : ''; ?>">
-                                    <strong>Nenhuma oportunidade encontrada</strong>
-                                    <p class="muted">Tente alterar os filtros ou buscar por outro termo.</p>
+                            $vagas_totais = (int) ($c['vagasTotais'] ?? 0);
+                            $porcentagem  = $vagas_totais > 0 ? min(100, round(($vagas_preenchidas / $vagas_totais) * 100)) : 0;
+
+                            // Le o "tipo" da campanha
+                            $tipo_campanha = isset($c['tipo']) ? mb_strtolower($c['tipo']) : 'geral';
+                            
+                            $tipoNormalizado = str_replace(
+                                ['á', 'é', 'í', 'ó', 'ú', 'ç', 'ã', 'õ', 'â', 'ê', 'ô'], 
+                                ['a', 'e', 'i', 'o', 'u', 'c', 'a', 'o', 'a', 'e', 'o'], 
+                                $tipo_campanha
+                            );
+
+                            $classe_capa = "cover-education"; // Padrão
+                            $icone       = "📚"; // Padrão
+                            $rotulo_area = ucfirst($tipo_campanha); // Mostra como está no banco (ex: "Saúde")
+                        ?>
+                            <article class="opportunity-card" 
+                                    data-title="<?php echo htmlspecialchars(mb_strtolower($c['nome'])); ?>" 
+                                    data-category="<?php echo htmlspecialchars($tipo_campanha); ?>" 
+                                    data-location="<?php echo htmlspecialchars(mb_strtolower($inst_endereco)); ?>" 
+                                    data-status="<?php echo htmlspecialchars($c['status']); ?>">
+                                
+                                <div class="card-cover <?php echo $classe_capa; ?>">
+                                    <div class="cover-icon"><?php echo $icone; ?></div>
+                                    <span class="pill"><?php echo htmlspecialchars($rotulo_area); ?></span>
                                 </div>
-                            <?php } ?>
->>>>>>> f16b03a967b51448efa32266f4f251cd2c5ab5cc
-                </section>
-            </div>
-        </section>
+
+                                <div class="card-body">
+                                    <h3><?php echo htmlspecialchars($c['nome']); ?></h3>
+                                    <p class="card-org"><?php echo htmlspecialchars($inst_nome); ?> · <?php echo htmlspecialchars($inst_endereco); ?></p>
+                                    
+                                    <div class="card-meta">
+                                        <span>📍 Presencial</span>
+                                        <span>Status: <strong><?php echo htmlspecialchars(ucfirst($c['status'])); ?></strong></span>
+                                    </div>
+
+                                    <p class="muted" style="font-size:.82rem">
+                                        <?php echo htmlspecialchars($c['descricao']); ?>
+                                    </p>
+
+                                    <div class="card-progress">
+                                        <div class="progress-label">
+                                            <span><?php echo $vagas_preenchidas; ?> de <?php echo $vagas_totais; ?> vagas preenchidas</span>
+                                            <strong><?php echo $porcentagem; ?>%</strong>
+                                        </div>
+                                        <div class="progress-track">
+                                            <span style="width: <?php echo $porcentagem; ?>%;"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-actions">
+                                        <span class="status">
+                                            <?php echo ($c['status'] === 'ativa') ? 'Vagas abertas' : ucfirst($c['status']); ?>
+                                        </span>
+                                        <a class="btn btn-primary btn-small" href="detalhes-oportunidade.php?id=<?php echo $c['id']; ?>">Ver detalhes</a>
+                                    </div>
+                                </div>
+                            </article>
+                        <?php } ?>
+                    </div>
+                <?php } else { ?>
+                    <div class="empty-state" id="empty-state" style="<?php echo empty($campanhas) ? 'display:block;' : ''; ?>">
+                        <strong>Nenhuma oportunidade encontrada</strong>
+                        <p class="muted">Tente alterar os filtros ou pesquisar por outro termo.</p>
+                    </div>
+                <?php } ?>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -412,7 +246,7 @@ $inscricoes = readAll($pdo, "inscricoes");
                         <img src="imagens/logo.png" alt="">
                         <span>Volunteer<em>Connect</em></span>
                     </a>
-                    <p>Conectando pessoas e boas causas.</p>
+                    <p>A conectar pessoas e boas causas.</p>
                 </div>
                 <div class="footer-col">
                     <h3>Explorar</h3>
@@ -426,16 +260,15 @@ $inscricoes = readAll($pdo, "inscricoes");
                 </div>
                 <div class="footer-col">
                     <h3>Ajuda</h3>
-                    <a href="contato.php">Contato</a>
+                    <a href="contato.php">Contacto</a>
                     <a href="login.php">Entrar</a>
                 </div>
             </div>
             <div class="footer-bottom">
                 <span>© 2026 VolunteerConnect. Projeto demonstrativo.</span>
-                <span>Conectando quem quer ajudar a quem precisa.</span>
+                <span>A conectar quem quer ajudar a quem precisa.</span>
             </div>
         </div>
     </footer>
 </body>
-
 </html>

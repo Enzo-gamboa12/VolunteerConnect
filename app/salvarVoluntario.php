@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/crud.php";
+require_once __DIR__ . "/init.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 1. Captura os dados do formulário com os nomes dos atributos 'name' do HTML
