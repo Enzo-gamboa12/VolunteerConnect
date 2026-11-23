@@ -7,6 +7,7 @@
     <title>Liderança do Volunter Conect: executivos e lideres da empresa | Volunter Conect (pt-BR)</title>
     <link rel="stylesheet" href="css/colaboradores.css">
 </head>
+
 <body>
     <header class="cabecalho">
         <a class="link-logo" href="index.php">
@@ -24,66 +25,72 @@
             <span class="avatar-usuario">IC</span>
             <span>Instituto Caminhos</span>
         </div>
-</header>
+    </header>
 
     <main class="conteudo">
 
-            <!-- Fundadores  -->
-            <section class="card-secao-categoria">
+        <!-- Fundadores  -->
+        <section class="card-secao-categoria"><!--comentario-->
+            <!--AUMENTAR A LOGO ANTES DOS CADS-->
+            <div class="colaboradores-titulo">
+                
                 <h1>Colaboradores da VolunteerConnect</h1>
 
-                <div class="grid-produtos">
+            </div>
 
-                    <div class="card-produto">
-                        <img src="imagens/antonio-fundador.png" alt="">
-                        <h3>Antonio Fundador</h3>
-                        <p>Idealizador da voluteer connect.</p>
+            <!--MELHORAR OS LINKS E O VISUAL DOS CARDS EM TODOS-->
+            <div class="grid-produtos">
 
-                        <a href="fundador.php" class="btn-detalhes">Ver a Bio</a>
-                    </div>
+                <div class="card-produto">
+                    <img src="imagens/antonio-fundador.png" alt="">
+                    <h3>Antonio Fundador</h3>
+                    <p>Idealizador da voluteer connect.</p>
 
-
-                    <div class="card-produto">
-                        <img src="imagens/antonio-fundador.png" alt="lider">
-                        <h3>Antonio Fundador</h3>
-                        <p>Idealizador da voluteer connect.</p>
-
-                        <a href="fundador.php" class="btn-detalhes">Ver a Bio</a>
-                    </div>
-
-                    <div class="card-produto">
-                        <img src="imagens/antonio-fundador.png" alt="lider">
-                        <h3>Antonio Fundador</h3>
-                        <p>Idealizador da voluteer connect.</p>
-
-                        <a href="fundador.php" class="btn-detalhes">Ver a Bio</a>
-                    </div>
-
+                    <a href="fundador.php" class="link-clean"> Ver a Bio</a>
                 </div>
-            </section>
-
-            <section class="card-secao-categoria">
-                <div class="grid-produtos">
-
-                    <div class="card-produto">
-                        <img src="imagens/antonio-fundador.png" alt="">
-                        <h3>Antonio Fundador</h3>
-                        <p>Idealizador da voluteer connect.</p>
-
-                        <a href="fundador.php" class="btn-detalhes">Ver a Bio</a>
-                    </div>
 
 
-                    <div class="card-produto">
-                        <img src="imagens/antonio-fundador.png" alt="lider">
-                        <h3>Antonio Fundador</h3>
-                        <p>Ideaasdsadasdasdlizador da voluteer connect.</p>
+                <div class="card-produto">
+                    <img src="imagens/antonio-fundador.png" alt="lider">
+                    <h3>Antonio Fundador</h3>
+                    <p>Idealizador da voluteer connect.</p>
 
-                        <a href="fundador.php" class="btn-detalhes">Ver a Bio</a>
-                    </div>
+                    <a href="fundador.php" class="link-clean">Ver a Bio</a>
+                </div>
+
+                <div class="card-produto">
+                    <img src="imagens/antonio-fundador.png" alt="lider">
+                    <h3>Antonio Fundador</h3>
+                    <p>Idealizador da voluteer connect.</p>
+
+                    <a href="fundador.php" class="link-clean">Ver a Bio</a>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="card-secao-categoria">
+            <div class="grid-produtos">
+
+                <div class="card-produto">
+                    <img src="imagens/antonio-fundador.png" alt="">
+                    <h3>Antonio Fundador</h3>
+                    <p>Idealizador da voluteer connect.</p>
+
+                    <a href="fundador.php" class="link-clean">Ver a Bio</a>
+                </div>
 
 
-            </section>
+                <div class="card-produto">
+                    <img src="imagens/antonio-fundador.png" alt="lider">
+                    <h3>Antonio Fundador</h3>
+                    <p>Idealizador da voluteer connect.</p>
+
+                    <a href="fundador.php" class="link-clean">Ver a Bio</a>
+                </div>
+
+
+        </section>
 
 
 
@@ -97,7 +104,7 @@
                 </ul>
             </div>
         </footer>
-        </main>
-    </body>
+    </main>
+</body>
 
 </html>

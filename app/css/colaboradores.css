@@ -107,7 +107,6 @@ a {
   font-size: 1.8rem;
   padding: 12px;
   text-align: center;
-  --fonte-titulos: 'Manrope', 'DM Sans', system-ui, sans-serif;
 }
 
 /* Grid ajustado para 4 colunas */
@@ -115,8 +114,8 @@ a {
   display: flex;
   justify-content: center;
   grid-template-columns: repeat(4, 1fr);
-  /* Muda de 3 para 4 colunas */
-  gap: 50px ;
+  /* Muda de 2 para 3 colunas */
+  gap: 50px;
   /* Centraliza o grid na tela */
   box-sizing: border-box;
   /* Garante que o padding não faça o grid vazar da tela */
@@ -151,7 +150,6 @@ a {
 /* Nome do Fundador */
 .card-produto h3 {
   font-size: 1.1rem;
-  font-family: sans-serif;
   color: #000;
 }
 
@@ -161,17 +159,28 @@ a {
   color: #65676B;
   /* Um tom de cinza para dar contraste com o nome */
   margin: 0;
-  font-family: sans-serif;
   line-height: 1.4;
 }
 
 /* Opção para o botão: A Meta não usa botão na imagem, 
    então você pode escondê-lo ou deixá-lo mais discreto. 
    Para esconder, mude display para 'none' */
-.btn-detalhes {
-  background-color: #94949488;
-  text-decoration: none;
+   /*link de ver a bio*/
+.link-clean {
+color: #1e293b;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(37, 99, 235, 0.35);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease, text-underline-offset 0.2s ease;
 }
+
+.link-clean:hover {
+  color: #2563eb;
+  text-decoration-color: #2563eb;
+  text-underline-offset: 6px;
+} 
 
 
 
@@ -229,4 +238,3 @@ a {
   color: #000000;
   text-decoration: underline;
 }
-

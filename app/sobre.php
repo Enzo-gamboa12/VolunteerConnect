@@ -26,7 +26,7 @@
             <span>Instituto Caminhos</span>
         </div>
     </header>
-
+ <!------------------------------------------------------------------------------------------------------------------------------------------------>
 
     <!--O CONTEUDO DO SITE-->
     <main>
@@ -43,37 +43,25 @@
             </div>
         </section>
 
-
+ <!------------------------------------------------------------------------------------------------------------------------------------------------>
         <!-- OS NÚMEROS QUE MUDARAM A VIDAS DAS PESSOAS -->
         <section class="secao-numeros">
             <h2 class="titulo-central">
-                Números das mudanças de vidas
+                Frase motivacional
             </h2>
 
             <div class="container-cards">
 
-                <h3>Ajudando mais de 5 MIL familias</h3>
-
-
-
-                <h3>Qual o maior sonho das Crianças hoje? </h3>
-
-
-
-                <h3>Auxiliando as pessoas com necessidades</h3>
-
-
-
-
+                <h3>Números que ajudam muitas intituições milhoes de pessoase e outra coisas que acontecem no mundo eno mundo e</h3>
             </div>
         </section>
-
+ <!------------------------------------------------------------------------------------------------------------------------------------------------>
 
 
         <section class="secao-tecnologia">
             <div class="container-tecnologia">
                 <!-- Substitua o src pelo caminho da sua imagem -->
-                <img src="imagens/logo-volunteerconnect.png" alt="" class="foto-destaque">
+                <img src="imagens/pessoas-ajudando.webp" alt="" class="foto-destaque">
 
                 <div class="texto-tecnologia">
                     <h2>Qual a nossa motivação?</h2>
@@ -81,34 +69,8 @@
                         mundo complexo de caridade</p>
                 </div>
             </div>
-        </section>
-
-
-
-        <!-- OS NÚMEROS QUE MUDARAM A VIDAS DAS PESSOAS -->
-        <section class="secao-numeros">
-            <h2 class="titulo-central">
-                Números das mudanças de vidas
-            </h2>
-
-            <div class="container-cards">
-                <div class="card">
-                    <h3>Ajudando mais de 5 MIL familias</h3>
-                 
-                </div>
-
-                <div class="card">
-                    <h3>Qual o maior sonho das Crianças hoje? </h3>
-                   
-                </div>
-
-                <div class="card">
-                    <h3>Auxiliando as pessoas com necessidades</h3>
-               
-                </div>
-            </div>
-        </section>
-
+        </section>  
+ <!------------------------------------------------------------------------------------------------------------------------------------------------>
 
         <section class="secao-tecnologia">
             <div class="container-tecnologia">
@@ -153,14 +115,15 @@
             </div>
         </section>
 
-
+<!------------------------------------------------------------------------------------------------------------------------------------------------>
 
         <!-- O LINK QUE DIRECIONA OS FUNDADORES DA VOLUNTEER CONNECT -->
         <main class="secao-lideranca">
             <div class="container-lideranca">
                 <div class="coluna-texto">
                     <h1>Conheça nossa liderança</h1>
-                    <p>conehça mais sobre o time que comanda todo esse projeto, que ajuda milhares de pessoas
+                    <p>Conheça mais sobre o time que comanda todo esse projeto, que ajuda milhares de pessoas
+                        <br><br>
 
                         <a href="colaboradores.php" class="botao-azul">Conhecer nossa liderança</a>
                 </div>
@@ -174,7 +137,7 @@
 
 
 
-
+<!------------------------------------------------------------------------------------------------------------------------------------------------>
 
 
         <!--PARTE DO FOOTER DO SITE-->
