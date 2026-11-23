@@ -46,7 +46,8 @@
                     <h3>Antonio Fundador</h3>
                     <p>Idealizador da voluteer connect.</p>
 
-                    <a href="fundador.php" class="link-clean"> Ver a Bio</a>
+                    <a href="fundador.php" class="link-clean">git add .
+git commit -m "Resolve merge conflicts" Ver a Bio</a>
                 </div>
 
 

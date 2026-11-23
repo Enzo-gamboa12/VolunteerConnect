@@ -62,7 +62,7 @@ try {
     $campanhasDestaque = array_slice(
         array_values(array_filter(
             $campanhas,
-            static fn (array $campanha): bool => ($campanha['status'] ?? '') === 'ativa'
+            static fn(array $campanha): bool => ($campanha['status'] ?? '') === 'ativa'
         )),
         0,
         3
@@ -88,12 +88,14 @@ $areas = [
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/index.css">
     <title>VolunteerConnect | Página inicial</title>
 </head>
+
 <body>
     <header class="cabecalho">
         <a class="link-logo" href="index.php">
@@ -200,4 +202,9 @@ $areas = [
 
     <footer></footer>
 </body>
+<<<<<<< HEAD
 </html> 
+=======
+
+</html>
+>>>>>>> 8fdfaf4ab0437efcaa065652dde5888829ec5822
