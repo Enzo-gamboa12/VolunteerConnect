@@ -33,14 +33,14 @@
         <div class="perfil-topo">
             <img class="imagem-card" src="imagens/antonio-fundador.png" alt="antonio-fundador">
             <div class="nomeie">
-                <h1>Antonio Gabriel</h1>
-                <small>Cargo: Desenvolverdor da melhor empresa do Mundo.</small>
+                <h1>Enzo Gamboa</h1>
+                <small>Gerente, Diretor , Coordernador.</small>
             </div>
         </div>
 
         <!-- Bloco Inferior: Surgimento e texto abaixo -->
         <div class="perfil-baixo">
-            <h2>Surgimento</h2>
+            <h2></h2>
             <p>hhhhhhhhhhhhhsssssssshhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
             </p>
         </div>
@@ -58,4 +58,4 @@
     </footer>
 </body>
 
-</html>c:\Users\26175367\Documents\pastaSobre\fundador.css
+</html>
