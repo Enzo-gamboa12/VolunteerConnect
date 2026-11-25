@@ -1,10 +1,19 @@
+<?php
+// Dados do fundador armazenados em variáveis
+$nomeFundador   = "Gustavo Fazani";
+$cargoResumo    = "Idealizador.";
+$fotoFundador   = "imagens/gustavo.webp";
+$tituloSecao    = "Cargo:";
+$descricaoBio   = "Como Idealizador da VolunteerConnect, Gustavo é o responsável por manter viva a essência, o propósito e a visão de impacto social do projeto, guiando os rumos da plataforma para atender às reais necessidades das comunidades. A ideia da empresa nasceu da sua vontade de tornar o voluntariado mais acessível, direto e confiável, eliminando a distância entre quem quer fazer o bem e as instituições que precisam de apoio. A partir dessa inquietação, reuniu a equipe fundadora e deu início ao conceito da VolunteerConnect, transformando o desejo de ajudar em uma ponte real de solidariedade.";
+$anoAtual       = date("Y");
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fundadores</title>
+    <title><?php echo $nomeFundador; ?> - Fundadores</title>
     <link rel="stylesheet" href="css/fundador.css">
 </head>
 
@@ -27,29 +36,26 @@
         </div>
     </header>
 
-    <!-- CARD: SURGIMENTO -->
     <section class="card-secao">
-        <!-- Bloco Superior: Imagem e Nome lado a lado -->
         <div class="perfil-topo">
-            <img class="imagem-card" src="imagens/gustavo.webp" alt="antonio-fundador">
+            <img class="imagem-card" src="<?php echo $fotoFundador; ?>" alt="<?php echo $nomeFundador; ?>">
             <div class="nomeie">
-                <h1>Guatavo Fazani</h1>
-                <small>Idealizador.</small>
+                <h1><?php echo $nomeFundador; ?></h1>
+                <small><?php echo $cargoResumo; ?></small>
             </div>
         </div>
 
-        <!-- Bloco Inferior: Surgimento e texto abaixo -->
         <div class="perfil-baixo">
-            <h2>Cargo:</h2>
-            <p>Como Idealizador da VolunteerConnect, Gustavo é o responsável por manter viva a essência, o propósito e a visão de impacto social do projeto, guiando os rumos da plataforma para atender às reais necessidades das comunidades. A ideia da empresa nasceu da sua vontade de tornar o voluntariado mais acessível, direto e confiável, eliminando a distância entre quem quer fazer o bem e as instituições que precisam de apoio. A partir dessa inquietação, reuniu a equipe fundadora e deu início ao conceito da VolunteerConnect, transformando o desejo de ajudar em uma ponte real de solidariedade.</p>
+            <h2><?php echo $tituloSecao; ?></h2>
+            <p><?php echo $descricaoBio; ?></p>
         </div>
     </section>
 
     <footer class="rodape-simples">
         <div class="rodape-conteudo">
-            <p>&copy; 2026 Volunter Conect. Todos os direitos reservados.</p>
+            <p>&copy; <?php echo $anoAtual; ?> VolunteerConnect. Todos os direitos reservados.</p>
             <ul class="rodape-links">
-                <li><a href="#">Sobre Nós</a></li>
+                <li><a href="sobre.php">Sobre Nós</a></li>
                 <li><a href="#">Termos de Uso</a></li>
                 <li><a href="#">Política de Privacidade</a></li>
             </ul>
