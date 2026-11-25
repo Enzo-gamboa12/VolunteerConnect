@@ -42,25 +42,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = "Tipo de acesso inválido.";
     } else {
         $tabela = $tabelasPermitidas[$tipo];
-        $usuario = read($pdo, $tabela, 'email = ?', [$email]);
+        $conta = read($pdo, $tabela, 'email = ?', [$email]);
 
-        $senhaBanco = $usuario['senha'] ?? null;
-        $senhaValida = $usuario
+        $senhaBanco = $conta['senha'] ?? null;
+        $senhaValida = $conta
             && $senhaBanco !== null
             && $senhaBanco !== ''
             && ($senha === $senhaBanco || password_verify($senha, $senhaBanco));
 
         if ($senhaValida) {
             session_regenerate_id(true);
-            $_SESSION['tipo_usuario'] = $tipo;
+            $_SESSION['tipo_conta'] = $tipo;
 
             if ($tipo === 'voluntario') {
-                $_SESSION['id_voluntario']   = $usuario['id'];
-                $_SESSION['nome_voluntario'] = $usuario['nome'];
+                $_SESSION['id_voluntario']   = $conta['id'];
+                $_SESSION['nome_voluntario'] = $conta['nome'];
                 header("Location: painel-voluntario.php");
             } else {
-                $_SESSION['id_instituicao']   = $usuario['id'];
-                $_SESSION['nome_instituicao'] = $usuario['nome'];
+                $_SESSION['id_instituicao']   = $conta['id'];
+                $_SESSION['nome_instituicao'] = $conta['nome'];
                 header("Location: painel-instituicao.php");
             }
             exit;
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar | VolunteerConnect</title>
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 
 <body>

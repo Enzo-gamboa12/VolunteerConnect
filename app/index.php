@@ -2,27 +2,6 @@
 
 declare(strict_types=1);
 
-/** Evita que valores vindos do banco sejam interpretados como HTML. */
-function indexEsc(mixed $valor): string
-{
-    return htmlspecialchars((string)($valor ?? ''), ENT_QUOTES, 'UTF-8');
-}
-
-/** Gera as iniciais para o avatar do usuário exibido no cabeçalho. */
-function indexIniciais(string $nome): string
-{
-    $partes = preg_split('/\s+/', trim($nome), -1, PREG_SPLIT_NO_EMPTY);
-
-    if (!$partes) {
-        return 'VC';
-    }
-
-    $primeira = substr($partes[0], 0, 1);
-    $ultima = count($partes) > 1 ? substr($partes[count($partes) - 1], 0, 1) : '';
-
-    return strtoupper($primeira . $ultima);
-}
-
 $erroBanco = false;
 $conta = false;
 $campanhas = [];
@@ -38,20 +17,17 @@ try {
      * Só existe uma conta conectada quando o login definiu os dados da sessão.
      * Sem essas informações, a página não assume uma conta demonstrativa.
      */
+
     $contaConectada = false;
     $tipoConta = $_SESSION['tipo_conta'] ?? null;
-    $idConta = filter_var($_SESSION['id_conta'] ?? null, FILTER_VALIDATE_INT);
 
-    if (
-        in_array($tipoConta, ['instituicao', 'voluntario'], true)
-        && $idConta !== false
-        && $idConta !== null
-        && $idConta > 0
-    ) {
-        $tabelaConta = $tipoConta === 'voluntario' ? 'voluntarios' : 'instituicoes';
-
-        // READ: busca o registro da conta para mostrar o nome no cabeçalho.
-        $conta = read($pdo, $tabelaConta, 'id = ?', [$idConta]);
+    if ($tipoConta === 'voluntario' && isset($_SESSION['id_voluntario'])) {
+        $idConta = (int) $_SESSION['id_voluntario'];
+        $conta = read($pdo, 'voluntarios', 'id = ?', [$idConta]);
+        $contaConectada = is_array($conta) && !empty($conta);
+    } elseif ($tipoConta === 'instituicao' && isset($_SESSION['id_instituicao'])) {
+        $idConta = (int) $_SESSION['id_instituicao'];
+        $conta = read($pdo, 'instituicoes', 'id = ?', [$idConta]);
         $contaConectada = is_array($conta) && !empty($conta);
     }
 
@@ -64,7 +40,7 @@ try {
     $campanhasDestaque = array_slice(
         array_values(array_filter(
             $campanhas,
-            static fn (array $campanha): bool => ($campanha['status'] ?? '') === 'ativa'
+            static fn (array $campanha): bool => ($campanha['status'] ?? '') === 'Ativa'
         )),
         0,
         3
@@ -88,31 +64,47 @@ $areas = [
     'tecnologia' => 'Tecnologia',
     'educacao' => 'Educação',
 ];
+
+if ($contaConectada && $tipoConta === 'voluntario') {
+    $linkMeuPainel = 'painel-voluntario.php';
+} elseif ($contaConectada && $tipoConta === 'instituicao') {
+    $linkMeuPainel = 'painel-instituicao.php';
+} else {
+    $linkMeuPainel = 'cadastro.php';
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="/css/index.css">
     <title>VolunteerConnect | Página inicial</title>
 </head>
 <body>
     <header class="cabecalho">
         <a class="link-logo" href="index.php">
-            <img class="logo" src="imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
+            <img class="logo" src="/imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
             <span>Volunteer<span>Connect</span></span>
         </a>
 
         <nav class="menu">
             <a href="oportunidades.php">Encontre Oportunidades</a>
+            <a href="<?= $linkMeuPainel ?>">Meu Painel</a>
             <a href="sobre.php">Sobre Nós</a>
         </nav>
 
         <?php if ($contaConectada): ?>
-            <div class="menu-usuario" title="Conta exibida a partir do banco de dados">
-                <span class="avatar-usuario"><?= indexEsc($iniciaisConta) ?></span>
-                <span><?= indexEsc($nomeConta) ?></span>
+            <?php 
+                $linkPainel = ($tipoConta === 'voluntario') 
+                    ? 'painel-voluntario.php' 
+                    : 'painel-instituicao.php'; 
+            ?>
+            <div class="menu-usuario" title="Ir para o meu painel">
+                <a href="<?= $linkPainel ?>">
+                    <span class="avatar-usuario"><?= indexEsc($iniciaisConta) ?></span>
+                    <span><?= indexEsc($nomeConta) ?></span>
+                </a>
             </div>
         <?php else: ?>
             <div class="acoes-autenticacao" aria-label="Acesso à conta">

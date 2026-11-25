@@ -2,14 +2,37 @@
 
 require_once __DIR__ . "/init.php";
 
-$voluntario = read($pdo, 'voluntarios', 'id = ?', [$_SESSION['id_voluntario']]);
-$proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'Aguardando']);
-$participacoes_andamento = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'Andamento']);
-$historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'Finalizado']);
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Impede o navegador de guardar a página em cache (evita voltar após sair)
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+
+// VERIFICAÇÃO: Só permite entrar se estiver logado como voluntário
+if (($_SESSION['tipo_conta'] ?? '') !== 'voluntario' || empty($_SESSION['id_voluntario'])) {
+    header("Location: login.php?erro=acesso_negado");
+    exit;
+}
+
+$idVoluntario = (int) $_SESSION['id_voluntario'];
+$voluntario   = read($pdo, 'voluntarios', 'id = ?', [$idVoluntario]);
+
+// Se o ID da sessão não existir mais no banco, encerra a sessão
+if (!$voluntario) {
+    header("Location: index.php");
+    exit;
+}
+
+$proximas_participacoes  = readAll($pdo, 'inscricoes_por_voluntario', 'id_voluntario = ? AND status = ?', [$idVoluntario, 'Aguardando']) ?: [];
+$participacoes_andamento = readAll($pdo, 'inscricoes_por_voluntario', 'id_voluntario = ? AND status = ?', [$idVoluntario, 'Andamento']) ?: [];
+$historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario', 'id_voluntario = ? AND status = ?', [$idVoluntario, 'Finalizado']) ?: [];
 $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'));
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -36,7 +59,7 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
         <a href="painel-voluntario.php">
             <div class="menu-usuario">
                 <span class="avatar-usuario"><?= indexIniciais($voluntario['nome']) ?></span>
-                <span><?= $voluntario['nome']; ?></span>
+                <span><?= htmlspecialchars($voluntario['nome']) ?></span>
             </div>
         </a>
     </header>
@@ -45,7 +68,7 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
         <aside class="menu-lateral">
             <div class="bloco-perfil">
                 <span class="avatar-perfil"><?= indexIniciais($voluntario['nome']) ?></span>
-                <strong><?= $voluntario['nome']; ?></strong>
+                <strong><?= htmlspecialchars($voluntario['nome']) ?></strong>
             </div>
 
             <span class="rotulo-lateral">MENU PRINCIPAL</span>
@@ -66,7 +89,7 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
         <div class="conteudo-painel">
             <header class="topo-boas-vindas">
                 <div>
-                    <h1>Olá, <?= $voluntario['nome'] ?>!</h1>
+                    <h1>Olá, <?= htmlspecialchars($voluntario['nome']) ?>!</h1>
                     <p>Boas-vindas ao seu painel.</p>
                 </div>
                 <a class="botao-principal" href="oportunidades.php">Encontrar oportunidades ↗</a>
@@ -129,15 +152,15 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
                         <?php foreach ($proximas_participacoes as $p): ?>
                             <article class="cartao-proximo">
                                 <div class="topo-proximo">
-                                    <span class="categoria-tag"><?= $p['categoria'] ?></span>
-                                        <span class="status status-pendente">A confirmar</span>
+                                    <span class="categoria-tag"><?= htmlspecialchars($p['categoria']) ?></span>
+                                    <span class="status status-pendente">A confirmar</span>
                                 </div>
 
-                                <h3><?= $p['nome_campanha'] ?></h3>
-                                <small class="nome-instituicao"><?= $p['nome_instituicao'] ?></small>
+                                <h3><?= htmlspecialchars($p['nome_campanha']) ?></h3>
+                                <small class="nome-instituicao"><?= htmlspecialchars($p['nome_instituicao']) ?></small>
 
                                 <div class="detalhes-proximo">
-                                    <time datetime="<?= $p['data_inicio'] ?>">
+                                    <time datetime="<?= htmlspecialchars($p['data_inicio']) ?>">
                                          <?= date('d/m/Y', strtotime($p['data_inicio'])) ?>
                                     </time>
                                     <span>⏱ 
@@ -168,34 +191,34 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
 
                 <div class="container-tabela">
                     <?php if (empty($historico_participacoes)): ?>
-                            <p>Você ainda não concluiu nenhuma campanha.</p><br>
+                        <p>Você ainda não concluiu nenhuma campanha.</p><br>
                     <?php else: ?>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Ação</th>
-                                <th>Instituição</th>
-                                <th>Data</th>
-                                <th>Horas</th>
-                                <th>Situação</th>
-                                <th>Certificado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($historico_participacoes as $h): ?>
-                            <tr>
-                                <td><strong><?= $h['nome_campanha'] ?></strong></td>
-                                <td><?= $h['nome_instituicao'] ?></td>
-                                <td><?= date('d/m/Y', strtotime($p['data_inicio'])) ?></time></td>
-                                <td><?= $h['horas'] ?></td>
-                                <td><span class="status status-concluido">Concluída</span></td>
-                                <td><a class="link-texto" href="#historico">Visualizar</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <a class="link-texto" href="#historico">Ver histórico completo ↗</a>
-                    <?php endforeach;
-                    endif; ?>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ação</th>
+                                    <th>Instituição</th>
+                                    <th>Data</th>
+                                    <th>Horas</th>
+                                    <th>Situação</th>
+                                    <th>Certificado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($historico_participacoes as $h): ?>
+                                    <tr>
+                                        <td><strong><?= htmlspecialchars($h['nome_campanha']) ?></strong></td>
+                                        <td><?= htmlspecialchars($h['nome_instituicao']) ?></td>
+                                        <td><?= date('d/m/Y', strtotime($h['data_inicio'])) ?></td>
+                                        <td><?= $h['horas'] ?></td>
+                                        <td><span class="status status-concluido">Concluída</span></td>
+                                        <td><a class="link-texto" href="#historico">Visualizar</a></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <a class="link-texto" href="#historico">Ver histórico completo ↗</a>
+                    <?php endif; ?>
                 </div>
             </section>
         </div>
@@ -205,6 +228,15 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
         <p>© 2026 VolunteerConnect</p>
         <p>Feito para conectar boas ideias a boas atitudes.</p>
     </footer>
+
+    <script>
+        // Força recarregar se o usuário clicar na seta "Voltar" do navegador após sair
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
 </body>
 
 </html>

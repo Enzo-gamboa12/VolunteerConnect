@@ -70,7 +70,7 @@ a {
   gap: 0.6rem;
   font-weight: 700;
   font-size: 1.2rem;
-  color: var(--cor-branco);
+  color: #ffffff;
 }
 
 .link-logo .logo {
@@ -88,14 +88,14 @@ a {
 }
 
 .menu a {
-  color: var(--cor-link-cabecalho);
+  color: #d5e5e8;
   font-size: 0.95rem;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 .menu a:hover {
-  color: var(--cor-branco);
+  color: #ffffff;
 }
 
 .menu-usuario {
@@ -113,6 +113,21 @@ a {
 .menu-usuario:hover {
   background: rgba(255, 255, 255, 0.15);
 }
+
+.avatar-usuario, 
+.avatar-perfil {
+  background-color: var(--cor-secundaria);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
 
 .acoes-autenticacao {
   display: flex;
