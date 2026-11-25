@@ -31,7 +31,7 @@
     <section class="card-secao">
         <!-- Bloco Superior: Imagem e Nome lado a lado -->
         <div class="perfil-topo">
-            <img class="imagem-card" src="imagens/antonio-fundador.png" alt="antonio-fundador">
+            <img class="imagem-card" src="imagens/antonio-fundador.jpg" alt="antonio-fundador">
             <div class="nomeie">
                 <h1>Antonio Gabriel</h1>
                 <small>Desenvolverdor do Sistema.</small>
@@ -40,8 +40,8 @@
 
         <!-- Bloco Inferior: Surgimento e texto abaixo -->
         <div class="perfil-baixo">
-            <h2>Surgimento</h2>
-            <p>hhhhhhhhhhhhhsssssssshsadfsdfshhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+            <h2>Cargo:</h2>
+            <p>Como Desenvolvedor do Sistema da VolunteerConnect, Antonio atua na construção da estrutura técnica, na lógica de funcionamento e na integração das funcionalidades que tornam a plataforma rápida, segura e intuitiva para usuários e instituições. Ele chegou ao projeto motivado pelo desafio de usar a programação como ferramenta de transformação social, vendo na tecnologia o meio ideal para escalar ações solidárias. Desde os primeiros protótipos, dedicou-se a tirar a ideia do papel em forma de código, garantindo que cada recurso desenvolvido facilitasse o encontro entre voluntários e causas sociais.
             </p>
         </div>
     </section>

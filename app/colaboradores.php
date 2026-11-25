@@ -33,8 +33,8 @@
         <section class="card-secao-categoria"><!--comentario-->
             <!--AUMENTAR A LOGO ANTES DOS CADS-->
             <div class="colaboradores-titulo">
-                
-                <h1>Colaboradores da VolunteerConnect</h1>
+
+                <h1>Liderança da VolunteerConnect</h1>
 
             </div>
 
@@ -42,8 +42,8 @@
             <div class="grid-produtos">
 
                 <div class="card-produto">
-                    <img src="imagens/antonio-fundador.png" alt="">
-                    <h3>Enzo Gamboa</h3>
+                    <a href="fundador.php"><img src="imagens/enzo.webp" alt="">
+                    <h3>Enzo Gamboa</h3></a>
                     <p>Gerente da VolunteerConnect.</p>
 
                     <a href="fundador.php" class="link-clean"> Ver a Bio</a>
@@ -51,15 +51,17 @@
 
 
                 <div class="card-produto">
-                    <img src="imagens/antonio-fundador.png" alt="lider">
-                    <h3>Nichollas Mastropietro</h3>
+                <a href="fundador1.php">    
+                <h3>Nichollas Mastropietro</h3></a>
                     <p>Diretor da VolunteerConnect</p>
 
                     <a href="fundador1.php" class="link-clean">Ver a Bio</a>
                 </div>
 
                 <div class="card-produto">
-                    <img src="imagens/antonio-fundador.png" alt="lider">
+                    <a href="fundador2.php">
+                        <img src="imagens/gustavo.webp" alt="lider">
+                    </a>
                     <h3>Gustavo Fazini</h3>
                     <p>Idealizador da voluteer connect.</p>
 
@@ -73,16 +75,17 @@
             <div class="grid-produtos">
 
                 <div class="card-produto">
-                    <img src="imagens/antonio-fundador.png" alt="">
+                    <a href="fundador3.php">
+                    <img src="imagens/antonio-fundador.jpg" alt=""></a>
                     <h3>Antonio Gabriel</h3>
                     <p>Densenvolvedor da VolunteerConnect.</p>
-
                     <a href="fundador3.php" class="link-clean">Ver a Bio</a>
                 </div>
 
 
                 <div class="card-produto">
-                    <img src="imagens/antonio-fundador.png" alt="lider">
+                    <a href="fundador4.php">
+                    <img src="imagens/nycolas.webp" alt="lider"></a>
                     <h3>Nycolas Campos </h3>
                     <p>Desenvolverdor da VolunteerConnect.</p>
 

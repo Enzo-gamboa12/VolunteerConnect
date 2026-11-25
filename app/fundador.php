@@ -31,7 +31,7 @@
     <section class="card-secao">
         <!-- Bloco Superior: Imagem e Nome lado a lado -->
         <div class="perfil-topo">
-            <img class="imagem-card" src="imagens/antonio-fundador.png" alt="antonio-fundador">
+            <img class="imagem-card" src="imagens/enzo.webp" alt="antonio-fundador">
             <div class="nomeie">
                 <h1>Enzo Gamboa</h1>
                 <small>Gerente, Diretor , Coordernador.</small>
@@ -40,9 +40,9 @@
 
         <!-- Bloco Inferior: Surgimento e texto abaixo -->
         <div class="perfil-baixo">
-            <h2></h2>
-            <p>hhhhhhhhhhhhhsssssssshhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-            </p>
+            <h2>Cargo:</h2>
+            <p>
+                Como Gerente, Diretor e Coordenador da VolunteerConnect, Enzo é responsável por liderar o planejamento estratégico, organizar as operações da equipe e garantir que cada projeto saia do papel com eficiência e propósito. Sua trajetória na empresa começou ao perceber a dificuldade que muitas instituições sociais enfrentavam para organizar demandas e alcançar pessoas dispostas a ajudar. Unindo visão de liderança e foco em gestão, assumiu a coordenação geral do projeto para transformar uma ideia solidária em uma plataforma estruturada, capaz de conectar voluntários e instituições de forma prática e transparente.</p>
         </div>
     </section>
 

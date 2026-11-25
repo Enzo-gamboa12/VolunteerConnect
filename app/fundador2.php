@@ -31,7 +31,7 @@
     <section class="card-secao">
         <!-- Bloco Superior: Imagem e Nome lado a lado -->
         <div class="perfil-topo">
-            <img class="imagem-card" src="imagens/antonio-fundador.png" alt="antonio-fundador">
+            <img class="imagem-card" src="imagens/gustavo.webp" alt="antonio-fundador">
             <div class="nomeie">
                 <h1>Guatavo Fazani</h1>
                 <small>Idealizador.</small>
@@ -40,9 +40,8 @@
 
         <!-- Bloco Inferior: Surgimento e texto abaixo -->
         <div class="perfil-baixo">
-            <h2>Surgimento</h2>
-            <p>hhhhhhhhhhhhhsssssssshsadfsdfshhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-            </p>
+            <h2>Cargo:</h2>
+            <p>Como Idealizador da VolunteerConnect, Gustavo é o responsável por manter viva a essência, o propósito e a visão de impacto social do projeto, guiando os rumos da plataforma para atender às reais necessidades das comunidades. A ideia da empresa nasceu da sua vontade de tornar o voluntariado mais acessível, direto e confiável, eliminando a distância entre quem quer fazer o bem e as instituições que precisam de apoio. A partir dessa inquietação, reuniu a equipe fundadora e deu início ao conceito da VolunteerConnect, transformando o desejo de ajudar em uma ponte real de solidariedade.</p>
         </div>
     </section>
 

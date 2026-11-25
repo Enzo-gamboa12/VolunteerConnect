@@ -112,11 +112,14 @@ a {
 /* Grid ajustado para 4 colunas */
 .grid-produtos {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   grid-template-columns: repeat(4, 1fr);
   /* Muda de 2 para 3 colunas */
-  gap: 50px;
+  gap: 32px;
   /* Centraliza o grid na tela */
+  max-width: 1100px;
+  margin: 0 auto;
   box-sizing: border-box;
   /* Garante que o padding não faça o grid vazar da tela */
   padding: 20px;
@@ -125,7 +128,7 @@ a {
 /* O card agora é transparente e sem padding interno */
 .card-produto {
   background-color: transparent;
-  height: 700px;
+  height: auto;
   width: 300px;
   text-align: left;
   /* Alinhamento à esquerda, como na Meta */
@@ -133,11 +136,20 @@ a {
   flex-direction: column;
 }
 
+/* Garante que o link (href) ao redor da imagem respeite a largura do card */
+.card-produto a:has(img) {
+  display: block;
+  width: 100%;
+}
+
 /* Ajuste das imagens (foco principal do design da Meta) */
 .card-produto img {
-  aspect-ratio: 5px;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
   /* Garante que todas as fotos tenham a mesma proporção (retrato) */
   object-fit: cover;
+  object-position: top center;
   border-radius: 16px;
   /* Cantos arredondados iguais aos da Meta */
   border: none;

@@ -31,7 +31,7 @@
     <section class="card-secao">
         <!-- Bloco Superior: Imagem e Nome lado a lado -->
         <div class="perfil-topo">
-            <img class="imagem-card" src="imagens/antonio-fundador.png" alt="antonio-fundador">
+            <img class="imagem-card" src="imagens/nycolas.webp" alt="antonio-fundador">
             <div class="nomeie">
                 <h1>Nycolas Campos</h1>
                 <small>Desenvolvedor do Sistema.</small>
@@ -40,8 +40,8 @@
 
         <!-- Bloco Inferior: Surgimento e texto abaixo -->
         <div class="perfil-baixo">
-            <h2>Surgimento</h2>
-            <p>hhhhhhhhhhhhhsssssssshsadfsdfshhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+            <h2>Cargo</h2>
+            <p>Como Desenvolvedor do Sistema da VolunteerConnect, Nycolas trabalha diretamente na implementação de soluções, na organização das interfaces e no aprimoramento contínuo da experiência de navegação da plataforma. Sua chegada à equipe aconteceu pela paixão por desenvolvimento web e pelo interesse em participar de um projeto com impacto positivo real na sociedade. Junto ao time técnico, contribuiu desde o início da construção do sistema, transformando requisitos e ideias em páginas funcionais que aproximam instituições e voluntários no dia a dia.
             </p>
         </div>
     </section>
