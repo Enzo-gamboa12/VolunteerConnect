@@ -1,16 +1,15 @@
 <?php
-
 require_once __DIR__ . "/init.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Impede o navegador de guardar a página em cache (evita voltar após sair)
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+// Bloqueia qualquer tipo de cache no navegador (inclusive cache do botão Voltar)
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0, private");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+header("Expires: 0");
 
 // VERIFICAÇÃO: Só permite entrar se estiver logado como voluntário
 if (($_SESSION['tipo_conta'] ?? '') !== 'voluntario' || empty($_SESSION['id_voluntario'])) {
@@ -31,6 +30,8 @@ $proximas_participacoes  = readAll($pdo, 'inscricoes_por_voluntario', 'id_volunt
 $participacoes_andamento = readAll($pdo, 'inscricoes_por_voluntario', 'id_voluntario = ? AND status = ?', [$idVoluntario, 'Andamento']) ?: [];
 $historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario', 'id_voluntario = ? AND status = ?', [$idVoluntario, 'Finalizado']) ?: [];
 $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'));
+$meta_horas = 100;
+$porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $meta_horas) * 100)) : 0;
 
 ?>
 <!DOCTYPE html>
@@ -51,9 +52,9 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
         </a>
 
         <nav class="menu">
-            <a href="inicio.php">Início</a>
+            <a href="oportunidades.php">Encontre Oportunidades</a>
+            <a href="<?= $linkMeuPainel ?>">Meu Painel</a>
             <a href="sobre.php">Sobre Nós</a>
-            <a href="index.php#como-funciona">Como funciona</a>
         </nav>
 
         <a href="painel-voluntario.php">
@@ -75,14 +76,11 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
             <a class="item-menu ativo" href="painel-voluntario.php">Visão Geral</a>
             <a class="item-menu" href="#proximos">Futuras Participações</a>
             <a class="item-menu" href="#historico">Histórico</a>
-
-            <span class="rotulo-lateral">CONTA</span>
-            <a class="item-menu" href="cadastro.php">Meu Cadastro</a>
-            <a class="item-menu" href="logout.php">Sair</a>
+            <a class="item-menu" id="botao-sair" href="logout.php">Sair</a>
 
             <div class="caixa-ajuda">
                 <p>Precisa de ajuda?</p>
-                <a href="mailto:ajuda@volunteerconnect.org">Fale com a gente!</a>
+                <a href="suporte@volunteerconnect.org">Fale com a gente ↗</a>
             </div>
         </aside>
 
@@ -116,18 +114,18 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
                         <div>
                             <span class="chapeu-titulo">SUA META ANUAL</span>
                         </div>
-                        <span class="status status-ativo">Em andamento</span>
+                        <span class="status status-ativo"><?= $porcentagem_meta >= 100 ? 'Concluída!' : 'Em andamento' ?></span>
                     </header>
                     <div class="numero-meta">
                         <strong><?= $horas_voluntariado ?>h</strong>
-                        <span>de 100 horas</span>
+                        <span>de <?= $meta_horas ?> horas</span>
                     </div>
                     <div class="barra-progresso">
-                        <span style="width: 86%;"></span>
+                        <span style="width: <?= $porcentagem_meta ?>%;"></span>
                     </div>
                     <footer class="rodape-meta">
-                        <span>Você já completou 86% da sua meta.</span>
-                        <strong>86%</strong>
+                        <span>Você já completou <?= $porcentagem_meta ?>% da sua meta.</span>
+                        <strong><?= $porcentagem_meta ?>%</strong>
                     </footer>
                 </section>
             </div>
@@ -228,15 +226,6 @@ $horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'))
         <p>© 2026 VolunteerConnect</p>
         <p>Feito para conectar boas ideias a boas atitudes.</p>
     </footer>
-
-    <script>
-        // Força recarregar se o usuário clicar na seta "Voltar" do navegador após sair
-        window.addEventListener('pageshow', function (event) {
-            if (event.persisted) {
-                window.location.reload();
-            }
-        });
-    </script>
 </body>
 
 </html>

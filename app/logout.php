@@ -3,10 +3,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Limpa todas as variáveis da sessão
 $_SESSION = [];
 
-// Apaga o cookie da sessão no navegador
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(
@@ -20,8 +18,6 @@ if (ini_get("session.use_cookies")) {
     );
 }
 
-// Destrói a sessão no servidor
 session_destroy();
-
-header("Location: index.php");
+header("Location: login.php");
 exit;

@@ -29,9 +29,9 @@ $horas_doadas = array_sum(array_merge(array_column($campanhas_finalizadas, 'hora
         </a>
 
         <nav class="menu">
-            <a href="inicio.php">Início</a>
+            <a href="oportunidades.php">Encontre Oportunidades</a>
+            <a href="<?= $linkMeuPainel ?>">Meu Painel</a>
             <a href="sobre.php">Sobre Nós</a>
-            <a href="index.php#como-funciona">Como funciona</a>
         </nav>
 
         <a href="painel-instituicao.php">
@@ -49,19 +49,16 @@ $horas_doadas = array_sum(array_merge(array_column($campanhas_finalizadas, 'hora
                 <strong><?= $instituicao['nome'] ?></strong>
             </div>
 
-            <span class="rotulo-lateral">GESTÃO</span>
+            <span class="rotulo-lateral">MENU PRINCIPAL</span>
             <a class="item-menu ativo" href="painel-instituicao.php">Visão Geral</a>
             <a class="item-menu" href="#campanhas-ativas">Atuais Campanhas</a>
             <a class="item-menu" href="#campanhas-finalizadas">Campanhas Encerradas</a>
             <a class="item-menu" href="#participantes">Participantes</a>
-
-            <span class="rotulo-lateral">CONTA</span>
-            <a class="item-menu" href="cadastro.php">Dados da Instituição</a>
-            <a class="item-menu" href="logout.php">Sair</a>
+            <a class="item-menu" id="botao-sair" href="logout.php">Sair</a>
 
             <div class="caixa-ajuda">
                 <p>Precisa de ajuda?</p>
-                <a href="mailto:ajuda@volunteerconnect.org">Fale com a gente ↗</a>
+                <a href="suporte@volunteerconnect.org">Fale com a gente ↗</a>
             </div>
         </aside>
 
@@ -71,7 +68,7 @@ $horas_doadas = array_sum(array_merge(array_column($campanhas_finalizadas, 'hora
                     <h1>Olá, <?= $instituicao['nome'] ?>!</h1>
                     <p>Boas-vindas ao seu painel.</p>
                 </div>
-                <a class="botao-principal" href="cadastro.php#nova-campanha">+ Nova campanha</a>
+                <a class="botao-principal" href="campanha.php">+ Nova campanha</a>
             </header>
 
             <section class="grade-estatisticas">
@@ -99,7 +96,7 @@ $horas_doadas = array_sum(array_merge(array_column($campanhas_finalizadas, 'hora
                 <div class="container-tabela">
                     <?php if (empty($campanhas_ativas)): ?>
                         <p>Não há nenhuma campanha ativa no momento.</p><br>
-                        <a class='botao-principal' href='cadastro.php#nova-campanha'>+ Nova campanha</a>
+                        <a class='botao-principal' href='campanha.php'>+ Nova campanha</a>
                     <?php else: ?>
                         <table>
                         <thead>
@@ -119,7 +116,7 @@ $horas_doadas = array_sum(array_merge(array_column($campanhas_finalizadas, 'hora
                                 <td><?= date('d/m/Y', strtotime($c['data_inicio'])) ?> a <?= date('d/m/Y', strtotime($c['data_termino'])) ?></td>
                                 <td><?= $c['horario']?></td>
                                 <td><?= $c['vagas']?>/<?= $c['vagasTotais']?></td>
-                                <td><a href="detalhes.php?id=<?= $c['id_campanha']?>">Ver mais</a></td>
+                                <td><a class="link-texto" href="editar-campanha.php?id=<?= $c['id_campanha'] ?>">Veja Mais</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -137,36 +134,39 @@ $horas_doadas = array_sum(array_merge(array_column($campanhas_finalizadas, 'hora
                 </header>
                 
                 <div class="container-tabela">
-                        <?php if (empty($campanhas_finalizadas)): ?>
-                            <p>Nenhuma campanha foi encerrada até o momento.</p><br>
-                        <?php else: ?>
-                            <table>
+                    <?php if (empty($campanhas_finalizadas)): ?>
+                        <p>Nenhuma campanha foi encerrada até o momento.</p><br>
+                    <?php else: ?>
+                        <table>
                             <thead>
-                            <tr>
-                            <th>Campanha</th>
-                            <th>Período</th>
-                            <th>Vagas</th>
-                            <th>Situação</th>
-                            <th>Ações</th>
-                            </tr>
+                                <tr>
+                                    <th>Campanha</th>
+                                    <th>Período</th>
+                                    <th>Vagas Preenchidas</th>
+                                    <th>Situação</th>
+                                </tr>
                             </thead>
-                            <tbody>"
-
-                            <?php foreach ($campanhas_finalizadas as $cf): ?>
-                                <tr>;
-                                <td><strong><?= $cf['nome_campanha'] ?></strong><small><?= $cf['area'] ?></small></td>;
-                                <td><?= $cf['data_inicio'] ?> a <?= $cf['data_fim'] ?></td>;
-                                <td><?= $cf['vagas_ocupadas']?>/<?= $cf['vagas_totais'] ?></td>;
-                                <td><?php if (['status'] == 'Encerrado'): ?><span class="status status-encerrado">Encerrada</span>
-                                    <?php elseif (['status'] == 'Cancelado'): ?><span class="status status-cancelado">Cancelado</span></td>;
-                                    <?php endif ?>
-                                <td><a href="#campanhas">Relatório Final</a></td>
-                                </tr>;
-                            </tbody>;
-                        </table>;
-                        <?php endforeach;
-                        endif; ?>
-                    </div>
+                            <tbody>
+                                <?php foreach ($campanhas_finalizadas as $cf): ?>
+                                    <tr>
+                                        <td><strong><?= htmlspecialchars($cf['nome_campanha']) ?></strong><small><?= htmlspecialchars($cf['area']) ?></small></td>
+                                        <td><?= date('d/m/Y', strtotime($cf['data_inicio'])) ?> a <?= date('d/m/Y', strtotime($cf['data_termino'])) ?></td>
+                                        <td><?= $cf['vagas'] ?>/<?= $cf['vagasTotais'] ?></td>
+                                        <td>
+                                            <?php if ($cf['status'] === 'Encerrada'): ?>
+                                                <span class="status status-encerrado">Encerrada</span>
+                                            <?php elseif ($cf['status'] === 'Cancelada' || $cf['status'] === 'Cancelado'): ?>
+                                                <span class="status status-cancelado">Cancelada</span>
+                                            <?php else: ?>
+                                                <span class="status status-encerrado"><?= htmlspecialchars($cf['status']) ?></span>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                </div>
             </section>
 
             <section class="secao-participantes" id="participantes">

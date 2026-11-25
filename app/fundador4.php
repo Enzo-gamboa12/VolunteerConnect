@@ -1,4 +1,53 @@
 <?php
+
+try {
+    // O init.php inicia a sessão, cria a conexão PDO ($pdo) e carrega as funções do CRUD.
+    require_once __DIR__ . '/init.php';
+
+    /*
+     * Só existe uma conta conectada quando o login definiu os dados da sessão.
+     * Sem essas informações, a página não assume uma conta demonstrativa.
+     */
+
+    $contaConectada = false;
+    $tipoConta = $_SESSION['tipo_conta'] ?? null;
+
+    if ($tipoConta === 'voluntario' && isset($_SESSION['id_voluntario'])) {
+        $idConta = (int) $_SESSION['id_voluntario'];
+        $conta = read($pdo, 'voluntarios', 'id = ?', [$idConta]);
+        $contaConectada = is_array($conta) && !empty($conta);
+    } elseif ($tipoConta === 'instituicao' && isset($_SESSION['id_instituicao'])) {
+        $idConta = (int) $_SESSION['id_instituicao'];
+        $conta = read($pdo, 'instituicoes', 'id = ?', [$idConta]);
+        $contaConectada = is_array($conta) && !empty($conta);
+    }
+
+    // READ ALL: carrega as tabelas usadas nos cards e nos indicadores inferiores.
+    $campanhas = readAll($pdo, 'campanhas');
+    $instituicoes = readAll($pdo, 'instituicoes');
+    $voluntarios = readAll($pdo, 'voluntarios');
+
+    // Na área de destaque aparecem somente campanhas que estão ativas.
+    $campanhasDestaque = array_slice(
+        array_values(array_filter(
+            $campanhas,
+            static fn (array $campanha): bool => ($campanha['status'] ?? '') === 'Ativa'
+        )),
+        0,
+        3
+    );
+} catch (Throwable $erro) {
+    // Registra o detalhe no log do PHP sem expor informações do banco na página.
+    error_log('Erro ao carregar os dados da página inicial: ' . $erro->getMessage());
+    $erroBanco = true;
+    $conta = false;
+    $contaConectada = false;
+    $campanhas = [];
+    $campanhasDestaque = [];
+    $instituicoes = [];
+    $voluntarios = [];
+}
+
 // Dados do fundador armazenados em variáveis
 $nomeFundador   = "Nycolas Campos";
 $cargoResumo    = "Desenvolvedor do Sistema.";
@@ -6,6 +55,17 @@ $fotoFundador   = "imagens/nycolas.webp";
 $tituloSecao    = "Cargo:";
 $descricaoBio   = "Como Desenvolvedor do Sistema da VolunteerConnect, Nycolas trabalha diretamente na implementação de soluções, na organização das interfaces e no aprimoramento contínuo da experiência de navegação da plataforma. Sua chegada à equipe aconteceu pela paixão por desenvolvimento web e pelo interesse em participar de um projeto com impacto positivo real na sociedade. Junto ao time técnico, contribuiu desde o início da construção do sistema, transformando requisitos e ideias em páginas funcionais que aproximam instituições e voluntários no dia a dia.";
 $anoAtual       = date("Y");
+
+$nomeConta = $contaConectada ? ($conta['nome'] ?? 'Conta') : '';
+$iniciaisConta = indexIniciais((string)$nomeConta);
+
+if ($contaConectada && $tipoConta === 'voluntario') {
+    $linkMeuPainel = 'painel-voluntario.php';
+} elseif ($contaConectada && $tipoConta === 'instituicao') {
+    $linkMeuPainel = 'painel-instituicao.php';
+} else {
+    $linkMeuPainel = 'cadastro.php';
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -20,22 +80,35 @@ $anoAtual       = date("Y");
 <body>
     <header class="cabecalho">
         <a class="link-logo" href="index.php">
-            <img class="logo" src="imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
+            <img class="logo" src="/imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
             <span>Volunteer<span>Connect</span></span>
         </a>
 
         <nav class="menu">
-            <a href="inicio.php">Início</a>
+            <a href="oportunidades.php">Encontre Oportunidades</a>
+            <a href="<?= $linkMeuPainel ?>">Meu Painel</a>
             <a href="sobre.php">Sobre Nós</a>
-            <a href="index.php#como-funciona">Como funciona</a>
         </nav>
 
-        <div class="menu-usuario">
-            <span class="avatar-usuario">IC</span>
-            <span>Instituto Caminhos</span>
-        </div>
+        <?php if ($contaConectada): ?>
+            <?php 
+                $linkPainel = ($tipoConta === 'voluntario') 
+                    ? 'painel-voluntario.php' 
+                    : 'painel-instituicao.php'; 
+            ?>
+            <div class="menu-usuario" title="Ir para o meu painel">
+                <a href="<?= $linkPainel ?>">
+                    <span class="avatar-usuario"><?= indexEsc($iniciaisConta) ?></span>
+                    <span><?= indexEsc($nomeConta) ?></span>
+                </a>
+            </div>
+        <?php else: ?>
+            <div class="acoes-autenticacao" aria-label="Acesso à conta">
+                <a class="botao-autenticacao" href="login.php">Entrar</a>
+                <a class="botao-autenticacao botao-autenticacao-cadastro" href="cadastro.php">Cadastrar</a>
+            </div>
+        <?php endif; ?>
     </header>
-
     <section class="card-secao">
         <div class="perfil-topo">
             <img class="imagem-card" src="<?php echo $fotoFundador; ?>" alt="<?php echo $nomeFundador; ?>">
