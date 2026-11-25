@@ -117,11 +117,6 @@ a {
   font-size: 0.85rem;
 }
 
-.seta-menu {
-  font-size: 0.8rem;
-  opacity: 0.7;
-}
-
 /* ==========================================================================
    Layout Principal e Barra Lateral
    ========================================================================== */
@@ -202,7 +197,6 @@ a {
 }
 
 .caixa-ajuda {
-  margin-top: auto;
   background-color: var(--cor-card-bg);
   border: 1px solid var(--cor-borda);
   padding: 1rem;
@@ -259,6 +253,7 @@ a {
 }
 
 .botao-principal {
+  display: inline-block;
   background-color: var(--cor-secundaria);
   color: #ffffff;
   padding: 0.75rem 1.4rem;
@@ -272,6 +267,16 @@ a {
 .botao-principal:hover {
   background-color: #35a5b5;
   transform: translateY(-1px);
+}
+
+#botao-sair {
+    color: #dc2626; /* Vermelho para o texto */
+}
+
+/* Efeito opcional ao passar o mouse por cima */
+#botao-sair:hover {
+    background-color: #fee2e2; /* Fundo vermelho bem clarinho */
+    color: #991b1b;            /* Texto vermelho mais escuro */
 }
 
 /* ==========================================================================
@@ -309,7 +314,7 @@ a {
 /* ==========================================================================
    Secções (Campanhas & Participantes)
    ========================================================================== */
-.secao-campanhas, 
+.campanhas-ativas, .campanhas-finalizadas,
 .secao-participantes {
   background-color: var(--cor-card-bg);
   border: 1px solid var(--cor-borda);
@@ -343,6 +348,8 @@ a {
 /* Tabela */
 .container-tabela {
   overflow-x: auto;
+  overflow-y: hidden; 
+  padding-bottom: 0.5rem;
 }
 
 table {
@@ -391,14 +398,14 @@ td small {
   font-weight: 600;
 }
 
-.status-ativo {
+.status-andamento {
   background-color: rgba(43, 182, 150, 0.12);
-  color: #1b7a65;
+  color: #b76e00;
 }
 
-.status-pendente {
+.status-cancelado {
   background-color: #fff4e5;
-  color: #b76e00;
+  color: #b70000;
 }
 
 .status-encerrado {

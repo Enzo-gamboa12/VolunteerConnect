@@ -114,10 +114,7 @@ a {
   font-size: 0.85rem;
 }
 
-.seta-menu {
-  font-size: 0.8rem;
-  opacity: 0.7;
-}
+
 
 /* ==========================================================================
    Layout Principal e Menu Lateral
@@ -275,12 +272,22 @@ main {
   transform: translateY(-1px);
 }
 
+#botao-sair {
+    color: #dc2626; /* Vermelho para o texto */
+}
+
+/* Efeito opcional ao passar o mouse por cima */
+#botao-sair:hover {
+    background-color: #fee2e2; /* Fundo vermelho bem clarinho */
+    color: #991b1b;            /* Texto vermelho mais escuro */
+}
+
 /* ==========================================================================
    Grade de Estatísticas (Adaptada para 4 Colunas do Voluntário)
    ========================================================================== */
 .grade-estatisticas {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.2rem;
 }
 
@@ -301,7 +308,7 @@ main {
 }
 
 .cartao-estatistica strong {
-  font-size: 2rem;
+  font-size: 2.2rem;
   color: var(--cor-principal);
   margin: 0.2rem 0;
   font-weight: 700;
@@ -418,6 +425,14 @@ main {
    Seção de Histórico de Participações
    ========================================================================== */
 .secao-historico {
+  background-color: var(--cor-card-bg);
+  border: 1px solid var(--cor-borda);
+  border-radius: 16px;
+  padding: 1.6rem;
+  box-shadow: var(--sombra-card);
+}
+
+.secao-proximos {
   background-color: var(--cor-card-bg);
   border: 1px solid var(--cor-borda);
   border-radius: 16px;

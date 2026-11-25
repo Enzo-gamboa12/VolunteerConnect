@@ -70,7 +70,7 @@ a {
   gap: 0.6rem;
   font-weight: 700;
   font-size: 1.2rem;
-  color: var(--cor-branco);
+  color: #ffffff;
 }
 
 .link-logo .logo {
@@ -88,14 +88,14 @@ a {
 }
 
 .menu a {
-  color: var(--cor-link-cabecalho);
+  color: #d5e5e8;
   font-size: 0.95rem;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 .menu a:hover {
-  color: var(--cor-branco);
+  color: #ffffff;
 }
 
 .menu-usuario {
@@ -112,6 +112,69 @@ a {
 
 .menu-usuario:hover {
   background: rgba(255, 255, 255, 0.15);
+}
+
+.avatar-usuario, 
+.avatar-perfil {
+  background-color: var(--cor-secundaria);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+
+.acoes-autenticacao {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.botao-autenticacao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cor-link-cabecalho);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.botao-autenticacao:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--cor-branco);
+  transform: translateY(-1px);
+}
+
+.botao-autenticacao-cadastro {
+  background: var(--cor-destaque);
+  border-color: var(--cor-destaque);
+  color: var(--cor-branco);
+}
+
+.botao-autenticacao-cadastro:hover {
+  background: var(--cor-destaque-hover);
+  border-color: var(--cor-destaque-hover);
+}
+
+@media (max-width: 600px) {
+  .acoes-autenticacao {
+      gap: 0.35rem;
+  }
+
+  .botao-autenticacao {
+      padding: 0.4rem 0.7rem;
+      font-size: 0.82rem;
+  }
 }
 
 /* ========================================================================

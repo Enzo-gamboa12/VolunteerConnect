@@ -1,11 +1,39 @@
 <?php
-
 require_once __DIR__ . "/init.php";
 
-$proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_voluntario = ? AND status = ?', [$_SESSION['id_voluntario'], 'aguardando']);
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Bloqueia qualquer tipo de cache no navegador (inclusive cache do botão Voltar)
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0, private");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Expires: 0");
+
+// VERIFICAÇÃO: Só permite entrar se estiver logado como voluntário
+if (($_SESSION['tipo_conta'] ?? '') !== 'voluntario' || empty($_SESSION['id_voluntario'])) {
+    header("Location: login.php?erro=acesso_negado");
+    exit;
+}
+
+$idVoluntario = (int) $_SESSION['id_voluntario'];
+$voluntario   = read($pdo, 'voluntarios', 'id = ?', [$idVoluntario]);
+
+// Se o ID da sessão não existir mais no banco, encerra a sessão
+if (!$voluntario) {
+    header("Location: index.php");
+    exit;
+}
+
+$proximas_participacoes  = readAll($pdo, 'inscricoes_por_voluntario', 'id_voluntario = ? AND status = ?', [$idVoluntario, 'Aguardando']) ?: [];
+$participacoes_andamento = readAll($pdo, 'inscricoes_por_voluntario', 'id_voluntario = ? AND status = ?', [$idVoluntario, 'Andamento']) ?: [];
+$historico_participacoes = readAll($pdo, 'inscricoes_por_voluntario', 'id_voluntario = ? AND status = ?', [$idVoluntario, 'Finalizado']) ?: [];
+$horas_voluntariado = array_sum(array_column($historico_participacoes, 'horas'));
+$meta_horas = 100;
+$porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $meta_horas) * 100)) : 0;
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -24,42 +52,42 @@ $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volunt
         </a>
 
         <nav class="menu">
-            <a href="oportunidades.php">Oportunidades</a>
-            <a href="index.php#como-funciona">Como funciona</a>
+            <a href="oportunidades.php">Encontre Oportunidades</a>
+            <a href="<?= $linkMeuPainel ?>">Meu Painel</a>
+            <a href="sobre.php">Sobre Nós</a>
         </nav>
 
-        <div class="menu-usuario">
-            <span class="avatar-usuario">MA</span>
-            <span>Maria Alves</span>
-        </div>
+        <a href="painel-voluntario.php">
+            <div class="menu-usuario">
+                <span class="avatar-usuario"><?= indexIniciais($voluntario['nome']) ?></span>
+                <span><?= htmlspecialchars($voluntario['nome']) ?></span>
+            </div>
+        </a>
     </header>
 
     <main>
         <aside class="menu-lateral">
             <div class="bloco-perfil">
-                <span class="avatar-perfil">MA</span>
-                <strong>Maria Alves</strong>
+                <span class="avatar-perfil"><?= indexIniciais($voluntario['nome']) ?></span>
+                <strong><?= htmlspecialchars($voluntario['nome']) ?></strong>
             </div>
 
             <span class="rotulo-lateral">MENU PRINCIPAL</span>
             <a class="item-menu ativo" href="painel-voluntario.php">Visão Geral</a>
+            <a class="item-menu" href="#proximos">Futuras Participações</a>
             <a class="item-menu" href="#historico">Histórico</a>
-            <a class="item-menu" href="#conquistas">Conquistas</a>
-
-            <span class="rotulo-lateral">CONTA</span>
-            <a class="item-menu" href="cadastro.php">Meu Cadastro</a>
-            <a class="item-menu" href="index.php">Sair</a>
+            <a class="item-menu" id="botao-sair" href="logout.php">Sair</a>
 
             <div class="caixa-ajuda">
                 <p>Precisa de ajuda?</p>
-                <a href="mailto:ajuda@volunteerconnect.org">Fale com a gente!</a>
+                <a href="suporte@volunteerconnect.org">Fale com a gente ↗</a>
             </div>
         </aside>
 
         <div class="conteudo-painel">
             <header class="topo-boas-vindas">
                 <div>
-                    <h1>Olá, Maria!</h1>
+                    <h1>Olá, <?= htmlspecialchars($voluntario['nome']) ?>!</h1>
                     <p>Boas-vindas ao seu painel.</p>
                 </div>
                 <a class="botao-principal" href="oportunidades.php">Encontrar oportunidades ↗</a>
@@ -68,19 +96,15 @@ $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volunt
             <section class="grade-estatisticas">
                 <article class="cartao-estatistica">
                     <small>Horas de voluntariado</small>
-                    <strong>86 <small>h</small></strong>
+                    <strong><?= $horas_voluntariado ?> <small>h</small></strong>
                 </article>
                 <article class="cartao-estatistica">
                     <small>Ações concluídas</small>
-                    <strong>14</strong>
+                    <strong><?= count($historico_participacoes); ?></strong>
                 </article>
                 <article class="cartao-estatistica">
                     <small>Certificados</small>
-                    <strong>6</strong>
-                </article>
-                <article class="cartao-estatistica">
-                    <small>Pessoas impactadas</small>
-                    <strong>430 <small>+</small></strong>
+                    <strong><?= count($historico_participacoes); ?></strong>
                 </article>
             </section>
 
@@ -88,30 +112,21 @@ $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volunt
                 <section class="cartao-meta" id="conquistas">
                     <header class="topo-meta">
                         <div>
-                            <span class="chapeu-titulo">SUA META DO ANO</span>
-                            <h2>Pequenas horas, grandes mudanças.</h2>
+                            <span class="chapeu-titulo">SUA META ANUAL</span>
                         </div>
-                        <span class="status status-ativo">Em andamento</span>
+                        <span class="status status-ativo"><?= $porcentagem_meta >= 100 ? 'Concluída!' : 'Em andamento' ?></span>
                     </header>
                     <div class="numero-meta">
-                        <strong>86h</strong>
-                        <span>de 100 horas</span>
+                        <strong><?= $horas_voluntariado ?>h</strong>
+                        <span>de <?= $meta_horas ?> horas</span>
                     </div>
                     <div class="barra-progresso">
-                        <span style="width: 86%;"></span>
+                        <span style="width: <?= $porcentagem_meta ?>%;"></span>
                     </div>
                     <footer class="rodape-meta">
-                        <span>Você já completou 86% da sua meta.</span>
-                        <strong>86%</strong>
+                        <span>Você já completou <?= $porcentagem_meta ?>% da sua meta.</span>
+                        <strong><?= $porcentagem_meta ?>%</strong>
                     </footer>
-                </section>
-
-                <section class="cartao-conquista">
-                    <span class="chapeu-titulo">CONQUISTA RECENTE</span>
-                    <div class="icone-conquista">✦</div>
-                    <h2>Mãos que acolhem</h2>
-                    <p>Você completou 10 ações voluntárias. Que venham as próximas!</p>
-                    <a class="link-texto" href="#historico">Ver minhas conquistas ↗</a>
                 </section>
             </div>
 
@@ -135,18 +150,24 @@ $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volunt
                         <?php foreach ($proximas_participacoes as $p): ?>
                             <article class="cartao-proximo">
                                 <div class="topo-proximo">
-                                    <span class="categoria-tag"><?= $p['categoria'] ?></span>
-                                        <span class="status status-pendente">A confirmar</span>
+                                    <span class="categoria-tag"><?= htmlspecialchars($p['categoria']) ?></span>
+                                    <span class="status status-pendente">A confirmar</span>
                                 </div>
 
-                                <h3><?= $p['nome_campanha'] ?></h3>
-                                <small class="nome-instituicao"><?= $p['instituicao'] ?></small>
+                                <h3><?= htmlspecialchars($p['nome_campanha']) ?></h3>
+                                <small class="nome-instituicao"><?= htmlspecialchars($p['nome_instituicao']) ?></small>
 
                                 <div class="detalhes-proximo">
-                                    <time datetime="<?= $p['data_inicio'] ?>">
+                                    <time datetime="<?= htmlspecialchars($p['data_inicio']) ?>">
                                          <?= date('d/m/Y', strtotime($p['data_inicio'])) ?>
                                     </time>
-                                    <span>⏱<?= $p['horas_estimadas'] ?>h estimadas</span>
+                                    <span>⏱ 
+                                        <?php if ($p['horas_trabalhadas'] <= 0): ?>
+                                            Carga horária ainda não definida.
+                                        <?php else: ?>
+                                            <?= $p['horas_trabalhadas'] ?>h estimadas
+                                        <?php endif; ?>
+                                    </span>
                                 </div>
 
                                 <footer class="rodape-proximo">
@@ -162,50 +183,40 @@ $proximas_participacoes = readAll($pdo, 'inscricoes_por_voluntario',  'id_volunt
                 <header class="cabecalho-secao">
                     <div>
                         <span class="chapeu-titulo">SUA TRAJETÓRIA</span>
-                        <h2>Histórico de participações</h2>
+                        <h2>Histórico de Participações</h2>
                     </div>
-                    <a class="link-texto" href="#historico">Ver histórico completo ↗</a>
                 </header>
 
                 <div class="container-tabela">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Ação</th>
-                                <th>Instituição</th>
-                                <th>Data</th>
-                                <th>Horas</th>
-                                <th>Situação</th>
-                                <th>Certificado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Aulas de reforço escolar</strong></td>
-                                <td>Instituto Caminhos</td>
-                                <td><time datetime="2026-11-06">06/11/2026</time></td>
-                                <td>2h</td>
-                                <td><span class="status status-concluido">Concluída</span></td>
-                                <td><a class="link-texto" href="#historico">Visualizar ↗</a></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Campanha do agasalho</strong></td>
-                                <td>Casa Solidária</td>
-                                <td><time datetime="2026-10-25">25/10/2026</time></td>
-                                <td>4h</td>
-                                <td><span class="status status-concluido">Concluída</span></td>
-                                <td><a class="link-texto" href="#historico">Visualizar ↗</a></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Mutirão no parque</strong></td>
-                                <td>Rede Verde do ABC</td>
-                                <td><time datetime="2026-10-11">11/10/2026</time></td>
-                                <td>3h</td>
-                                <td><span class="status status-pendente">Em validação</span></td>
-                                <td>—</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <?php if (empty($historico_participacoes)): ?>
+                        <p>Você ainda não concluiu nenhuma campanha.</p><br>
+                    <?php else: ?>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ação</th>
+                                    <th>Instituição</th>
+                                    <th>Data</th>
+                                    <th>Horas</th>
+                                    <th>Situação</th>
+                                    <th>Certificado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($historico_participacoes as $h): ?>
+                                    <tr>
+                                        <td><strong><?= htmlspecialchars($h['nome_campanha']) ?></strong></td>
+                                        <td><?= htmlspecialchars($h['nome_instituicao']) ?></td>
+                                        <td><?= date('d/m/Y', strtotime($h['data_inicio'])) ?></td>
+                                        <td><?= $h['horas'] ?></td>
+                                        <td><span class="status status-concluido">Concluída</span></td>
+                                        <td><a class="link-texto" href="#historico">Visualizar</a></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <a class="link-texto" href="#historico">Ver histórico completo ↗</a>
+                    <?php endif; ?>
                 </div>
             </section>
         </div>
