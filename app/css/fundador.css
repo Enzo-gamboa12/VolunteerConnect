@@ -1,0 +1,201 @@
+:root {
+    --cor-cabecalho: #113842;
+    --cor-texto-cabecalho: #e0f2f5;
+    --cor-principal: #102a30;
+    --cor-destaque: #2bb696;
+    --cor-destaque-hover: #22947a;
+    --cor-secundaria: #3fbacb;
+    --cor-texto-suave: #5e7a82;
+    --cor-card-bg: #ffffff;
+    --cor-borda: #e1ebed;
+    --sombra-card: 0 10px 30px rgba(16, 42, 48, 0.05);
+    --fonte-principal: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #edf4f5;
+    color: var(--cor-principal);
+    font-family: var(--fonte-principal);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ==========================================================================
+   Cabeçalho Superior
+   ========================================================================== */
+.cabecalho {
+    background-color: var(--cor-cabecalho);
+    color: var(--cor-texto-cabecalho);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 2.5rem;
+}
+
+.link-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+
+.link-logo .logo {
+    height: 32px;
+    width: auto;
+}
+
+.link-logo span span {
+    color: var(--cor-secundaria);
+}
+
+.menu {
+    display: flex;
+    gap: 2rem;
+}
+
+.menu a {
+    color: #d5e5e8;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.menu a:hover {
+    color: #ffffff;
+}
+
+.menu-usuario {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.4rem 0.9rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.menu-usuario:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ==========================================================================
+   Seção do Perfil (Antonio / Surgimento)
+   ========================================================================== */
+.card-secao {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.perfil-topo {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.imagem-card {
+    width: 240px;
+    height: auto;
+    border-radius: 8px;
+    border: 3px solid #000;
+    object-fit: cover;
+}
+
+.perfil-topo h1 {
+    font-size: 50px;
+    color: var(--cor-principal);
+    text-align: center;
+    
+}
+
+.perfil-topo small {
+    color: var(--cor-principal);
+    text-align: justify;
+    margin-top: 27px;
+}
+
+.perfil-baixo {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.perfil-baixo h2 {
+    font-size: 1.8rem;
+    color: var(--cor-principal);
+    margin: 0;
+}
+
+.perfil-baixo p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #222;
+    margin: 0;
+    overflow-wrap: break-word;
+}
+
+/* ==========================================================================
+   Rodapé do Site
+   ========================================================================== */
+.rodape-simples {
+    background-color: #f9f9f9;
+    padding: 40px 20px;
+    border-top: 1px solid #e5e5e5;
+    margin-top: auto;
+}
+
+.rodape-conteudo {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.rodape-conteudo p {
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 0.9rem;
+    color: #65676B;
+}
+
+.rodape-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 24px;
+}
+
+.rodape-links a {
+    text-decoration: none;
+    color: #65676B;
+    font-family: sans-serif;
+    font-size: 0.9rem;
+    transition: color 0.2s ease-in-out;
+}
+
+.rodape-links a:hover {
+    color: #000000;
+    text-decoration: underline;
+}
