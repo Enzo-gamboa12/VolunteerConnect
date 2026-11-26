@@ -139,9 +139,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </aside>
     </main>
 
-    <footer class="login-footer">
-        <span>© 2026 VolunteerConnect</span>
-        <span>Conectando pessoas a causas que importam.</span>
+    <footer>
+        <p>&copy; <?= date('Y') ?> VolunteerConnect. Todos os direitos reservados.</p>
     </footer>
 </body>
 

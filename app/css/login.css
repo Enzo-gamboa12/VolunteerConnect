@@ -337,16 +337,16 @@ a {
 }
 
 /* Rodapé */
-.login-footer {
-  width: 100%;
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 20px 24px 28px;
-  border-top: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 0.85rem;
-  color: var(--text-muted);
+footer {
+    background-color: var(--cor-destaque-hover);
+    color: var(--cor-texto-cabecalho);
+    border-top: 1px solid #dce5e2;
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 0.875rem;
+    margin-top: 48px;
+}
+
+footer p {
+    margin: 0;
 }

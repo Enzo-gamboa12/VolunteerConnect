@@ -5,6 +5,7 @@
   --cor-cabecalho: #113842;
   --cor-texto-cabecalho: #e0f2f5;
   --cor-principal: #102a30;
+  --cor-fundo: #edf4f5;
   --cor-destaque: #2bb696;
   --cor-destaque-hover: #22947a;
   --cor-secundaria: #3fbacb;
@@ -477,13 +478,16 @@ time {
 /* ==========================================================================
    Rodapé
    ========================================================================== */
-.rodape {
-  margin-top: auto;
-  background-color: var(--cor-card-bg);
-  border-top: 1px solid var(--cor-borda);
-  padding: 1.2rem 2.5rem;
-  display: flex;
-  justify-content: space-between;
-  color: var(--cor-texto-suave);
-  font-size: 0.85rem;
+footer {
+    background-color: var(--cor-destaque-hover);
+    color: var(--cor-texto-cabecalho);
+    border-top: 1px solid #dce5e2;
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 0.875rem;
+    margin-top: 48px;
+}
+
+footer p {
+    margin: 0;
 }

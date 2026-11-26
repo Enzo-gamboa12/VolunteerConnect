@@ -50,6 +50,65 @@ foreach ($campanhas as $c) {
 }
 
 $campanhas = $campanhasFiltradas;
+
+try {
+    // O init.php inicia a sessão, cria a conexão PDO ($pdo) e carrega as funções do CRUD.
+    require_once __DIR__ . '/init.php';
+
+    /*
+     * Só existe uma conta conectada quando o login definiu os dados da sessão.
+     * Sem essas informações, a página não assume uma conta demonstrativa.
+     */
+
+    $contaConectada = false;
+    $tipoConta = $_SESSION['tipo_conta'] ?? null;
+
+    if ($tipoConta === 'voluntario' && isset($_SESSION['id_voluntario'])) {
+        $idConta = (int) $_SESSION['id_voluntario'];
+        $conta = read($pdo, 'voluntarios', 'id = ?', [$idConta]);
+        $contaConectada = is_array($conta) && !empty($conta);
+    } elseif ($tipoConta === 'instituicao' && isset($_SESSION['id_instituicao'])) {
+        $idConta = (int) $_SESSION['id_instituicao'];
+        $conta = read($pdo, 'instituicoes', 'id = ?', [$idConta]);
+        $contaConectada = is_array($conta) && !empty($conta);
+    }
+
+    // READ ALL: carrega as tabelas usadas nos cards e nos indicadores inferiores.
+    $campanhas = readAll($pdo, 'campanhas');
+    $instituicoes = readAll($pdo, 'instituicoes');
+    $voluntarios = readAll($pdo, 'voluntarios');
+
+    // Na área de destaque aparecem somente campanhas que estão ativas.
+    $campanhasDestaque = array_slice(
+        array_values(array_filter(
+            $campanhas,
+            static fn (array $campanha): bool => ($campanha['status'] ?? '') === 'ativa'
+        )),
+        0,
+        3
+    );
+} catch (Throwable $erro) {
+    // Registra o detalhe no log do PHP sem expor informações do banco na página.
+    error_log('Erro ao carregar os dados da página inicial: ' . $erro->getMessage());
+    $erroBanco = true;
+    $conta = false;
+    $contaConectada = false;
+    $campanhas = [];
+    $campanhasDestaque = [];
+    $instituicoes = [];
+    $voluntarios = [];
+}
+
+$nomeConta = $contaConectada ? ($conta['nome'] ?? 'Conta') : '';
+$iniciaisConta = indexIniciais((string)$nomeConta);
+
+if ($contaConectada && $tipoConta === 'voluntario') {
+    $linkMeuPainel = 'painel-voluntario.php';
+} elseif ($contaConectada && $tipoConta === 'instituicao') {
+    $linkMeuPainel = 'painel-instituicao.php';
+} else {
+    $linkMeuPainel = 'cadastro.php';
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -62,24 +121,36 @@ $campanhas = $campanhasFiltradas;
 </head>
 
 <body>
-    <header class="site-header">
-        <div class="container header-inner">
-            <a class="brand" href="index.php">
-                <img src="imagens/logo.png" alt="">
-                <span>Volunteer<em>Connect</em></span>
-            </a>
-            <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Abrir menu">☰</button>
-            <nav class="main-nav">
-                <a href="oportunidades.php" aria-current="page">Oportunidades</a>
-                <a href="instituicoes.php">Instituições</a>
-                <a href="como-funciona.php">Como funciona</a>
-                <a href="sobre.php">Sobre</a>
-            </nav>
-            <div class="header-actions">
-                <a class="btn btn-light btn-small" href="login.php">Entrar</a>
-                <a class="btn btn-primary btn-small" href="cadastro-e-campanha.php">Cadastrar-se</a>
+    <header class="cabecalho">
+        <a class="link-logo" href="index.php">
+            <img class="logo" src="imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
+            <span>Volunteer<span>Connect</span></span>
+        </a>
+
+        <nav class="menu">
+            <a href="oportunidades.php">Encontre Oportunidades</a>
+            <a href="<?= $linkMeuPainel ?>">Meu Painel</a>
+            <a href="sobre.php">Sobre Nós</a>
+        </nav>
+
+        <?php if ($contaConectada): ?>
+            <?php 
+                $linkPainel = ($tipoConta === 'voluntario') 
+                    ? 'painel-voluntario.php' 
+                    : 'painel-instituicao.php'; 
+            ?>
+            <div class="menu-usuario" title="Ir para o meu painel">
+                <a href="<?= $linkPainel ?>">
+                    <span class="avatar-usuario"><?= indexEsc($iniciaisConta) ?></span>
+                    <span><?= indexEsc($nomeConta) ?></span>
+                </a>
             </div>
-        </div>
+        <?php else: ?>
+            <div class="acoes-autenticacao" aria-label="Acesso à conta">
+                <a class="botao-autenticacao" href="login.php">Entrar</a>
+                <a class="botao-autenticacao botao-autenticacao-cadastro" href="cadastro.php">Cadastrar</a>
+            </div>
+        <?php endif; ?>
     </header>
 
     <main>
@@ -210,37 +281,8 @@ $campanhas = $campanhasFiltradas;
         </div>
     </main>
 
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <a class="brand" href="index.php">
-                        <img src="imagens/logo.png" alt="">
-                        <span>Volunteer<em>Connect</em></span>
-                    </a>
-                    <p>A conectar pessoas e boas causas.</p>
-                </div>
-                <div class="footer-col">
-                    <h3>Explorar</h3>
-                    <a href="oportunidades.php">Oportunidades</a>
-                    <a href="instituicoes.php">Instituições</a>
-                </div>
-                <div class="footer-col">
-                    <h3>Conheça</h3>
-                    <a href="como-funciona.php">Como funciona</a>
-                    <a href="sobre.php">Sobre</a>
-                </div>
-                <div class="footer-col">
-                    <h3>Ajuda</h3>
-                    <a href="contato.php">Contacto</a>
-                    <a href="login.php">Entrar</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <span>© 2026 VolunteerConnect. Projeto demonstrativo.</span>
-                <span>A conectar quem quer ajudar a quem precisa.</span>
-            </div>
-        </div>
+    <footer>
+        <p>&copy; <?= date('Y') ?> VolunteerConnect. Todos os direitos reservados.</p>
     </footer>
 </body>
 </html>

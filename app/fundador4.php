@@ -80,7 +80,7 @@ if ($contaConectada && $tipoConta === 'voluntario') {
 <body>
     <header class="cabecalho">
         <a class="link-logo" href="index.php">
-            <img class="logo" src="/imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
+            <img class="logo" src="imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
             <span>Volunteer<span>Connect</span></span>
         </a>
 
@@ -124,15 +124,8 @@ if ($contaConectada && $tipoConta === 'voluntario') {
         </div>
     </section>
 
-    <footer class="rodape-simples">
-        <div class="rodape-conteudo">
-            <p>&copy; <?php echo $anoAtual; ?> VolunteerConnect. Todos os direitos reservados.</p>
-            <ul class="rodape-links">
-                <li><a href="sobre.php">Sobre Nós</a></li>
-                <li><a href="#">Termos de Uso</a></li>
-                <li><a href="#">Política de Privacidade</a></li>
-            </ul>
-        </div>
+    <footer>
+        <p>&copy; <?= date('Y') ?> VolunteerConnect. Todos os direitos reservados.</p>
     </footer>
 </body>
 

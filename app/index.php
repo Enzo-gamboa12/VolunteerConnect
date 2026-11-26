@@ -40,7 +40,7 @@ try {
     $campanhasDestaque = array_slice(
         array_values(array_filter(
             $campanhas,
-            static fn (array $campanha): bool => ($campanha['status'] ?? '') === 'Ativa'
+            static fn (array $campanha): bool => ($campanha['status'] ?? '') === 'ativa'
         )),
         0,
         3
@@ -79,14 +79,14 @@ if ($contaConectada && $tipoConta === 'voluntario') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="css/index.css">
     <title>VolunteerConnect | Página inicial</title>
 </head>
 
 <body>
     <header class="cabecalho">
         <a class="link-logo" href="index.php">
-            <img class="logo" src="/imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
+            <img class="logo" src="imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
             <span>Volunteer<span>Connect</span></span>
         </a>
 
@@ -149,9 +149,9 @@ if ($contaConectada && $tipoConta === 'voluntario') {
                         <?php
                         // Cada oportunidade recebe uma das três imagens disponíveis, na ordem dos cards.
                         $imagensCards = [
-                            '/imagens/card-1.png',
-                            '/imagens/card-2.png',
-                            '/imagens/card-3.jpg',
+                            'imagens/card-1.png',
+                            'imagens/card-2.png',
+                            'imagens/card-3.jpg',
                         ];
                         $imagemCard = $imagensCards[$indiceCard] ?? $imagensCards[0];
 
@@ -209,6 +209,8 @@ if ($contaConectada && $tipoConta === 'voluntario') {
         </section>
     </main>
 
-    <footer></footer>
+    <footer>
+        <p>&copy; <?= date('Y') ?> VolunteerConnect. Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html> 

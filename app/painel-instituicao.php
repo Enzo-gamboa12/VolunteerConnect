@@ -195,6 +195,9 @@ $horas_doadas = array_sum(array_merge(array_column($campanhas_finalizadas, 'hora
             </section>
         </div>
     </main>
+    <footer>
+        <p>&copy; <?= date('Y') ?> VolunteerConnect. Todos os direitos reservados.</p>
+    </footer>
 </body>
 
 </html>

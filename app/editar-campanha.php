@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <h1>Editar Campanha</h1>
                     <p><?= htmlspecialchars($campanha['nome'] ?? '') ?></p>
                 </div>
-                <a class="botao-secundario" href="painel-instituicao.php">← Voltar</a>
+                <a class="botao-voltar" href="painel-instituicao.php">← Voltar</a>
             </header>
 
             <section class="cartao-formulario">
@@ -163,6 +163,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </section>
         </div>
     </main>
+    <footer>
+        <p>&copy; <?= date('Y') ?> VolunteerConnect. Todos os direitos reservados.</p>
+    </footer>
 </body>
 
 </html>

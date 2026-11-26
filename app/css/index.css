@@ -442,12 +442,6 @@ a {
   padding: 9px 13px;
 }
 
-footer {
-  background-color: var(--cor-cabecalho);
-  min-height: 77px;
-  margin-top: auto;
-}
-
 /* Ajustes para telas menores */
 @media (max-width: 900px) {
   .cabecalho {
@@ -529,6 +523,20 @@ footer {
     border-top: 1px solid var(--cor-secundaria);
     padding: 18px 0 0;
   }
+}
+
+footer {
+    background-color: var(--cor-destaque-hover);
+    color: var(--cor-texto-cabecalho);
+    border-top: 1px solid #dce5e2;
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 0.875rem;
+    margin-top: 48px;
+}
+
+footer p {
+    margin: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

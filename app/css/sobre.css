@@ -359,52 +359,16 @@ a {
 
 /* FOTTER DO SITE */
 
-/* Estilo principal do rodapé */
-.rodape-simples {
-  background-color: var(--cor-card-bg);
-  /* Fundo branco seguindo o padrão dos cards */
-  padding: 40px 20px;
-  border-top: 1px solid var(--cor-borda);
-  margin-top: auto;
-  /* Dá um respiro da secção anterior */
+footer {
+    background-color: var(--cor-destaque-hover);
+    color: var(--cor-texto-cabecalho);
+    border-top: 1px solid #dce5e2;
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 0.875rem;
+    margin-top: 48px;
 }
 
-/* Alinhamento e estrutura interna */
-.rodape-conteudo {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-/* Texto de direitos de autor */
-.rodape-conteudo p {
-  margin: 0;
-  font-family: var(--fonte-principal);
-  font-size: 0.9rem;
-  color: var(--cor-texto-suave);
-}
-
-/* Lista de links */
-.rodape-links {
-  list-style: none;
-  display: flex;
-  gap: 24px;
-}
-
-/* Estilo dos links */
-.rodape-links a {
-  text-decoration: none;
-  color: var(--cor-texto-suave);
-  font-family: var(--fonte-principal);
-  font-size: 0.9rem;
-  transition: color 0.2s ease-in-out;
-}
-
-/* Efeito ao passar o rato (hover) */
-.rodape-links a:hover {
-  color: var(--cor-principal);
-  text-decoration: underline;
+footer p {
+    margin: 0;
 }

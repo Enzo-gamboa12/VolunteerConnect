@@ -109,7 +109,7 @@ $porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $m
             </section>
 
             <div class="colunas-destaque">
-                <section class="cartao-meta" id="conquistas">
+                <section class="cartao-meta" id="meta">
                     <header class="topo-meta">
                         <div>
                             <span class="chapeu-titulo">SUA META ANUAL</span>
@@ -135,7 +135,7 @@ $porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $m
                 <header class="cabecalho-secao">
                     <div>
                         <span class="chapeu-titulo">AGENDA</span>
-                        <h2>Próximas participações</h2>
+                        <h2>Próximas Participações</h2>
                     </div>
                     <a class="link-texto" href="oportunidades.php">Buscar mais ↗</a>
                 </header>
@@ -169,9 +169,8 @@ $porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $m
                                         <?php endif; ?>
                                     </span>
                                 </div>
-
                                 <footer class="rodape-proximo">
-                                    <a class="link-texto" href="detalhes.php?id=<?= $p['campanha_id'] ?>">Ver detalhes ↗</a>
+                                    <a class="link-texto" href="detalhes-oportunidade.php?id=<?= $p['id_campanha'] ?>">Ver detalhes ↗</a>
                                 </footer>
                             </article>
                         <?php endforeach; ?>
@@ -222,9 +221,8 @@ $porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $m
         </div>
     </main>
 
-    <footer class="rodape">
-        <p>© 2026 VolunteerConnect</p>
-        <p>Feito para conectar boas ideias a boas atitudes.</p>
+    <footer>
+        <p>&copy; <?= date('Y') ?> VolunteerConnect. Todos os direitos reservados.</p>
     </footer>
 </body>
 

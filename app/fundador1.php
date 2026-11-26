@@ -51,7 +51,7 @@ try {
 // Dados do fundador armazenados em variáveis
 $nomeFundador   = "Nichollas Mastropietro";
 $cargoResumo    = "Diretor, Organizador.";
-$fotoFundador   = "imagens/antonio-fundador.png";
+$fotoFundador   = "imagens/nichollas.webp";
 $tituloSecao    = "Cargo:";
 $descricaoBio   = "Como Diretor e Organizador da VolunteerConnect, Nichollas atua na estruturação das ações internas, no alinhamento das parcerias com instituições e na organização das campanhas solidárias da plataforma. Sua participação no projeto surgiu da vontade de criar processos claros que facilitem o engajamento entre voluntários e projetos sociais, garantindo que cada iniciativa tenha suporte e continuidade.";
 $anoAtual       = date("Y");
@@ -80,7 +80,7 @@ if ($contaConectada && $tipoConta === 'voluntario') {
 <body>
     <header class="cabecalho">
         <a class="link-logo" href="index.php">
-            <img class="logo" src="/imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
+            <img class="logo" src="imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
             <span>Volunteer<span>Connect</span></span>
         </a>
 
@@ -125,15 +125,8 @@ if ($contaConectada && $tipoConta === 'voluntario') {
         </div>
     </section>
 
-    <footer class="rodape-simples">
-        <div class="rodape-conteudo">
-            <p>&copy; <?php echo $anoAtual; ?> VolunteerConnect. Todos os direitos reservados.</p>
-            <ul class="rodape-links">
-                <li><a href="sobre.php">Sobre Nós</a></li>
-                <li><a href="#">Termos de Uso</a></li>
-                <li><a href="#">Política de Privacidade</a></li>
-            </ul>
-        </div>
+    <footer>
+        <p>&copy; <?= date('Y') ?> VolunteerConnect. Todos os direitos reservados.</p>
     </footer>
 </body>
 
