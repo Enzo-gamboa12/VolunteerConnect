@@ -21,7 +21,7 @@ Defina valores diferentes e fortes em cada aplicação:
 APP_ENV=production
 DB_HOST=db
 DB_PORT=3306
-DB_DATABASE=integrador
+DB_DATABASE=volunteerconnect
 DB_USERNAME=integrador
 DB_PASSWORD=senha-exclusiva-do-grupo
 DB_ROOT_PASSWORD=outra-senha-exclusiva
@@ -32,8 +32,10 @@ O Coolify detecta as referências do `compose.yaml` e apresenta essas variáveis
 ## Após o primeiro deploy
 
 1. Confirme que `app` está em execução e que `db` está saudável.
-2. Abra o domínio e confira a mensagem `Banco de dados: Conectado`.
+2. Abra o domínio, teste o cadastro/login e consulte os logs para confirmar a conexão.
 3. Ative o deploy automático da branch `main`, se desejado.
 4. Configure backups para o volume `db_data`.
 
 Não exponha o serviço `db` por domínio ou porta pública.
+
+Em uma instalação existente, mantenha o nome e as credenciais do banco atual e leia a seção de migração do README antes de atualizar.

@@ -44,8 +44,9 @@ require_once dirname(__DIR__) . '/init.php';
 Depois de carregar `init.php`, a variável `$_SESSION` pode ser usada normalmente:
 
 ```php
-$_SESSION['usuario_id'] = 10;
-$usuarioId = $_SESSION['usuario_id'] ?? null;
+$tipoConta = $_SESSION['tipo_conta'] ?? null;
+// As identidades são definidas exclusivamente pelo login.
+$voluntarioId = $_SESSION['id_voluntario'] ?? null;
 ```
 
 Não execute `session_start()` novamente nas páginas.
@@ -98,3 +99,9 @@ As funções recusam nomes de tabela ou coluna inválidos, inserções sem campo
 - `app/banco/crud.php`: funções de CRUD;
 - `.env`: usuário, senha e nome do banco local;
 - `database/schema.sql`: criação inicial das tabelas.
+
+## Formulários e permissões
+
+Todo formulário POST deve incluir `<?= csrfField() ?>` dentro do elemento `<form>`. A validação acontece no bootstrap. Para operações de instituição, use `requireAccount($pdo, 'instituicao')`; para voluntário, `requireAccount($pdo, 'voluntario')`. Nunca aceite o ID da conta enviado pelo formulário como autorização.
+
+`app/bootstrap.php` contém sessão, tratamento de erro e helpers; `app/init.php` acrescenta conexão e CRUD. Siga o README para instalação nova ou migração; não reimporte os exemplos sobre dados existentes.

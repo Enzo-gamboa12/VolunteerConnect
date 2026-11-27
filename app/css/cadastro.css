@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+:root{--ink:#20242d;--muted:#777f8c;--line:#e6e8ec;--blue:#2F6578;--blue-dark:#234B5C;--bg:#F8F6F1}*{box-sizing:border-box}body{margin:0;background:#F8F6F1;color:var(--ink);font:13px 'DM Sans',Arial,sans-serif}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.site-header{height:76px;padding:0 clamp(20px,6vw,90px);display:flex;align-items:center;gap:40px;background:#fff;border-bottom:1px solid var(--line)}.brand-logo{display:block;width:43px;height:43px;object-fit:contain;flex:0 0 auto}.brand-footer .brand-logo{width:35px;height:35px}.brand{display:flex;align-items:center;gap:10px;font:800 17px 'Manrope';letter-spacing:-.7px;white-space:nowrap}.brand>span:last-child>span{color:var(--blue)}.brand-mark{display:grid;place-items:center;width:31px;height:31px;border-radius:10px 10px 10px 3px;background:var(--blue);color:white;font:800 19px 'Manrope'}.main-nav{display:flex;gap:28px;margin:auto;color:#68707b;font-size:13px}.main-nav a{padding:28px 0;border-bottom:2px solid transparent}.main-nav a:hover{color:var(--ink);border-color:var(--blue)}.header-actions{display:flex;align-items:center;gap:20px;font-size:13px}.login-link{font-weight:700;color:var(--blue)}.menu-toggle{display:none}.signup-shell{max-width:1170px;margin:auto;padding:47px 24px 75px}.signup-heading{text-align:center;margin-bottom:30px}.eyebrow{font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--blue)}.signup-heading h1{font:800 37px/1.12 'Manrope';letter-spacing:-1.5px;margin:12px 0}.signup-heading h1 em{font-style:normal;color:var(--blue)}.signup-heading p{font-size:12px;color:var(--muted);margin:0}.forms-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.form-card{padding:25px 27px 22px;background:#fff;border:1px solid var(--line);border-radius:5px;box-shadow:0 7px 25px #1c274008}.form-card-heading{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:19px;margin-bottom:18px;border-bottom:1px solid var(--line)}.form-icon{display:grid;place-items:center;width:35px;height:35px;margin-bottom:13px;border-radius:8px;background:#E4F0F1;color:var(--blue);font-size:18px}.campaign-icon{background:#fbf0e2;color:#b57d36}.form-card-heading h2{font:800 23px 'Manrope';letter-spacing:-.7px;margin:6px 0}.form-card-heading p{font-size:10px;color:var(--muted);margin:0}.form-step{font:800 12px 'Manrope';color:#b5bac3}.form-card form{display:grid;gap:7px}.form-card form>label:not(.terms){margin-top:6px;font-size:10px;font-weight:700;color:#4f5662}.form-card input:not([type=checkbox]),.form-card select,.form-card textarea{width:100%;height:39px;padding:0 11px;border:1px solid #dfe3e9;border-radius:3px;background:white;color:var(--ink);font-size:11px;outline:none}.form-card textarea{height:auto;min-height:78px;padding:10px 11px;resize:vertical;line-height:1.5}.form-card input:focus,.form-card select:focus,.form-card textarea:focus{border-color:var(--blue);box-shadow:0 0 0 2px #2F657810}.two-fields{display:grid;grid-template-columns:1fr 1fr;gap:11px}.two-fields>div{min-width:0;display:grid;gap:7px}.two-fields label{margin-top:6px;font-size:10px;font-weight:700;color:#4f5662}.terms{display:flex;align-items:flex-start;gap:8px;margin:9px 0;color:#747b86;font-size:9px;line-height:1.5}.terms input{margin:1px 0 0;accent-color:var(--blue)}.form-submit{width:100%;margin-top:8px}.button{display:inline-flex;justify-content:center;align-items:center;gap:12px;padding:12px 16px;border:0;border-radius:4px;background:var(--blue);color:#fff;font-size:11px;font-weight:700;cursor:pointer}.button:hover{background:var(--blue-dark)}.form-footnote{text-align:center;margin:16px 0 0;color:#858c97;font-size:9px}.form-footnote a{color:var(--blue);font-weight:700}.campaign-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:10px}.button-outline{border:1px solid #d8deea;background:white;color:var(--blue)}.button-outline:hover{background:#f3f5fa}.form-disclaimer{font-size:9px;line-height:1.5;color:#969ca5;margin:2px 0 0}.site-footer{display:flex;align-items:center;gap:22px;padding:22px clamp(20px,6vw,90px);background:white;border-top:1px solid var(--line);color:#8b919a;font-size:10px}.brand-footer{font-size:14px;color:var(--ink)}.brand-footer .brand-mark{width:27px;height:27px;font-size:16px}.site-footer p{margin:0 auto 0 0}.site-toast{position:fixed;right:24px;bottom:24px;z-index:20;padding:15px 19px;max-width:380px;border-radius:5px;background:#243553;color:white;font-size:13px;opacity:0;transform:translateY(12px);transition:.25s}.site-toast.visible{opacity:1;transform:none}
+@media(max-width:900px){.site-header{gap:18px}.main-nav{gap:14px}.forms-grid{grid-template-columns:1fr}.signup-shell{max-width:720px}}
+@media(max-width:680px){.site-header{height:67px;padding:0 18px;justify-content:space-between}.menu-toggle{display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center;width:37px;height:37px;border:1px solid var(--line);background:white;border-radius:4px;margin-left:auto}.menu-toggle span{width:16px;height:2px;background:var(--ink)}.main-nav{display:none;position:absolute;top:66px;left:0;right:0;z-index:5;flex-direction:column;gap:0;padding:10px 20px 17px;background:white;border-bottom:1px solid var(--line)}.main-nav.is-open{display:flex}.main-nav a{padding:13px 0;border-bottom:1px solid #f0f1f3}.signup-shell{padding:34px 13px 48px}.signup-heading h1{font-size:31px}.signup-heading p{line-height:1.6}.form-card{padding:21px 17px}.form-card-heading h2{font-size:21px}.two-fields{gap:8px}.campaign-actions{flex-wrap:wrap}.campaign-actions button{flex:1}.site-footer{flex-wrap:wrap;padding:20px}.site-footer p{order:3;width:100%;margin:0}}
+
+
+/* Cadastro por perfil: as opções têm identidades visuais distintas. */
+:root{--coral:#D97858;--gold:#D5A044;--sage:#6C9275;--lavender:#8878A7;--mint:#E6F0EB;--peach:#F9ECE5;--butter:#F7F0DD}
+body{background:linear-gradient(135deg,#F8F2E9 0%,#F7F6F0 48%,#EEF3EF 100%)}
+.signup-heading h1 em{color:var(--coral)}
+.signup-heading .eyebrow{color:var(--sage)}
+.signup-heading .eyebrow-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-right:5px}
+.account-card{border-top:4px solid #6C9275}
+.campaign-card{border-top:4px solid #D97858}
+.campaign-icon{background:#F9ECE5;color:#A85F46}
+.eyebrow-coral{color:#B96349}
+.role-switch{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:-1px 0 20px}
+.role-option{position:relative;display:flex;align-items:center;gap:11px;min-width:0;padding:13px 12px;border:1px solid #E3E5E5;border-radius:8px;background:#fff;text-align:left;color:var(--ink);cursor:pointer;transition:transform .18s,border-color .18s,background .18s}
+.role-option:hover{transform:translateY(-2px);border-color:#A9C5B7}
+.role-option.is-active[data-register-role="voluntario"]{border-color:#77A889;background:#EFF6F0;box-shadow:0 0 0 2px #6C92751A}
+.role-option.is-active[data-register-role="instituicao"]{border-color:#D99B82;background:#FDF1EB;box-shadow:0 0 0 2px #D978581A}
+.role-option-icon{display:grid;place-items:center;flex:0 0 37px;width:37px;height:37px;border-radius:10px;font-size:19px}
+.role-volunteer-icon{background:#E3F0E6;color:#568463}
+.role-institution-icon{background:#F9E8E0;color:#B96349}
+.role-option strong,.role-option small{display:block}
+.role-option strong{font-size:11px;font-weight:800}
+.role-option small{margin-top:4px;color:#7D8490;font-size:9px;line-height:1.3}
+.role-check{display:grid;place-items:center;width:19px;height:19px;margin-left:auto;flex:0 0 19px;border-radius:50%;background:#E9ECEA;color:transparent;font-size:11px}
+.role-option.is-active[data-register-role="voluntario"] .role-check{background:#6C9275;color:white}
+.role-option.is-active[data-register-role="instituicao"] .role-check{background:#D97858;color:white}
+.role-fields{display:grid;gap:7px;min-width:0;margin:0;padding:0;border:0}
+.role-fields[hidden]{display:none!important}
+.role-fields legend{width:100%;margin-bottom:6px;padding:0;color:#47515A;font:800 11px 'Manrope',sans-serif}
+.optional-label{font-weight:400;color:#969CA5}
+.role-fields input:focus,.role-fields select:focus{border-color:#6C9275!important;box-shadow:0 0 0 3px #6C92751A!important}
+.role-fields[data-role-panel="instituicao"] input:focus,.role-fields[data-role-panel="instituicao"] select:focus{border-color:#D97858!important;box-shadow:0 0 0 3px #D978581A!important}
+.terms input{accent-color:#6C9275}
+.form-submit{background:#477C62}
+.form-submit:hover{background:#35634D}
+.button-coral{background:#C96F53}
+.button-coral:hover{background:#A95840}
+.button-outline{border-color:#E5D5C9;color:#A85F46}
+.button-outline:hover{background:#FBF1EB}
+.campaign-tip{display:flex;gap:11px;align-items:flex-start;margin:-1px 0 17px;padding:13px 14px;border:1px solid #EEDACB;border-radius:6px;background:#FCF3E9}
+.campaign-tip>span{display:grid;place-items:center;flex:0 0 25px;width:25px;height:25px;border-radius:50%;background:#F4E1C0;color:#A8792E}
+.campaign-tip p{margin:0;color:#7D6B56;font-size:10px;line-height:1.55}
+.campaign-card .form-card-heading{border-bottom-color:#F0E2D9}
+.campaign-card .form-disclaimer{padding:9px 10px;border-radius:4px;background:#F7F5F0}
+.site-footer{background:#fffdf9}
+@media(max-width:680px){.role-switch{grid-template-columns:1fr}.role-option{padding:12px}.signup-heading h1{font-size:29px}.campaign-tip{padding:11px}}
+.role-fields>label{margin-top:6px;font-size:10px;font-weight:700;color:#4f5662}
+.role-fields>input,.role-fields>select{margin-bottom:1px}
+.role-fields .two-fields>div{gap:7px}

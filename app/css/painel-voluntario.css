@@ -1,0 +1,526 @@
+:root {
+  --cor-cabecalho: #113842;
+  --cor-texto-cabecalho: #e0f2f5;
+  --cor-principal: #102a30;
+  --cor-fundo: #edf4f5;
+  --cor-destaque: #2bb696;
+  --cor-destaque-hover: #22947a;
+  --cor-secundaria: #3fbacb;
+  --cor-texto-suave: #5e7a82;
+  --cor-card-bg: #ffffff;
+  --cor-borda: #e1ebed;
+  --sombra-card: 5px 5px rgba(0, 0, 0, 0.05);
+  --fonte-principal: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--cor-fundo);
+  color: var(--cor-principal);
+  font-family: var(--fonte-principal);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ==========================================================================
+   Cabeçalho Superior
+   ========================================================================== */
+.cabecalho {
+  background-color: var(--cor-cabecalho);
+  color: var(--cor-texto-cabecalho);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 2.5rem;
+}
+
+.link-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.link-logo .logo {
+  height: 32px;
+  width: auto;
+}
+
+.link-logo span span {
+  color: var(--cor-secundaria);
+}
+
+.menu {
+  display: flex;
+  gap: 2rem;
+}
+
+.menu a {
+  color: #d5e5e8;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.menu a:hover {
+  color: #ffffff;
+}
+
+.menu-usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.4rem 0.9rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.menu-usuario:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.avatar-usuario, 
+.avatar-perfil {
+  background-color: var(--cor-secundaria);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+
+
+/* ==========================================================================
+   Layout Principal e Menu Lateral
+   ========================================================================== */
+main {
+  display: flex;
+  flex: 1;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  gap: 2.5rem;
+}
+
+.menu-lateral {
+  width: 230px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.bloco-perfil {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-bottom: 1.2rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.bloco-perfil .avatar-perfil {
+  width: 48px;
+  height: 48px;
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+}
+
+.bloco-perfil strong {
+  font-size: 1.05rem;
+  color: var(--cor-principal);
+}
+
+.bloco-perfil small {
+  color: var(--cor-texto-suave);
+  font-size: 0.8rem;
+}
+
+.rotulo-lateral {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--cor-texto-suave);
+  margin-top: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.item-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  color: var(--cor-texto-suave);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.item-menu:hover {
+  background-color: rgba(43, 182, 150, 0.08);
+  color: var(--cor-principal);
+}
+
+.item-menu.ativo {
+  background-color: rgba(43, 182, 150, 0.15);
+  color: var(--cor-destaque);
+  font-weight: 600;
+}
+
+.caixa-ajuda {
+  background-color: var(--cor-card-bg);
+  border: 1px solid var(--cor-borda);
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
+.caixa-ajuda p {
+  color: var(--cor-texto-suave);
+  margin-bottom: 0.3rem;
+}
+
+.caixa-ajuda a {
+  color: var(--cor-destaque);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Área de Conteúdo
+   ========================================================================== */
+.conteudo-painel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.topo-boas-vindas {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.chapeu-titulo {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--cor-destaque);
+  margin-bottom: 0.3rem;
+}
+
+.topo-boas-vindas h1 {
+  font-size: 1.9rem;
+  color: var(--cor-principal);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.topo-boas-vindas h1 span {
+  color: var(--cor-secundaria);
+  font-size: 1.4rem;
+}
+
+.topo-boas-vindas p {
+  color: var(--cor-texto-suave);
+  font-size: 0.95rem;
+  margin-top: 0.2rem;
+}
+
+.botao-principal {
+  background-color: var(--cor-secundaria);
+  color: #ffffff;
+  padding: 0.75rem 1.4rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(63, 186, 203, 0.25);
+  transition: all 0.2s ease;
+}
+
+.botao-principal:hover {
+  background-color: #35a5b5;
+  transform: translateY(-1px);
+}
+
+#botao-sair {
+    color: #dc2626; /* Vermelho para o texto */
+}
+
+/* Efeito opcional ao passar o mouse por cima */
+#botao-sair:hover {
+    background-color: #fee2e2; /* Fundo vermelho bem clarinho */
+    color: #991b1b;            /* Texto vermelho mais escuro */
+}
+
+/* ==========================================================================
+   Grade de Estatísticas (Adaptada para 4 Colunas do Voluntário)
+   ========================================================================== */
+.grade-estatisticas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+
+.cartao-estatistica {
+  background-color: var(--cor-card-bg);
+  border: 1px solid var(--cor-borda);
+  border-radius: 16px;
+  padding: 1.4rem;
+  box-shadow: var(--sombra-card);
+  display: flex;
+  flex-direction: column;
+}
+
+.cartao-estatistica small {
+  color: var(--cor-texto-suave);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.cartao-estatistica strong {
+  font-size: 2.2rem;
+  color: var(--cor-principal);
+  margin: 0.2rem 0;
+  font-weight: 700;
+}
+
+.cartao-estatistica strong small {
+  font-size: 1.1rem;
+  color: var(--cor-texto-suave);
+}
+
+.nota-estatistica {
+  font-size: 0.8rem;
+  color: var(--cor-destaque);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Seções de Meta e Conquistas do Voluntário
+   ========================================================================== */
+.colunas-destaque {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1.5rem;
+}
+
+.cartao-meta {
+  background-color: var(--cor-card-bg);
+  border: 1px solid var(--cor-borda);
+  border-radius: 16px;
+  padding: 1.6rem;
+  box-shadow: var(--sombra-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Cartão de Meta */
+.topo-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.topo-meta h2 {
+  font-size: 1.25rem;
+  color: var(--cor-principal);
+}
+
+.numero-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.numero-meta strong {
+  font-size: 2.2rem;
+  color: var(--cor-principal);
+}
+
+.numero-meta span {
+  color: var(--cor-texto-suave);
+  font-size: 0.9rem;
+}
+
+.barra-progresso {
+  height: 10px;
+  background-color: var(--cor-fundo);
+  border-radius: 50px;
+  overflow: hidden;
+  margin: 0.8rem 0;
+}
+
+.barra-progresso span {
+  display: block;
+  height: 100%;
+  background-color: var(--cor-destaque);
+  border: 1px solid var(--cor-destaque);
+  border-radius: 50px;
+  transition: width 0.4s ease;
+}
+
+.rodape-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+.rodape-meta strong {
+  color: var(--cor-destaque);
+}
+
+/* ==========================================================================
+   Seção de Histórico de Participações
+   ========================================================================== */
+.secao-historico {
+  background-color: var(--cor-card-bg);
+  border: 1px solid var(--cor-borda);
+  border-radius: 16px;
+  padding: 1.6rem;
+  box-shadow: var(--sombra-card);
+}
+
+.secao-proximos {
+  background-color: var(--cor-card-bg);
+  border: 1px solid var(--cor-borda);
+  border-radius: 16px;
+  padding: 1.6rem;
+  box-shadow: var(--sombra-card);
+}
+
+.cabecalho-secao {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1.2rem;
+}
+
+.cabecalho-secao h2 {
+  font-size: 1.35rem;
+  color: var(--cor-principal);
+}
+
+.link-texto {
+  color: var(--cor-destaque);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.link-texto:hover {
+  text-decoration: underline;
+}
+
+.container-tabela {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+th {
+  color: var(--cor-texto-suave);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--cor-borda);
+  vertical-align: middle;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+td strong {
+  color: var(--cor-principal);
+}
+
+time {
+  color: var(--cor-texto-suave);
+  font-size: 0.9rem;
+}
+
+/* Badges de Status */
+.status {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-ativo,
+.status-concluido {
+  background-color: rgba(43, 182, 150, 0.12);
+  color: #1b7a65;
+}
+
+.status-pendente {
+  background-color: #fff4e5;
+  color: #b76e00;
+}
+
+.status-encerrado {
+  background-color: #f1f3f5;
+  color: #6c757d;
+}
+
+/* ==========================================================================
+   Rodapé
+   ========================================================================== */
+footer {
+    background-color: var(--cor-destaque-hover);
+    color: var(--cor-texto-cabecalho);
+    border-top: 1px solid #dce5e2;
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 0.875rem;
+    margin-top: 48px;
+}
+
+footer p {
+    margin: 0;
+}

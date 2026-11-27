@@ -1,0 +1,162 @@
+/* Menu para PC, sempre visível e sem JavaScript. */
+
+.vc-header,
+.vc-header * {
+    box-sizing: border-box;
+}
+
+.vc-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    margin: 0;
+    padding: 15px 32px;
+    background: #113842;
+    color: #e0f2f5;
+    font: 500 15px/1.5 system-ui, sans-serif;
+    position: relative;
+    z-index: 10;
+}
+
+.vc-header a {
+    text-decoration: none;
+    color: #d5e5e8;
+}
+
+.vc-header a:hover,
+.vc-header a[aria-current="page"] {
+    color: #fff;
+}
+
+.vc-header a[aria-current="page"] {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}
+
+.vc-header .vc-brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.vc-brand > img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.vc-brand > span > span {
+    color: #3fbacb;
+}
+
+.vc-header .vc-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 24px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.vc-header .vc-links,
+.vc-header .vc-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 22px;
+}
+
+.vc-links a {
+    white-space: nowrap;
+}
+
+.vc-header .vc-actions {
+    gap: 9px;
+}
+
+.vc-actions form {
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+
+.vc-header .vc-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 14px;
+    border: 1px solid #6c929b;
+    border-radius: 30px;
+    background: transparent;
+    color: #e0f2f5;
+    font: 600 14px/1.5 system-ui, sans-serif;
+    cursor: pointer;
+    width: auto;
+}
+
+.vc-header .vc-primary {
+    background: #2bb696;
+    border-color: #2bb696;
+    color: #102a30;
+}
+
+.vc-header .vc-profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.vc-name {
+    max-width: 145px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.vc-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #3fbacb;
+    color: #102a30;
+    font-weight: 700;
+}
+
+.vc-header a:focus-visible,
+.vc-header button:focus-visible {
+    outline: 3px solid #3fbacb;
+    outline-offset: 3px;
+}
+
+.menu-lateral form {
+    margin: 0;
+}
+
+.menu-lateral button.item-menu {
+    font: inherit;
+    border: 0;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+}
+
+@media print {
+    .vc-header,
+    .menu-lateral {
+        display: none !important;
+    }
+}

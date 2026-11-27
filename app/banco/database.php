@@ -10,10 +10,10 @@ function database(): PDO
         return $connection;
     }
 
-    $host = getenv('DB_HOST') ?: 'db';
+    $host = getenv('DB_HOST') ?: 'localhost';
     $port = getenv('DB_PORT') ?: '3306';
-    $database = getenv('DB_DATABASE') ?: 'integrador';
-    $username = getenv('DB_USERNAME') ?: 'integrador';
+    $database = getenv('DB_DATABASE') ?: 'volunteerconnect';
+    $username = getenv('DB_USERNAME') ?: 'root';
     $password = getenv('DB_PASSWORD') ?: '';
 
     $dsn = "mysql:host={$host};port={$port};dbname={$database};charset=utf8mb4";
@@ -26,4 +26,3 @@ function database(): PDO
 
     return $connection;
 }
-
