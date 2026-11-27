@@ -110,12 +110,49 @@ if ($contaConectada && $tipoConta === 'voluntario') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $tituloPagina; ?></title>
     <link rel="stylesheet" href="css/colaboradores.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="css/navigation.css">
     <script src="js/navigation.js" defer></script>
 </head>
 
 <body>
     <?php require __DIR__ . '/partials/navigation.php'; ?>
+=======
+</head>
+
+<body>
+    <header class="cabecalho">
+        <a class="link-logo" href="index.php">
+            <img class="logo" src="imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
+            <span>Volunteer<span>Connect</span></span>
+        </a>
+
+        <nav class="menu">
+            <a href="oportunidades.php">Encontre Oportunidades</a>
+            <a href="<?= $linkMeuPainel ?>">Meu Painel</a>
+            <a href="sobre.php">Sobre Nós</a>
+        </nav>
+
+        <?php if ($contaConectada): ?>
+            <?php 
+                $linkPainel = ($tipoConta === 'voluntario') 
+                    ? 'painel-voluntario.php' 
+                    : 'painel-instituicao.php'; 
+            ?>
+            <div class="menu-usuario" title="Ir para o meu painel">
+                <a href="<?= $linkPainel ?>">
+                    <span class="avatar-usuario"><?= indexEsc($iniciaisConta) ?></span>
+                    <span><?= indexEsc($nomeConta) ?></span>
+                </a>
+            </div>
+        <?php else: ?>
+            <div class="acoes-autenticacao" aria-label="Acesso à conta">
+                <a class="botao-autenticacao" href="login.php">Entrar</a>
+                <a class="botao-autenticacao botao-autenticacao-cadastro" href="cadastro.php">Cadastrar</a>
+            </div>
+        <?php endif; ?>
+    </header>
+>>>>>>> teste
 
     <main class="conteudo">
 

@@ -329,9 +329,20 @@ main {
    Seções de Meta e Conquistas do Voluntário
    ========================================================================== */
 .colunas-destaque {
+<<<<<<< HEAD
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: 1.5rem;
+=======
+  display: block;
+  width: 100%;
+}
+
+.colunas-destaque > .cartao-meta,
+.cartao-meta {
+  width: 100%;
+  max-width: 100%;
+>>>>>>> teste
 }
 
 .cartao-meta {
@@ -391,6 +402,7 @@ main {
   transition: width 0.4s ease;
 }
 
+<<<<<<< HEAD
 .rodape-meta {
   display: flex;
   justify-content: space-between;
@@ -401,6 +413,8 @@ main {
 .rodape-meta strong {
   color: var(--cor-destaque);
 }
+=======
+>>>>>>> teste
 
 /* ==========================================================================
    Seção de Histórico de Participações

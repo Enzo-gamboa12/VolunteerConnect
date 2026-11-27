@@ -17,7 +17,10 @@ if (($_SESSION['tipo_conta'] ?? '') !== 'voluntario' || empty($_SESSION['id_volu
     exit;
 }
 
+<<<<<<< HEAD
 $contaValidada = requireAccount($pdo, 'voluntario');
+=======
+>>>>>>> teste
 $idVoluntario = (int) $_SESSION['id_voluntario'];
 $voluntario   = read($pdo, 'voluntarios', 'id = ?', [$idVoluntario]);
 
@@ -43,37 +46,79 @@ $porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $m
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Voluntario - VolunteerConnect</title>
     <link rel="stylesheet" href="css/painel-voluntario.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="css/navigation.css">
     <script src="js/navigation.js" defer></script>
 </head>
 
 <body>
     <?php require __DIR__ . '/partials/navigation.php'; ?>
+=======
+</head>
+
+<body>
+    <header class="cabecalho">
+        <a class="link-logo" href="index.php">
+            <img class="logo" src="imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
+            <span>Volunteer<span>Connect</span></span>
+        </a>
+
+        <nav class="menu">
+            <a href="oportunidades.php">Encontre Oportunidades</a>
+            <a href="<?= $linkMeuPainel ?>">Meu Painel</a>
+            <a href="sobre.php">Sobre Nós</a>
+        </nav>
+
+        <a href="painel-voluntario.php">
+            <div class="menu-usuario">
+                <span class="avatar-usuario"><?= indexIniciais($voluntario['nome']) ?></span>
+                <span><?= htmlspecialchars($voluntario['nome']) ?></span>
+            </div>
+        </a>
+    </header>
+>>>>>>> teste
 
     <main>
         <aside class="menu-lateral">
             <div class="bloco-perfil">
+<<<<<<< HEAD
                 <span class="avatar-perfil"><?= indexEsc(indexIniciais($voluntario['nome'])) ?></span>
                 <strong><?= indexEsc($voluntario['nome']) ?></strong>
+=======
+                <span class="avatar-perfil"><?= indexIniciais($voluntario['nome']) ?></span>
+                <strong><?= htmlspecialchars($voluntario['nome']) ?></strong>
+>>>>>>> teste
             </div>
 
             <span class="rotulo-lateral">MENU PRINCIPAL</span>
             <a class="item-menu ativo" href="painel-voluntario.php">Visão Geral</a>
             <a class="item-menu" href="#proximos">Futuras Participações</a>
             <a class="item-menu" href="#historico">Histórico</a>
+<<<<<<< HEAD
             <form method="post" action="logout.php">
                     <?= csrfField() ?><button type="submit" class="item-menu">Sair</button></form>
 
             <div class="caixa-ajuda">
                 <p>Precisa de ajuda?</p>
                 <a href="mailto:suporte@volunteerconnect.org">Fale com a gente ↗</a>
+=======
+            <a class="item-menu" id="botao-sair" href="logout.php">Sair</a>
+
+            <div class="caixa-ajuda">
+                <p>Precisa de ajuda?</p>
+                <a href="suporte@volunteerconnect.org">Fale com a gente ↗</a>
+>>>>>>> teste
             </div>
         </aside>
 
         <div class="conteudo-painel">
             <header class="topo-boas-vindas">
                 <div>
+<<<<<<< HEAD
                     <h1>Olá, <?= indexEsc($voluntario['nome']) ?>!</h1>
+=======
+                    <h1>Olá, <?= htmlspecialchars($voluntario['nome']) ?>!</h1>
+>>>>>>> teste
                     <p>Boas-vindas ao seu painel.</p>
                 </div>
                 <a class="botao-principal" href="oportunidades.php">Encontrar oportunidades ↗</a>
@@ -90,7 +135,11 @@ $porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $m
                 </article>
                 <article class="cartao-estatistica">
                     <small>Certificados</small>
+<<<<<<< HEAD
                     <strong>Não disponível</strong>
+=======
+                    <strong><?= count($historico_participacoes); ?></strong>
+>>>>>>> teste
                 </article>
             </section>
 
@@ -98,7 +147,11 @@ $porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $m
                 <section class="cartao-meta" id="meta">
                     <header class="topo-meta">
                         <div>
+<<<<<<< HEAD
                             <span class="chapeu-titulo">SUA META DE HORAS</span>
+=======
+                            <span class="chapeu-titulo">SUA META ANUAL</span>
+>>>>>>> teste
                         </div>
                         <span class="status status-ativo"><?= $porcentagem_meta >= 100 ? 'Concluída!' : 'Em andamento' ?></span>
                     </header>
@@ -136,6 +189,7 @@ $porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $m
                         <?php foreach ($proximas_participacoes as $p): ?>
                             <article class="cartao-proximo">
                                 <div class="topo-proximo">
+<<<<<<< HEAD
                                     <span class="categoria-tag"><?= indexEsc($p['categoria']) ?></span>
                                     <span class="status status-pendente">A confirmar</span>
                                 </div>
@@ -152,11 +206,33 @@ $porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $m
                                             Carga horária ainda não definida.
                                         <?php else: ?>
                                             <?= indexEsc($p['horas']) ?>h registradas
+=======
+                                    <span class="categoria-tag"><?= htmlspecialchars($p['categoria']) ?></span>
+                                    <span class="status status-pendente">A confirmar</span>
+                                </div>
+
+                                <h3><?= htmlspecialchars($p['nome_campanha']) ?></h3>
+                                <small class="nome-instituicao"><?= htmlspecialchars($p['nome_instituicao']) ?></small>
+
+                                <div class="detalhes-proximo">
+                                    <time datetime="<?= htmlspecialchars($p['data_inicio']) ?>">
+                                         <?= date('d/m/Y', strtotime($p['data_inicio'])) ?>
+                                    </time>
+                                    <span>⏱ 
+                                        <?php if ($p['horas_trabalhadas'] <= 0): ?>
+                                            Carga horária ainda não definida.
+                                        <?php else: ?>
+                                            <?= $p['horas_trabalhadas'] ?>h estimadas
+>>>>>>> teste
                                         <?php endif; ?>
                                     </span>
                                 </div>
                                 <footer class="rodape-proximo">
+<<<<<<< HEAD
                                     <a class="link-texto" href="detalhes-oportunidade.php?id=<?= indexEsc($p['id_campanha']) ?>">Ver detalhes ↗</a>
+=======
+                                    <a class="link-texto" href="detalhes-oportunidade.php?id=<?= $p['id_campanha'] ?>">Ver detalhes ↗</a>
+>>>>>>> teste
                                 </footer>
                             </article>
                         <?php endforeach; ?>
@@ -190,12 +266,21 @@ $porcentagem_meta = ($meta_horas > 0) ? min(100, round(($horas_voluntariado / $m
                             <tbody>
                                 <?php foreach ($historico_participacoes as $h): ?>
                                     <tr>
+<<<<<<< HEAD
                                         <td><strong><?= indexEsc($h['nome_campanha']) ?></strong></td>
                                         <td><?= indexEsc($h['nome_instituicao']) ?></td>
                                         <td><?= appDate($h['data_inicio']) ?></td>
                                         <td><?= indexEsc($h['horas']) ?></td>
                                         <td><span class="status status-concluido">Concluída</span></td>
                                         <td><span>Não disponível</span></td>
+=======
+                                        <td><strong><?= htmlspecialchars($h['nome_campanha']) ?></strong></td>
+                                        <td><?= htmlspecialchars($h['nome_instituicao']) ?></td>
+                                        <td><?= date('d/m/Y', strtotime($h['data_inicio'])) ?></td>
+                                        <td><?= $h['horas'] ?></td>
+                                        <td><span class="status status-concluido">Concluída</span></td>
+                                        <td><a class="link-texto" href="#historico">Visualizar</a></td>
+>>>>>>> teste
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

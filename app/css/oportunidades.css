@@ -330,7 +330,10 @@ main .container > section {
   box-shadow: var(--sombra-card);
   position: sticky;
   top: 24px;
+<<<<<<< HEAD
   margin-top: 42px;
+=======
+>>>>>>> teste
 }
 
 .filter-panel h2 {

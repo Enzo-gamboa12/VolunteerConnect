@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/init.php';
 
+<<<<<<< HEAD
 $voluntarios = []; $erroConsulta = '';
 $filtroArea = appText($_GET, 'area');
 $areas = ['Meio Ambiente','Educação','Assistência Social','Saúde','Proteção Animal','Cultura e Esportes'];
@@ -17,6 +18,32 @@ $params = [(int)$account['id']];
 if (in_array($filtroArea, $areas, true)) { $sql .= ' AND v.area_atuacao=?'; $params[]=$filtroArea; } else { $filtroArea=''; }
 $sql .= ' ORDER BY v.id DESC';
 $stmt=$pdo->prepare($sql); $stmt->execute($params); $voluntarios=$stmt->fetchAll();
+=======
+$voluntarios = [];
+$erroConsulta = '';
+$filtroArea = isset($_GET['area']) && is_string($_GET['area']) ? trim($_GET['area']) : '';
+
+$areas = [
+    'Meio Ambiente',
+    'Educação',
+    'Assistência Social',
+    'Saúde',
+    'Proteção Animal',
+    'Cultura e Esportes',
+];
+
+try {
+    if ($filtroArea !== '' && in_array($filtroArea, $areas, true)) {
+        $voluntarios = readAll($pdo, 'voluntarios', 'area_atuacao = ? ORDER BY id DESC', [$filtroArea]);
+    } else {
+        $filtroArea = '';
+        $voluntarios = readAll($pdo, 'voluntarios', '1=1 ORDER BY id DESC');
+    }
+} catch (Throwable $erro) {
+    error_log($erro->getMessage());
+    $erroConsulta = 'Não foi possível carregar a lista de voluntários no momento.';
+}
+>>>>>>> teste
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -187,12 +214,39 @@ $stmt=$pdo->prepare($sql); $stmt->execute($params); $voluntarios=$stmt->fetchAll
             color: #68706C;
         }
     </style>
+<<<<<<< HEAD
     <link rel="stylesheet" href="css/navigation.css">
     <script src="js/navigation.js" defer></script>
 </head>
 
 <body>
     <?php require __DIR__ . '/partials/navigation.php'; ?>
+=======
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="brand" href="index.php" aria-label="VolunteerConnect, início">
+            <img class="brand-logo" src="imagens/logo-volunteerconnect.png" alt="">
+            <span>Volunteer<span>Connect</span></span>
+        </a>
+
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <nav class="main-nav">
+            <a href="index.php">Início</a>
+            <a href="oportunidades.php">Oportunidades</a>
+            <a href="voluntarios.php" aria-current="page">Voluntários</a>
+            <a href="login.php">Painel</a>
+        </nav>
+
+        <div class="header-actions">
+            <a class="login-link" href="cadastro.php">Novo cadastro</a>
+        </div>
+    </header>
+>>>>>>> teste
 
     <main class="voluntarios-shell">
         <div class="signup-heading">
@@ -212,7 +266,11 @@ $stmt=$pdo->prepare($sql); $stmt->execute($params); $voluntarios=$stmt->fetchAll
                 Total exibido: <strong><?= count($voluntarios) ?></strong> voluntário(s)
             </div>
 
+<<<<<<< HEAD
             <form class="filter-form" method="get" action="verificar-voluntario.php">
+=======
+            <form class="filter-form" method="get" action="voluntarios.php">
+>>>>>>> teste
                 <select name="area" aria-label="Filtrar por área de atuação">
                     <option value="">Todas as áreas</option>
                     <?php foreach ($areas as $area): ?>
@@ -223,7 +281,11 @@ $stmt=$pdo->prepare($sql); $stmt->execute($params); $voluntarios=$stmt->fetchAll
                 </select>
                 <button class="btn-filter" type="submit">Filtrar</button>
                 <?php if ($filtroArea !== ''): ?>
+<<<<<<< HEAD
                     <a class="btn-clear" href="verificar-voluntario.php">Limpar</a>
+=======
+                    <a class="btn-clear" href="voluntarios.php">Limpar</a>
+>>>>>>> teste
                 <?php endif; ?>
             </form>
         </div>
@@ -255,12 +317,20 @@ $stmt=$pdo->prepare($sql); $stmt->execute($params); $voluntarios=$stmt->fetchAll
                                     <td><?= indexEsc((string) $vol['email']) ?></td>
                                     <td>
                                         <?php if (!empty($vol['cpf'])): ?>
+<<<<<<< HEAD
                                             <?= 'Restrito' ?>
+=======
+                                            <?= indexEsc((string) $vol['cpf']) ?>
+>>>>>>> teste
                                         <?php else: ?>
                                             <span class="text-muted">Não informado</span>
                                         <?php endif; ?>
                                     </td>
+<<<<<<< HEAD
                                     <td><?= 'Restrito' ?></td>
+=======
+                                    <td><?= indexEsc((string) $vol['endereco']) ?></td>
+>>>>>>> teste
                                     <td><span class="badge-area"><?= indexEsc((string) $vol['area_atuacao']) ?></span></td>
                                     <td><span class="badge-disp"><?= indexEsc((string) $vol['disponibilidade']) ?></span></td>
                                 </tr>

@@ -1,4 +1,11 @@
 <?php
+<<<<<<< HEAD
+=======
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+>>>>>>> teste
 require_once __DIR__ . '/init.php';
 
 if (isset($_SESSION['id_voluntario'])) {
@@ -23,8 +30,13 @@ if (isset($_GET['sucesso']) && $_GET['sucesso'] === 'cadastro') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+<<<<<<< HEAD
     $email = appText($_POST, 'email');
     $senha = appText($_POST, 'senha', false);
+=======
+    $email = trim($_POST['email'] ?? '');
+    $senha = trim($_POST['senha'] ?? '');
+>>>>>>> teste
     $tipo  = $_POST['tipo'] ?? 'voluntario';
 
     $tabelasPermitidas = [
@@ -32,7 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'instituicao' => 'instituicoes',
     ];
 
+<<<<<<< HEAD
     if ($email === '' || $senha === '' || strlen($senha) > 72 || str_contains($senha, "\0")) {
+=======
+    if ($email === '' || $senha === '') {
+>>>>>>> teste
         $erro = "Preencha o e-mail e a senha.";
     } elseif (!isset($tabelasPermitidas[$tipo])) {
         $erro = "Tipo de acesso inválido.";
@@ -41,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conta = read($pdo, $tabela, 'email = ?', [$email]);
 
         $senhaBanco = $conta['senha'] ?? null;
+<<<<<<< HEAD
         $senhaValida = false;
         $legacy = false;
         if (is_string($senhaBanco) && $senhaBanco !== '' && strlen($senha) <= 1024) {
@@ -55,6 +72,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             session_regenerate_id(true);
             unset($_SESSION['id_voluntario'], $_SESSION['id_instituicao'], $_SESSION['nome_voluntario'], $_SESSION['nome_instituicao'], $_SESSION['csrf_token']);
+=======
+        $senhaValida = $conta
+            && $senhaBanco !== null
+            && $senhaBanco !== ''
+            && ($senha === $senhaBanco || password_verify($senha, $senhaBanco));
+
+        if ($senhaValida) {
+            session_regenerate_id(true);
+>>>>>>> teste
             $_SESSION['tipo_conta'] = $tipo;
 
             if ($tipo === 'voluntario') {
@@ -81,12 +107,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar | VolunteerConnect</title>
     <link rel="stylesheet" href="css/login.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="css/navigation.css">
     <script src="js/navigation.js" defer></script>
 </head>
 
 <body>
     <?php require __DIR__ . '/partials/navigation.php'; ?>
+=======
+</head>
+
+<body>
+    <header class="cabecalho">
+        <a class="link-logo" href="index.php">
+            <img class="logo" src="imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
+            <span>Volunteer<span>Connect</span></span>
+        </a>
+
+        <nav class="menu">
+            <a href="oportunidades.php">Encontre Oportunidades</a>
+            <a href="<?= $linkMeuPainel ?>">Meu Painel</a>
+            <a href="sobre.php">Sobre Nós</a>
+        </nav>
+
+        <div class="acoes-autenticacao" aria-label="Acesso à conta">
+            <a class="botao-autenticacao" href="login.php">Entrar</a>
+            <a class="botao-autenticacao botao-autenticacao-cadastro" href="cadastro.php">Cadastrar</a>
+        </div>
+    </header>
+>>>>>>> teste
 
     <main class="login-page">
         <section class="login-card">
@@ -95,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="intro">Entre para acompanhar suas atividades e oportunidades.</p>
 
             <?php if ($erro !== ''): ?>
+<<<<<<< HEAD
                 <p class="form-error" role="alert"><?= indexEsc($erro, ENT_QUOTES, 'UTF-8') ?></p>
             <?php endif; ?>
 
@@ -106,6 +156,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?= csrfField() ?>
                 <label for="email">E-mail</label>
                 <input id="email" name="email" type="email" value="<?= indexEsc($email, ENT_QUOTES, 'UTF-8') ?>" placeholder="seu.email@gmail.com" autocomplete="email" required>
+=======
+                <p class="form-error" role="alert"><?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?></p>
+            <?php endif; ?>
+
+            <?php if ($sucesso !== ''): ?>
+                <p class="form-success" role="status"><?= htmlspecialchars($sucesso, ENT_QUOTES, 'UTF-8') ?></p>
+            <?php endif; ?>
+
+            <form method="post" action="">
+                <label for="email">E-mail</label>
+                <input id="email" name="email" type="email" value="<?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?>" placeholder="seu.email@gmail.com" autocomplete="email" required>
+>>>>>>> teste
 
                 <label for="senha">Senha</label>
                 <input id="senha" name="senha" type="password" placeholder="Digite sua senha" autocomplete="current-password" required>

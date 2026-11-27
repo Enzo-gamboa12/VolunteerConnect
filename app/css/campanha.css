@@ -8,6 +8,7 @@
   --cor-texto-suave: #5e7a82;
   --cor-card-bg: #ffffff;
   --cor-borda: #e1ebed;
+<<<<<<< HEAD
   --sombra-card: 0 10px 30px rgba(16, 42, 48, 0.05);
   --fonte-principal: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -18,17 +19,52 @@ html {
 
 /* Base */
 * {
+=======
+  --sombra-card: 0 10px 30px rgba(16, 42, 48, 0.08);
+  --fonte-principal: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Variáveis auxiliares */
+  --cor-branco: #ffffff;
+  --cor-link-cabecalho: #d5e5e8;
+  --raio-input: 8px;
+  --raio-card: 12px;
+  --raio-pilula: 50px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Base */
+*,
+*::before,
+*::after {
+>>>>>>> teste
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
+<<<<<<< HEAD
   background: var(--cor-fundo);
   color: var(--cor-principal);
   font-family: var(--fonte-principal);
   line-height: 1.5;
   min-height: 100vh;
+=======
+  background-image:
+    linear-gradient(rgba(13, 59, 63, 0.82), rgba(13, 59, 63, 0.82)),
+    url('../imagens/voluntarios-login.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--cor-principal);
+  font-family: var(--fonte-principal);
+  line-height: 1.5;
+>>>>>>> teste
   display: flex;
   flex-direction: column;
 }
@@ -44,6 +80,7 @@ a {
 .cabecalho {
   background-color: var(--cor-cabecalho);
   color: var(--cor-texto-cabecalho);
+<<<<<<< HEAD
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -52,16 +89,41 @@ a {
 
 .link-logo {
   display: flex;
+=======
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 2.5rem;
+  position: relative;
+  z-index: 20;
+}
+
+.link-logo {
+  justify-self: start;
+  display: inline-flex;
+>>>>>>> teste
   align-items: center;
   gap: 0.6rem;
   font-weight: 700;
   font-size: 1.2rem;
+<<<<<<< HEAD
   color: #ffffff;
 }
 
 .link-logo .logo {
   height: 32px;
   width: auto;
+=======
+  color: var(--cor-branco);
+}
+
+.link-logo .logo,
+.link-logo img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+>>>>>>> teste
 }
 
 .link-logo span span {
@@ -69,18 +131,29 @@ a {
 }
 
 .menu {
+<<<<<<< HEAD
   display: flex;
+=======
+  justify-self: center;
+  display: flex;
+  align-items: center;
+>>>>>>> teste
   gap: 2rem;
 }
 
 .menu a {
+<<<<<<< HEAD
   color: #d5e5e8;
+=======
+  color: var(--cor-link-cabecalho);
+>>>>>>> teste
   font-size: 0.95rem;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 .menu a:hover {
+<<<<<<< HEAD
   color: #ffffff;
 }
 
@@ -158,6 +231,20 @@ a {
   background: rgba(255, 255, 255, 0.08);
   padding: 0.4rem 0.9rem;
   border-radius: 50px;
+=======
+  color: var(--cor-branco);
+}
+
+.menu-usuario {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cor-texto-cabecalho);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--raio-pilula);
+>>>>>>> teste
   font-size: 0.9rem;
   cursor: pointer;
   transition: background 0.2s ease;
@@ -167,10 +254,17 @@ a {
   background: rgba(255, 255, 255, 0.15);
 }
 
+<<<<<<< HEAD
 .avatar-usuario, 
 .avatar-perfil {
   background-color: var(--cor-secundaria);
   color: #ffffff;
+=======
+.avatar-usuario,
+.avatar-perfil {
+  background-color: var(--cor-secundaria);
+  color: var(--cor-branco);
+>>>>>>> teste
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -179,6 +273,7 @@ a {
   justify-content: center;
   font-weight: 700;
   font-size: 0.85rem;
+<<<<<<< HEAD
 }
 
 /* ÁREA PRINCIPAL */
@@ -496,4 +591,272 @@ a {
         flex-direction: column;
         text-align: center;
     }
+=======
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Área Principal e Cartão de Campanha
+   ========================================================================== */
+.signup-shell {
+  flex: 1;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.forms-grid.campanha-unica {
+  display: block;
+}
+
+.form-card,
+.campaign-card {
+  background-color: var(--cor-card-bg);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+  padding: 36px 40px;
+  box-shadow: var(--sombra-card);
+  color: var(--cor-principal);
+}
+
+.form-card-heading {
+  margin-bottom: 20px;
+}
+
+.form-icon.campaign-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background-color: rgba(43, 182, 150, 0.14);
+  color: var(--cor-destaque-hover);
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cor-destaque-hover);
+  margin-bottom: 6px;
+}
+
+.campaign-card h2 {
+  margin: 0 0 6px;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--cor-principal);
+  letter-spacing: -0.02em;
+}
+
+.form-card-heading p {
+  font-size: 0.94rem;
+  color: var(--cor-texto-suave);
+}
+
+/* Dica da instituição */
+.campaign-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background-color: #f0faf7;
+  border: 1px solid rgba(43, 182, 150, 0.28);
+  border-left: 4px solid var(--cor-destaque);
+  border-radius: var(--raio-input);
+  padding: 12px 14px;
+  margin-bottom: 22px;
+  font-size: 0.9rem;
+  color: var(--cor-principal);
+}
+
+.campaign-tip span {
+  color: var(--cor-destaque-hover);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Mensagens */
+.form-success {
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  padding: 12px 16px;
+  border-radius: var(--raio-input);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.form-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 12px 16px;
+  border-radius: var(--raio-input);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.form-error ul {
+  padding-left: 18px;
+}
+
+/* Formulário */
+.campaign-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+.campaign-card label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--cor-principal);
+  margin-bottom: 6px;
+}
+
+.optional-label {
+  font-weight: 400;
+  color: var(--cor-texto-suave);
+  font-size: 0.82rem;
+}
+
+.campaign-card input,
+.campaign-card select,
+.campaign-card textarea {
+  width: 100%;
+  padding: 11px 14px;
+  font-family: var(--fonte-principal);
+  font-size: 0.95rem;
+  color: var(--cor-principal);
+  background-color: var(--cor-branco);
+  border: 1px solid #d5dfe5;
+  border-radius: var(--raio-input);
+  margin-bottom: 18px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.campaign-card textarea {
+  resize: vertical;
+  min-height: 88px;
+}
+
+.campaign-card input::placeholder,
+.campaign-card textarea::placeholder {
+  color: var(--cor-texto-suave);
+}
+
+.campaign-card input:focus,
+.campaign-card select:focus,
+.campaign-card textarea:focus {
+  border-color: var(--cor-secundaria);
+  box-shadow: 0 0 0 3px rgba(63, 186, 203, 0.2);
+}
+
+.campaign-card select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235e7a82' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.two-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* ==========================================================================
+   Ações e Botões
+   ========================================================================== */
+.campaign-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.botao-principal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--cor-secundaria);
+  color: var(--cor-branco);
+  padding: 0.75rem 1.4rem;
+  border: none;
+  border-radius: var(--raio-pilula);
+  font-family: var(--fonte-principal);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(63, 186, 203, 0.25);
+  transition: all 0.2s ease;
+}
+
+.botao-principal:hover {
+  background-color: #35a5b5;
+  transform: translateY(-1px);
+}
+
+.botao-principal span {
+  transition: transform 0.2s ease;
+}
+
+.botao-principal:hover span {
+  transform: translate(2px, -2px);
+}
+
+.button.button-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: transparent;
+  color: var(--cor-principal);
+  padding: 0.75rem 1.4rem;
+  border: 1px solid #d5dfe5;
+  border-radius: var(--raio-pilula);
+  font-family: var(--fonte-principal);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button.button-outline:hover {
+  background-color: #f4f8f9;
+  border-color: var(--cor-texto-suave);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Rodapé
+   ========================================================================== */
+footer {
+  background-color: var(--cor-destaque-hover);
+  color: var(--cor-texto-cabecalho);
+  border-top: 1px solid #dce5e2;
+  padding: 20px 24px;
+  text-align: center;
+  font-size: 0.875rem;
+  margin-top: 48px;
+}
+
+footer p {
+  margin: 0;
+>>>>>>> teste
 }
