@@ -76,7 +76,6 @@ if ($contaConectada && $tipoConta === 'voluntario') {
     <title><?php echo $nomeFundador; ?> - Fundadores</title>
     <link rel="stylesheet" href="css/fundador.css">
     <link rel="stylesheet" href="css/navigation.css">
-    <script src="js/navigation.js" defer></script>
 </head>
 
 <body>

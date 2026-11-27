@@ -1,38 +1,65 @@
 <?php
-require_once __DIR__ . '/init.php';
-if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') { header('Location: oportunidades.php'); exit; }
-$voluntario = requireAccount($pdo, 'voluntario');
-$id = filter_var($_POST['id_campanha'] ?? '', FILTER_VALIDATE_INT, ['options'=>['min_range'=>1]]);
-if (!$id) appError(400, 'Campanha inválida.');
-function enrollmentRedirect(int $id, string $status): never {
-    header('Location: detalhes-oportunidade.php?id='.$id.'&status='.$status, true, 303); exit;
-}
-if (appText($_POST, 'confirmacao') !== '1') enrollmentRedirect($id, 'invalido');
-try {
-    $pdo->beginTransaction();
-    // Serializa alterações nas vagas da mesma campanha, inclusive reinscrições.
-    $stmt = $pdo->prepare('SELECT * FROM campanhas WHERE id = ? FOR UPDATE');
-    $stmt->execute([$id]); $campanha = $stmt->fetch();
-    if (!$campanha) { $pdo->rollBack(); appError(404, 'Campanha não encontrada.'); }
-    $existing = read($pdo, 'inscricoes', 'id_campanha = ? AND id_voluntario = ?', [$id, (int)$voluntario['id']]);
-    if ($existing && normalizarTexto($existing['status']) !== 'cancelado') {
-        $pdo->rollBack(); enrollmentRedirect($id, 'ja_inscrito');
-    }
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM inscricoes WHERE id_campanha = ? AND status <> 'Cancelado'");
-    $stmt->execute([$id]); $occupied = (int)$stmt->fetchColumn();
-    if (normalizarTexto($campanha['status']) !== 'ativa' || (int)$campanha['vagas'] < 1 || $occupied >= (int)$campanha['vagasTotais']) {
-        $pdo->rollBack(); enrollmentRedirect($id, 'indisponivel');
-    }
-    if ($existing) {
-        update($pdo, 'inscricoes', ['status'=>'Aguardando','horas'=>0], 'id = ?', [(int)$existing['id']]);
+require_once __DIR__ . "/init.php";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // 1. Captura os dados do formulário com os nomes dos atributos 'name' do HTML
+    $id_campanha = isset($_POST['id_campanha']) ? (int)$_POST['id_campanha'] : 0;
+    $nome        = trim($_POST['name'] ?? '');
+    $email       = trim($_POST['email'] ?? '');
+    $cpf         = trim($_POST['cpf'] ?? '');
+    $endereco    = trim($_POST['endereco'] ?? '');
+
+    // Validação básica dos campos obrigatórios
+    if ($id_campanha > 0 && !empty($nome) && !empty($email)) {
+        try {
+            // 2. Verifica se o voluntário já existe pelo e-mail
+            $voluntarioExistente = read($pdo, "voluntarios", "email = " . $pdo->quote($email));
+
+            if ($voluntarioExistente) {
+                $id_voluntario = $voluntarioExistente['id'];
+            } else {
+                // Cadastra o novo voluntário no banco de dados
+                $objVoluntario = [
+                    'nome'     => $nome,
+                    'email'    => $email,
+                    'cpf'      => $cpf,
+                    'endereco' => $endereco
+                ];
+                $id_voluntario = create($pdo, "voluntarios", $objVoluntario);
+            }
+
+            if ($id_voluntario) {
+                // 3. Verifica se o voluntário já se inscreveu nesta mesma campanha
+                $inscricaoExistente = read($pdo, "inscricoes", "id_campanha = $id_campanha AND id_voluntario = $id_voluntario");
+
+                if ($inscricaoExistente) {
+                    header("Location: detalhes-oportunidade.php?id={$id_campanha}&status=ja_inscrito");
+                    exit;
+                } else {
+                    // Cadastra a relação na tabela 'inscricoes'
+                    $objInscricao = [
+                        'id_campanha'   => $id_campanha,
+                        'id_voluntario' => $id_voluntario,
+                        'status'        => 'aguardando',
+                        'horas'         => 0
+                    ];
+                    create($pdo, "inscricoes", $objInscricao);
+                    
+                    header("Location: detalhes-oportunidade.php?id={$id_campanha}&status=sucesso");
+                    exit;
+                }
+            }
+        } catch (PDOException $e) {
+            header("Location: detalhes-oportunidade.php?id={$id_campanha}&status=erro");
+            exit;
+        }
     } else {
-        create($pdo, 'inscricoes', ['id_campanha'=>$id,'id_voluntario'=>(int)$voluntario['id'],'status'=>'Aguardando','horas'=>0]);
+        header("Location: detalhes-oportunidade.php?id={$id_campanha}&status=invalido");
+        exit;
     }
-    $stmt = $pdo->prepare('UPDATE campanhas SET vagas = vagas - 1 WHERE id = ? AND vagas > 0');
-    $stmt->execute([$id]);
-    if ($stmt->rowCount() !== 1) throw new RuntimeException('Falha ao reservar a vaga.');
-    $pdo->commit(); enrollmentRedirect($id, 'sucesso');
-} catch (Throwable $error) {
-    if ($pdo->inTransaction()) $pdo->rollBack();
-    error_log((string)$error); enrollmentRedirect($id, 'erro');
+} else {
+    // Redireciona caso o arquivo seja acessado diretamente via GET
+    header("Location: oportunidades.php");
+    exit;
 }
+?>

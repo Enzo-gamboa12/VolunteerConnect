@@ -207,14 +207,31 @@ a {
 /* ==========================================================================
    Rodapé do Site
    ========================================================================== */
+body {
+    background: #edf4f5;
+    color: var(--cor-principal);
+    font-family: var(--fonte-principal);
+    line-height: 1.5;
+
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+}
+
 footer {
     background-color: var(--cor-destaque-hover);
     color: var(--cor-texto-cabecalho);
     border-top: 1px solid #dce5e2;
+
+    width: 100%;
     padding: 20px 24px;
+    margin-top: auto;
+    flex-shrink: 0;
+
     text-align: center;
     font-size: 0.875rem;
-    margin-top: 48px;
 }
 
 footer p {
