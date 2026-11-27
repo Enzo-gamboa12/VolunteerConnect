@@ -1,6 +1,31 @@
 <?php
 
-require_once __DIR__ . '/init.php';
+require_once __DIR__ . "/init.php";
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Bloqueia qualquer tipo de cache no navegador (inclusive cache do botão Voltar)
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0, private");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Expires: 0");
+
+// VERIFICAÇÃO: Só permite entrar se estiver logado como voluntário
+if (($_SESSION['tipo_conta'] ?? '') !== 'instituicao' || empty($_SESSION['id_instituicao'])) {
+    header("Location: login.php?erro=acesso_negado");
+    exit;
+}
+
+$idInstituicao = (int) $_SESSION['id_instituicao'];
+$instituicao   = read($pdo, 'voluntarios', 'id = ?', [$idInstituicao]);
+
+// Se o ID da sessão não existir mais no banco, encerra a sessão
+if (!$instituicao) {
+    header("Location: index.php");
+    exit;
+}
 
 $instituicao = read($pdo, 'instituicoes', 'id = ?', [$_SESSION['id_instituicao']]);
 $proximas_participacoes = readAll($pdo, 'campanhas_por_instituicao',  'id_instituicao = ? AND status = ?', [$_SESSION['id_instituicao'], 'Planejada']);

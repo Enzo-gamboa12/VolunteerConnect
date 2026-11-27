@@ -13,6 +13,8 @@ if ($instituicao === false) {
   exit;
 }
 
+$linkMeuPainel = $linkMeuPainel ?? 'painel-instituicao.php';
+
 $disponibilidades = [
   'Manhã',
   'Tarde',
@@ -23,6 +25,23 @@ $disponibilidades = [
 
 $statusCampanha = ['Planejada', 'Ativa', 'Encerrada', 'Cancelada'];
 $tiposCampanha = ['Saúde', 'Tecnologia', 'Educação'];
+
+/** Conta caracteres com segurança mesmo sem a extensão mbstring. */
+function campanhaTamanho(string $texto): int
+{
+  if (function_exists('mb_strlen')) {
+    return mb_strlen($texto, 'UTF-8');
+  }
+
+  if (function_exists('iconv_strlen')) {
+    $tamanho = iconv_strlen($texto, 'UTF-8');
+    if ($tamanho !== false) {
+      return $tamanho;
+    }
+  }
+
+  return strlen($texto);
+}
 
 /** Lê um campo de texto do POST, ignorando arrays. */
 function campanhaCampo(string $nome): string
@@ -56,17 +75,17 @@ function campanhaDataValida(string $data): bool
 
 $erros = [];
 $d = [
-  'nome'           => '',
-  'descricao'      => '',
-  'endereco'       => '',
-  'data_inicio'    => '',
-  'data_termino'   => '',
-  'horario'        => '',
+  'nome'            => '',
+  'descricao'       => '',
+  'endereco'        => '',
+  'data_inicio'     => '',
+  'data_termino'    => '',
+  'horario'         => '',
   'disponibilidade' => '',
-  'status'         => 'Planejada',
-  'tipo'           => '',
-  'vagas'          => '',
-  'vagasTotais'    => '',
+  'status'          => 'Planejada',
+  'tipo'            => '',
+  'vagas'           => '',
+  'vagasTotais'     => '',
 ];
 
 // Mensagem exibida uma única vez após confirmar a gravação.
@@ -85,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Nome
   if ($d['nome'] === '') {
     $erros[] = 'Informe o título da campanha.';
-  } elseif (mb_strlen($d['nome']) > 100) {
+  } elseif (campanhaTamanho($d['nome']) > 100) {
     $erros[] = 'O título deve ter no máximo 100 caracteres.';
   }
 
@@ -97,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Endereço
   if ($d['endereco'] === '') {
     $erros[] = 'Informe o endereço.';
-  } elseif (mb_strlen($d['endereco']) > 200) {
+  } elseif (campanhaTamanho($d['endereco']) > 200) {
     $erros[] = 'O endereço deve ter no máximo 200 caracteres.';
   }
 
@@ -208,30 +227,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nova campanha | VolunteerConnect</title>
-  <link rel="stylesheet" href="css/cadastro.css">
+  <link rel="stylesheet" href="css/campanha.css">
 </head>
 
 <body>
-  <header class="site-header">
-    <a class="brand" href="index.php" aria-label="VolunteerConnect, início">
-      <img class="brand-logo" src="imagens/logo-volunteerconnect.png" alt="">
+  <header class="cabecalho">
+    <a class="link-logo" href="index.php">
+      <img class="logo" src="imagens/logo-volunteerconnect.png" alt="Logo VolunteerConnect">
       <span>Volunteer<span>Connect</span></span>
     </a>
 
-    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-
-    <nav class="main-nav">
-      <a href="index.php">Início</a>
-      <a href="oportunidades.php">Oportunidades</a>
-      <a href="login.php">Painel</a>
-      <a href="index.php#como-funciona">Como funciona</a>
+    <nav class="menu">
+      <a href="oportunidades.php">Encontre Oportunidades</a>
+      <a href="<?= indexEsc($linkMeuPainel) ?>">Meu Painel</a>
+      <a href="sobre.php">Sobre Nós</a>
     </nav>
 
-    <div class="header-actions">
-      <a class="login-link" href="painel-instituicao.php">Voltar ao painel</a>
-    </div>
+    <a href="painel-instituicao.php">
+      <div class="menu-usuario">
+        <span class="avatar-usuario"><?= indexIniciais((string) ($instituicao['nome'] ?? '')) ?></span>
+        <span><?= indexEsc($instituicao['nome'] ?? '') ?></span>
+      </div>
+    </a>
   </header>
 
   <main class="signup-shell">
@@ -239,20 +256,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <section class="form-card campaign-card" id="nova-campanha" aria-labelledby="campaign-title-heading">
         <div class="form-card-heading">
           <div>
-            <span class="form-icon campaign-icon">✳</span>
-            <span class="eyebrow eyebrow-coral">PARA INSTITUIÇÕES</span>
             <h2 id="campaign-title-heading">Divulgue uma campanha</h2>
             <p>As instituições podem cadastrar uma ação e encontrar voluntários.</p>
           </div>
-        </div>
-
-        <div class="campaign-tip">
-          <span>✦</span>
-          <p>
-            Campanha da instituição
-            <strong><?= indexEsc($instituicao['nome']) ?></strong>.
-            Para gerenciar suas campanhas, volte ao painel da instituição.
-          </p>
         </div>
 
         <?php if ($sucesso !== ''): ?>
@@ -269,7 +275,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
         <?php endif; ?>
 
-        <form method="post" action="campanha.php#nova-campanha">
+        <form method="post" action="">
           <label for="campaign-title">Título da campanha</label>
           <input
             id="campaign-title"
@@ -396,7 +402,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
           <div class="campaign-actions">
             <a class="button button-outline" href="campanha.php">Limpar campos</a>
-            <button class="button button-coral" type="submit">
+            <button class="botao-principal" type="submit">
               Publicar campanha <span>↗</span>
             </button>
           </div>
@@ -406,7 +412,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </main>
 
   <footer>
-        <p>&copy; <?= date('Y') ?> VolunteerConnect. Todos os direitos reservados.</p>
+    <p>&copy; <?= date('Y') ?> VolunteerConnect. Todos os direitos reservados.</p>
   </footer>
 
   <script>

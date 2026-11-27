@@ -4,31 +4,68 @@
 require_once __DIR__ . "/init.php";
 
 // Função nativa (sem precisar de mb_strtolower) para remover acentos e padronizar texto
-function normalizarTexto($texto) {
-    $texto = strtolower(trim((string) $texto));
-    return str_replace(
-        ['á', 'à', 'ã', 'â', 'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú', 'ü', 'ç', 'Á', 'À', 'Ã', 'Â', 'É', 'Ê', 'Í', 'Ó', 'Ô', 'Õ', 'Ú', 'Ü', 'Ç'],
-        ['a', 'a', 'a', 'a', 'e', 'e', 'i', 'o', 'o', 'o', 'u', 'u', 'c', 'a', 'a', 'a', 'a', 'e', 'e', 'i', 'o', 'o', 'o', 'u', 'u', 'c'],
-        $texto
-    );
+if (!function_exists('normalizarTexto')) {
+    function normalizarTexto($texto): string
+    {
+        $texto = strtolower(trim((string) $texto));
+        return str_replace(
+            ['á', 'à', 'ã', 'â', 'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú', 'ü', 'ç', 'Á', 'À', 'Ã', 'Â', 'É', 'Ê', 'Í', 'Ó', 'Ô', 'Õ', 'Ú', 'Ü', 'Ç'],
+            ['a', 'a', 'a', 'a', 'e', 'e', 'i', 'o', 'o', 'o', 'u', 'u', 'c', 'a', 'a', 'a', 'a', 'e', 'e', 'i', 'o', 'o', 'o', 'u', 'u', 'c'],
+            $texto
+        );
+    }
 }
 
 $busca = '';
 $areas = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['filtrar'])) {
-    $busca = trim($_GET['buscaFiltro'] ?? '');
-    $areas = isset($_GET['area']) && is_array($_GET['area']) ? $_GET['area'] : [];
+    $busca = trim((string) ($_GET['buscaFiltro'] ?? ''));
+    $areasRaw = isset($_GET['area']) && is_array($_GET['area']) ? $_GET['area'] : [];
+    $areas = array_map(static fn ($a): string => normalizarTexto($a), $areasRaw);
 }
 
-if ($busca !== '') {
-    $campanhas = readAll($pdo, "campanhas", "nome LIKE ?", ["%{$busca}%"]);
-} else {
-    $campanhas = readAll($pdo, "campanhas");
+$contaConectada = false;
+$conta = false;
+$tipoConta = $_SESSION['tipo_conta'] ?? null;
+$campanhas = [];
+$instituicoes = [];
+$inscricoes = [];
+$erroBanco = false;
+
+try {
+    if ($tipoConta === 'voluntario' && isset($_SESSION['id_voluntario'])) {
+        $idConta = (int) $_SESSION['id_voluntario'];
+        $conta = read($pdo, 'voluntarios', 'id = ?', [$idConta]);
+        $contaConectada = is_array($conta) && !empty($conta);
+    } elseif ($tipoConta === 'instituicao' && isset($_SESSION['id_instituicao'])) {
+        $idConta = (int) $_SESSION['id_instituicao'];
+        $conta = read($pdo, 'instituicoes', 'id = ?', [$idConta]);
+        $contaConectada = is_array($conta) && !empty($conta);
+    }
+
+    if ($busca !== '') {
+        $campanhas = readAll($pdo, "campanhas", "nome LIKE ?", ["%{$busca}%"]);
+    } else {
+        $campanhas = readAll($pdo, "campanhas");
+    }
+
+    $instituicoes = readAll($pdo, "instituicoes");
+    $inscricoes   = readAll($pdo, "inscricoes");
+} catch (Throwable $erro) {
+    error_log('Erro ao carregar os dados de oportunidades: ' . $erro->getMessage());
+    $erroBanco = true;
+    $conta = false;
+    $contaConectada = false;
+    $campanhas = [];
+    $instituicoes = [];
+    $inscricoes = [];
 }
 
-$instituicoes = readAll($pdo, "instituicoes");
-$inscricoes   = readAll($pdo, "inscricoes");
+$instituicoesPorId = [];
+foreach ($instituicoes as $inst) {
+    $instituicoesPorId[(int) ($inst['id'] ?? 0)] = $inst;
+}
 
 // Filtra sempre apenas as campanhas ativas e aplica o filtro de área, se selecionado
 $campanhasFiltradas = [];
@@ -41,9 +78,15 @@ foreach ($campanhas as $c) {
         continue;
     }
 
-    // Se o usuário selecionou áreas no filtro, verifica se inclui 'saude'
-    if (!empty($areas) && !in_array('saude' , $areas)) {
-        continue;
+    if (!empty($areas)) {
+        $inst = $instituicoesPorId[(int) ($c['id_instituicao'] ?? 0)] ?? null;
+        $areaCampanha = normalizarTexto($c['tipo'] ?? '');
+        $areaInstituicao = normalizarTexto($inst['area'] ?? '');
+        $areaEfetiva = $areaCampanha !== '' ? $areaCampanha : $areaInstituicao;
+
+        if (!in_array($areaEfetiva, $areas, true)) {
+            continue;
+        }
     }
 
     $campanhasFiltradas[] = $c;
@@ -51,56 +94,8 @@ foreach ($campanhas as $c) {
 
 $campanhas = $campanhasFiltradas;
 
-try {
-    // O init.php inicia a sessão, cria a conexão PDO ($pdo) e carrega as funções do CRUD.
-    require_once __DIR__ . '/init.php';
-
-    /*
-     * Só existe uma conta conectada quando o login definiu os dados da sessão.
-     * Sem essas informações, a página não assume uma conta demonstrativa.
-     */
-
-    $contaConectada = false;
-    $tipoConta = $_SESSION['tipo_conta'] ?? null;
-
-    if ($tipoConta === 'voluntario' && isset($_SESSION['id_voluntario'])) {
-        $idConta = (int) $_SESSION['id_voluntario'];
-        $conta = read($pdo, 'voluntarios', 'id = ?', [$idConta]);
-        $contaConectada = is_array($conta) && !empty($conta);
-    } elseif ($tipoConta === 'instituicao' && isset($_SESSION['id_instituicao'])) {
-        $idConta = (int) $_SESSION['id_instituicao'];
-        $conta = read($pdo, 'instituicoes', 'id = ?', [$idConta]);
-        $contaConectada = is_array($conta) && !empty($conta);
-    }
-
-    // READ ALL: carrega as tabelas usadas nos cards e nos indicadores inferiores.
-    $campanhas = readAll($pdo, 'campanhas');
-    $instituicoes = readAll($pdo, 'instituicoes');
-    $voluntarios = readAll($pdo, 'voluntarios');
-
-    // Na área de destaque aparecem somente campanhas que estão ativas.
-    $campanhasDestaque = array_slice(
-        array_values(array_filter(
-            $campanhas,
-            static fn (array $campanha): bool => ($campanha['status'] ?? '') === 'ativa'
-        )),
-        0,
-        3
-    );
-} catch (Throwable $erro) {
-    // Registra o detalhe no log do PHP sem expor informações do banco na página.
-    error_log('Erro ao carregar os dados da página inicial: ' . $erro->getMessage());
-    $erroBanco = true;
-    $conta = false;
-    $contaConectada = false;
-    $campanhas = [];
-    $campanhasDestaque = [];
-    $instituicoes = [];
-    $voluntarios = [];
-}
-
 $nomeConta = $contaConectada ? ($conta['nome'] ?? 'Conta') : '';
-$iniciaisConta = indexIniciais((string)$nomeConta);
+$iniciaisConta = function_exists('indexIniciais') ? indexIniciais((string) $nomeConta) : 'VC';
 
 if ($contaConectada && $tipoConta === 'voluntario') {
     $linkMeuPainel = 'painel-voluntario.php';
@@ -129,18 +124,18 @@ if ($contaConectada && $tipoConta === 'voluntario') {
 
         <nav class="menu">
             <a href="oportunidades.php">Encontre Oportunidades</a>
-            <a href="<?= $linkMeuPainel ?>">Meu Painel</a>
+            <a href="<?= indexEsc($linkMeuPainel) ?>">Meu Painel</a>
             <a href="sobre.php">Sobre Nós</a>
         </nav>
 
         <?php if ($contaConectada): ?>
-            <?php 
-                $linkPainel = ($tipoConta === 'voluntario') 
-                    ? 'painel-voluntario.php' 
-                    : 'painel-instituicao.php'; 
+            <?php
+            $linkPainel = ($tipoConta === 'voluntario')
+                ? 'painel-voluntario.php'
+                : 'painel-instituicao.php';
             ?>
             <div class="menu-usuario" title="Ir para o meu painel">
-                <a href="<?= $linkPainel ?>">
+                <a href="<?= indexEsc($linkPainel) ?>">
                     <span class="avatar-usuario"><?= indexEsc($iniciaisConta) ?></span>
                     <span><?= indexEsc($nomeConta) ?></span>
                 </a>
@@ -160,21 +155,21 @@ if ($contaConectada && $tipoConta === 'voluntario') {
                 <h1>Oportunidades de voluntariado</h1>
                 <p>Explore projetos, conheça instituições e escolha uma ação que combine com os seus interesses e rotina.</p>
             </div>
-            
+
             <aside class="filter-panel">
-                <form id="filters" method="GET" action="oportunidades.php">   
+                <form id="filters" method="GET" action="oportunidades.php">
                     <input type="hidden" name="filtrar" value="1">
                     <h2>Filtros</h2>
 
                     <div class="filter-group">
                         <h3>Pesquisar oportunidade</h3>
                         <div class="form-field">
-                            <input 
-                                id="buscaFiltro" 
-                                name="buscaFiltro" 
-                                type="search" 
+                            <input
+                                id="buscaFiltro"
+                                name="buscaFiltro"
+                                type="search"
                                 placeholder="Nome da campanha"
-                                value="<?php echo htmlspecialchars($busca); ?>"
+                                value="<?= indexEsc($busca) ?>"
                             >
                         </div>
                     </div>
@@ -182,13 +177,13 @@ if ($contaConectada && $tipoConta === 'voluntario') {
                     <div class="filter-group">
                         <h3>Área de atuação</h3>
                         <label class="filter-option">
-                            <input type="checkbox" name="area[]" value="educacao" <?php echo in_array('educacao', $areas) ? 'checked' : ''; ?>> Educação
+                            <input type="checkbox" name="area[]" value="educacao" <?= in_array('educacao', $areas, true) ? 'checked' : '' ?>> Educação
                         </label>
                         <label class="filter-option">
-                            <input type="checkbox" name="area[]" value="tecnologia" <?php echo in_array('tecnologia', $areas) ? 'checked' : ''; ?>> Tecnologia
+                            <input type="checkbox" name="area[]" value="tecnologia" <?= in_array('tecnologia', $areas, true) ? 'checked' : '' ?>> Tecnologia
                         </label>
                         <label class="filter-option">
-                            <input type="checkbox" name="area[]" value="saude" <?php echo in_array('saude', $areas) ? 'checked' : ''; ?>> Saúde
+                            <input type="checkbox" name="area[]" value="saude" <?= in_array('saude', $areas, true) ? 'checked' : '' ?>> Saúde
                         </label>
                     </div>
 
@@ -201,82 +196,84 @@ if ($contaConectada && $tipoConta === 'voluntario') {
 
             <section>
                 <div class="listing-topline">
-                    <p id="results-count" aria-live="polite">A exibir <?php echo count($campanhas); ?> oportunidades</p>
+                    <p id="results-count" aria-live="polite">A exibir <?= count($campanhas) ?> oportunidades</p>
                 </div>
-                
-                <?php if (!empty($campanhas)) { ?>
-                    <div class="listing-cards" id="opportunity-results">
-                        <?php 
-                        foreach ($campanhas as $c) {
-                            $inst_nome     = "Instituição não informada";
-                            $inst_endereco = "Localização não cadastrada";
 
-                            foreach ($instituicoes as $i) {
-                                if ($i['id'] == $c['id_instituicao']) {
-                                    $inst_nome     = $i['nome'];
-                                    $inst_endereco = $i['endereco'];
-                                    break;
-                                }
-                            }
+                <?php if (!empty($campanhas)): ?>
+                    <div class="listing-cards" id="opportunity-results">
+                        <?php foreach ($campanhas as $c):
+                            $inst = $instituicoesPorId[(int) ($c['id_instituicao'] ?? 0)] ?? null;
+                            $inst_nome     = $inst['nome'] ?? "Instituição não informada";
+                            $inst_endereco = $inst['endereco'] ?? "Localização não cadastrada";
 
                             $vagas_preenchidas = 0;
                             foreach ($inscricoes as $ins) {
-                                if ($ins['id_campanha'] == $c['id'] && normalizarTexto($ins['status'] ?? '') !== 'cancelado') {
+                                if (($ins['id_campanha'] ?? 0) == ($c['id'] ?? 0) && normalizarTexto($ins['status'] ?? '') !== 'cancelado') {
                                     $vagas_preenchidas++;
                                 }
                             }
 
                             $vagas_totais = (int) ($c['vagasTotais'] ?? $c['vagas_totais'] ?? 0);
-                            $porcentagem  = $vagas_totais > 0 ? min(100, round(($vagas_preenchidas / $vagas_totais) * 100)) : 0;
+                            $porcentagem  = $vagas_totais > 0 ? min(100, (int) round(($vagas_preenchidas / $vagas_totais) * 100)) : 0;
 
-                            // Todas as campanhas definidas como Saúde
+                            $areaCard = normalizarTexto(!empty($c['tipo']) ? $c['tipo'] : ($inst['area'] ?? 'saude'));
                             $classe_capa = "cover-health";
                             $icone       = "🩺";
                             $rotulo_area = "Saúde";
+
+                            if ($areaCard === 'educacao') {
+                                $classe_capa = "cover-education";
+                                $icone       = "📚";
+                                $rotulo_area = "Educação";
+                            } elseif ($areaCard === 'tecnologia') {
+                                $classe_capa = "cover-tech";
+                                $icone       = "💻";
+                                $rotulo_area = "Tecnologia";
+                            }
                         ?>
                             <article class="opportunity-card">
-                                <div class="card-cover <?php echo $classe_capa; ?>">
-                                    <div class="cover-icon"><?php echo $icone; ?></div>
-                                    <span class="pill"><?php echo $rotulo_area; ?></span>
+                                <div class="card-cover <?= indexEsc($classe_capa) ?>">
+                                    <div class="cover-icon"><?= indexEsc($icone) ?></div>
+                                    <span class="pill"><?= indexEsc($rotulo_area) ?></span>
                                 </div>
 
                                 <div class="card-body">
-                                    <h3><?php echo htmlspecialchars($c['nome'] ?? ''); ?></h3>
-                                    <p class="card-org"><?php echo htmlspecialchars($inst_nome); ?> · <?php echo htmlspecialchars($inst_endereco); ?></p>
-                                    
+                                    <h3><?= indexEsc($c['nome'] ?? '') ?></h3>
+                                    <p class="card-org"><?= indexEsc($inst_nome) ?> · <?= indexEsc($inst_endereco) ?></p>
+
                                     <div class="card-meta">
                                         <span>📍 Presencial</span>
                                         <span>Status: <strong>Ativa</strong></span>
                                     </div>
 
                                     <p class="muted" style="font-size:.82rem">
-                                        <?php echo htmlspecialchars($c['descricao'] ?? ''); ?>
+                                        <?= indexEsc($c['descricao'] ?? '') ?>
                                     </p>
 
                                     <div class="card-progress">
                                         <div class="progress-label">
-                                            <span><?php echo $vagas_preenchidas; ?> de <?php echo $vagas_totais; ?> vagas preenchidas</span>
-                                            <strong><?php echo $porcentagem; ?>%</strong>
+                                            <span><?= $vagas_preenchidas ?> de <?= $vagas_totais ?> vagas preenchidas</span>
+                                            <strong><?= $porcentagem ?>%</strong>
                                         </div>
                                         <div class="progress-track">
-                                            <span style="width: <?php echo $porcentagem; ?>%;"></span>
+                                            <span style="width: <?= $porcentagem ?>%;"></span>
                                         </div>
                                     </div>
 
                                     <div class="card-actions">
                                         <span class="status">Vagas abertas</span>
-                                        <a class="btn btn-primary btn-small" href="detalhes-oportunidade.php?id=<?php echo $c['id']; ?>">Ver detalhes</a>
+                                        <a class="btn btn-primary btn-small" href="detalhes-oportunidade.php?id=<?= (int) ($c['id'] ?? 0) ?>">Ver detalhes</a>
                                     </div>
                                 </div>
                             </article>
-                        <?php } ?>
+                        <?php endforeach; ?>
                     </div>
-                <?php } else { ?>
+                <?php else: ?>
                     <div class="empty-state" id="empty-state" style="display:block;">
                         <strong>Nenhuma oportunidade encontrada</strong>
                         <p class="muted">Tente alterar os filtros ou pesquisar por outro termo.</p>
                     </div>
-                <?php } ?>
+                <?php endif; ?>
             </section>
         </div>
     </main>
@@ -285,4 +282,5 @@ if ($contaConectada && $tipoConta === 'voluntario') {
         <p>&copy; <?= date('Y') ?> VolunteerConnect. Todos os direitos reservados.</p>
     </footer>
 </body>
+
 </html>
